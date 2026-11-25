@@ -16,6 +16,6 @@
 
 已有 Rime YAML 配置会结构化保留并创建备份，数萌方案添加到原方案列表。卸载数萌保留用户数据、方案与独立安装的小狼毫宿主。授权与来源见 [发行说明](desktop/distribution-notices.txt)，客户步骤见 [安装使用说明](desktop/customer-guide.txt)。
 
-构建使用 Windows .NET Framework C# 编译器和 NSIS。开发者先安装 Node.js 24、GitHub CLI 并完成 GitHub 登录，再依次运行 `npm ci`、`npm test`、`npm run desktop:prepare`、`npm run desktop:build`。准备步骤下载并校验 NSIS、小狼毫、语音模型和授权文件；产物在仓库的上一级目录。词库来源与模型 SHA256 固定在 `data/rime-ice/provenance.json` 与语音下载产生的 `models/voice/model-manifest.json`。GitHub Actions 的 Windows 工作流也可生成安装包。
+构建使用 Windows .NET Framework C# 编译器和 NSIS。开发者先安装 Node.js 24、GitHub CLI 并完成 GitHub 登录，再依次运行 `npm ci`、`npm test`、`npm run desktop:prepare`、`npm run desktop:build`。准备步骤下载并校验 NSIS、小狼毫、语音模型和授权文件；产物在仓库的上一级目录。词库来源与模型 SHA256 固定在 `data/rime-ice/provenance.json` 与语音下载产生的 `models/voice/model-manifest.json`。
 
 开发者可运行安装后的 `winintel-ime.exe /self-test`，检查打包运行时、完整词库、语音 WebSocket 与 Unicode SendInput。`/self-test` 使用模型自带样例，不测试真实麦克风硬件。安装器 `/SKIPIME` 供隔离打包验证使用。
