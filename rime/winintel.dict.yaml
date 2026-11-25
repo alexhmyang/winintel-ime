@@ -1,0 +1,11 @@
+# Copyright 2026 winintel. Imported dictionaries retain original notices.
+---
+name: winintel
+version: "0.1.0"
+sort: by_weight
+use_preset_vocabulary: false
+import_tables:
+  - winintel_starter
+  - 8105
+  - base
+...

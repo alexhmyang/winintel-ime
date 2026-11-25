@@ -1,0 +1,14 @@
+node_modules/
+models/
+.env
+.env.*
+!.env.example
+*.log
+coverage/
+.cache/
+dist/
+*.user
+*.wav
+*.pcm
+benchmark.local.md
+voice-benchmark.local.md

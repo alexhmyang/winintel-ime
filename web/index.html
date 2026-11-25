@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>winintel AI · 数萌输入法</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="/">winintel <span>AI</span></a><span class="pill">数萌输入法 · 开发预览 0.1</span></header>
+    <div class="intro"><p class="eyebrow">让想法，跟上指尖。</p><h1>少一点错字。<br>多一点流畅。</h1><p>中英文快速输入、智能联想纠错、本地实时语音。<br>文字和语音在这台设备上处理。</p></div>
+    <section class="workspace" aria-label="输入体验">
+      <div class="toolbar"><div class="modes"><button id="mode" class="selected" type="button">拼音 / English</button><span>空格选词 · 1–9 选择 · Esc 清空</span></div><button id="mic" type="button" disabled>开始语音</button></div>
+      <label for="compose">拼音或英文</label>
+      <input id="compose" type="text" autocomplete="off" spellcheck="false" autocapitalize="off" placeholder="试试 nihao、rgzn、hellp、perfromance…" aria-describedby="hint">
+      <div id="candidates" class="candidates" aria-live="polite"></div>
+      <div class="metrics"><span id="latency">等待输入</span><span id="phase">本地词库</span></div>
+      <label for="output">你的文字</label><textarea id="output" rows="7" placeholder="选词后文字显示在这里，也可以直接编辑。"></textarea>
+      <div class="actions"><span id="hint">语音快捷键：Alt + V（浏览器）</span><button id="copy" type="button">复制文字</button><button id="clear" type="button">清空</button></div>
+      <div id="voice" class="voice" aria-live="polite"></div>
+    </section>
+    <section class="examples" aria-label="快速体验"><button data-input="nihao">nihao → 你好</button><button data-input="rgzn">rgzn → 人工智能</button><button data-input="nihaoo">nihaoo → 你好</button><button data-input="perfromance">perfromance → performance</button></section>
+    <footer><span id="status">正在连接本地引擎…</span><button id="forget" type="button">清除选词学习</button><p>© 2026 数萌AI服务器 (winintel) · GPL-3.0-or-later · 可自由使用、修改和分发，无担保。<a href="https://github.com/alexhmyang/winintel-ime" target="_blank" rel="noreferrer">源代码与许可证</a></p></footer>
+  </main><script type="module" src="/app.js"></script>
+</body></html>

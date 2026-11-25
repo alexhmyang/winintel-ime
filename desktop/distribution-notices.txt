@@ -1,0 +1,30 @@
+winintel AI Input Method 0.1.0 distribution notices
+
+winintel code and Rime schema: GPL-3.0-or-later; see LICENSE.
+Corresponding source: https://github.com/alexhmyang/winintel-ime (v0.1.0).
+Included dictionary source and original copyright headers are under data/rime-ice.
+Rime Ice upstream revision: 927e1cf1d3eeb9bf4be85e3f684dba4dd485b6f6
+https://github.com/iDvel/rime-ice ; GNU GPL v3.
+
+Weasel 0.17.4.0 is included as an unmodified official installer.
+It independently installs the Rime Windows input host and retains its licenses.
+Source: https://github.com/rime/weasel/tree/0.17.4
+Release: https://github.com/rime/weasel/releases/tag/0.17.4
+Weasel GPL-3.0 and Rime BSD-3-Clause; see upstream installer and retained licenses.
+SHA256: CF509534A8F5F8AF9C98ED7CBB8F135439F145A8CBE7E50EDE42BB5B5AB45C29
+
+Node.js: MIT and bundled dependency licenses; see licenses/Node-LICENSE.txt.
+ws: MIT; see node_modules/ws/LICENSE.
+yaml: ISC; see node_modules/yaml/LICENSE.
+sherpa-onnx 2.0.3: Apache-2.0; see licenses/Sherpa-LICENSE.txt.
+ONNX Runtime: MIT; see licenses/ONNX-Runtime-LICENSE.txt and ONNX-Runtime-ThirdParty.txt.
+The retained ONNX license texts are from the csukuangfj/onnxruntime upstream fork.
+
+Bilingual streaming Zipformer ONNX model:
+https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
+Author repository metadata specifies Apache-2.0; see models/voice/README.md,
+models/voice/model-manifest.json and licenses/Apache-2.0.txt.
+Pinned model revision: 98590b7ed6443e77b714204da2757d75e1a642f4.
+The model is redistributed unchanged; this project does not claim model authorship.
+
+Ollama and Qwen are separate optional installations and are not bundled.

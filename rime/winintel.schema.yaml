@@ -1,0 +1,72 @@
+schema:
+  schema_id: winintel
+  name: 数萌AI输入法
+  version: "0.1.0"
+  dependencies:
+    - winintel_english
+  author:
+    - "数萌AI服务器 (winintel)"
+  description: |
+    本地中英文输入、简拼、纠错与可选 AI 排序。
+    https://github.com/alexhmyang/winintel-ime
+switches:
+  - name: ascii_mode
+    states: [中文, English]
+  - name: full_shape
+    states: [半角, 全角]
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - script_translator
+    - table_translator@english
+  filters:
+    - lua_filter@*winintel_ai
+    - uniquifier
+translator:
+  dictionary: winintel
+  enable_completion: true
+  enable_sentence: true
+  initial_quality: 1.2
+english:
+  dictionary: winintel_english
+  enable_sentence: false
+  enable_user_dict: false
+  enable_completion: true
+  initial_quality: 1
+speller:
+  alphabet: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  delimiter: " '"
+  algebra:
+    - abbrev/^([a-z]).+$/$1/
+    - abbrev/^([zcs]h).+$/$1/
+    - derive/^([nl])ve$/$1ue/
+    - derive/^([jqxy])u/$1v/
+    - derive/([zcs])h([aeiu])$/$1$2h/
+    - derive/([qtypdjlxbnm])ing$/$1nig/
+    - derive/([qtypdjlxbnm])ing$/$1ign/
+    - derive/([wrtypsdfghklzcbnm])ang$/$1agn/
+    - derive/([wrtypsdfghklzcbnm])ang$/$1nag/
+    - derive/([rtysdghklzcn])ong$/$1ogn/
+punctuator:
+  import_preset: default
+key_binder:
+  import_preset: default
+recognizer:
+  import_preset: default
+menu:
+  page_size: 9

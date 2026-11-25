@@ -1,0 +1,19 @@
+{
+  "name": "winintel-ime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Installable Windows bilingual input method with local AI and streaming speech",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "license": "GPL-3.0-or-later",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test",
+    "download:voice": "node desktop/download-model.mjs",
+    "rime:bridge": "node src/rime-bridge.js",
+    "desktop:prepare": "powershell -NoProfile -ExecutionPolicy Bypass -File desktop/prepare.ps1",
+    "desktop:build": "powershell -NoProfile -ExecutionPolicy Bypass -File desktop/build.ps1"
+  },
+  "dependencies": { "ws": "8.23.0", "yaml": "2.9.1" },
+  "optionalDependencies": { "sherpa-onnx-node": "2.0.3" }
+}

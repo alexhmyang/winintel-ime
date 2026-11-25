@@ -1,0 +1,9 @@
+---
+name: winintel_english
+version: "0.1.0"
+sort: by_weight
+use_preset_vocabulary: false
+import_tables:
+  - en
+  - en_ext
+...
