@@ -12,7 +12,13 @@ using System.Windows.Forms;
 internal sealed class UiProbe:Form {
     [DllImport("kernel32.dll",CharSet=CharSet.Unicode)]static extern IntPtr LoadLibrary(string path);
     [DllImport("kernel32.dll")]static extern IntPtr GetProcAddress(IntPtr h,string name);
-    [DllImport("user32.dll",CharSet=CharSet.Unicode)]static extern IntPtr FindWindow(string cls,string name);
+    [DllImport("user32.dll",CharSet=CharSet.Unicode)]static extern IntPtr FindWindowEx(IntPtr parent,IntPtr after,string cls,string name);
+    static IntPtr FindWindow(string cls,string name){
+        IntPtr window=IntPtr.Zero;uint owner;
+        while((window=FindWindowEx(IntPtr.Zero,window,cls,name))!=IntPtr.Zero){
+            GetWindowThreadProcessId(window,out owner);if(owner==(uint)System.Diagnostics.Process.GetCurrentProcess().Id)return window;
+        }return IntPtr.Zero;
+    }
     [DllImport("user32.dll")]static extern bool GetWindowRect(IntPtr h,out Rect r);
     [DllImport("user32.dll")]static extern IntPtr GetForegroundWindow();
     [DllImport("user32.dll")]static extern bool IsWindowVisible(IntPtr h);
@@ -57,6 +63,30 @@ internal sealed class UiProbe:Form {
             Check(GetForegroundWindow()==Handle,"candidate show preserves application focus");
             Check((GetWindowLong(candidate,-20)&0x08000000)!=0&&SendMessage(candidate,0x21,IntPtr.Zero,IntPtr.Zero).ToInt32()==3,"candidate forbids mouse activation");
             GetWindowRect(candidate,out rect);Check(rect.Bottom-rect.Top<=190&&rect.Right-rect.Left<=680,"compact candidate geometry");
+            await Type("nihxo");await Press(37);await Press(37);await Press(46);await Press('A');await Press(32);
+            Check(box.Text=="你好","middle correction refreshes Chinese candidates");
+            var up=(Key)Marshal.GetDelegateForFunctionPointer(GetProcAddress(library,"WinintelTestKeyUp"),typeof(Key));
+            var mode=(Mode)Marshal.GetDelegateForFunctionPointer(GetProcAddress(library,"WinintelTestMode"),typeof(Mode));
+            var control=(Key)Marshal.GetDelegateForFunctionPointer(GetProcAddress(library,"WinintelTestControl"),typeof(Key));
+            await Type("nihao");await Press(37);await Press(8);control(1);await Press('Z');control(0);
+            await Press(16);up(16);Check(box.Text=="nihao","Ctrl Z restores middle deletion and caret");mode(0);
+            await Type("nihao");await Press(37);await Press(8);control(1);await Press('Z');await Press('Y');control(0);
+            await Press(16);up(16);Check(box.Text=="niho","Ctrl Y redoes middle deletion");mode(0);
+            await Type("nihao");await Press(37);await Press(8);control(1);await Press('Z');control(0);await Press(16);control(1);await Press('Z');control(0);up(16);
+            Check(mode(-1)==0,"Ctrl Shift Z never toggles language");await Press(16);up(16);Check(box.Text=="niho","Ctrl Shift Z redoes middle deletion");mode(0);
+            await Type("nihao");await Press(37);await Press(8);control(1);await Press('Z');control(0);await Press('B');control(1);await Press('Y');control(0);
+            await Press(16);up(16);Check(box.Text=="nihabo","new insertion clears redo history");mode(0);
+            await Type("nihao");await Task.Delay(50);SendMessage(candidate,0x202,IntPtr.Zero,new IntPtr((18<<16)|13));await Press('A');
+            await Press(16);up(16);Check(box.Text=="anihao"&&GetForegroundWindow()==Handle,"mouse moves composition caret without activation");mode(0);
+            await Press(27);control(1);Check(key('Z')==1&&key('Y')==1,"empty composition passes undo and redo to host");control(0);
+            await Type("nihao");await Press(36);await Press(8);await Press('A');await Press(35);await Press(46);await Press('B');
+            await Press(16);up(16);Check(box.Text=="anihaob","Home End and delete boundaries preserve buffer");mode(0);
+            await Type(new string('a',257));await Press(36);for(int i=0;i<100;i++)await Press(39);await Press(46);await Press('B');
+            await Task.Delay(80);CaptureWindow(candidate,Path.Combine(output,"long-composition.png"));
+            Check(GetForegroundWindow()==Handle,"long composition editing keeps application focus");
+            await Press(16);int longRelease=up(16);log.Add("long edit commit HRESULT="+longRelease.ToString("X8")+", length="+box.Text.Length+", value="+box.Text);Check(box.Text==new string('a',100)+"b"+new string('a',155),"256 letter middle correction preserves suffix");mode(0);
+            string sentence="";for(int i=0;i<20;i++)sentence+="nihao";await Type(sentence);await Press(32);
+            string translated="";for(int i=0;i<20;i++)translated+="你好";Check(box.Text==translated,"100 letter composition commits full sentence");
         }catch(Exception e){Check(false,e.ToString());}
         // Continue the main UI checks only after removing the candidate composition.
         try{
@@ -135,7 +165,7 @@ internal sealed class UiProbe:Form {
             var repeat=(Key)Marshal.GetDelegateForFunctionPointer(GetProcAddress(libraryForTest(),"WinintelTestRepeat"),typeof(Key));
             var mode=(Mode)Marshal.GetDelegateForFunctionPointer(GetProcAddress(libraryForTest(),"WinintelTestMode"),typeof(Mode));
             mode(0);await Press(16);up(16);Check(mode(-1)==2,"single Shift switches immediately to English");
-            Check(key('H')==1,"English mode passes letters directly to application");
+            Check(key('H')==0,"English mode collects letters for local completion");await Press(27);
             bool switches=true;for(int i=0;i<20;i++){int before=mode(-1);await Press(16);up(16);switches&=mode(-1)!=before;}
             Check(switches,"twenty consecutive Shift taps each switch exactly once");
             mode(0);await Press(16);repeat(16);repeat(16);up(16);Check(mode(-1)==2,"held Shift autorepeat toggles only once on release");

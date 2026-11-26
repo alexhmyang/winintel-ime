@@ -3,7 +3,10 @@ import android.content.Context;
 import java.io.*;
 public final class Assets {
     static File copy(Context context,String asset) throws IOException {
-        File target=new File(context.getFilesDir(),asset);
+        return copy(context,asset,asset);
+    }
+    static File copy(Context context,String localName,String asset) throws IOException {
+        File target=new File(context.getFilesDir(),localName);
         if(target.exists() && target.length()>0)return target;
         target.getParentFile().mkdirs();
         File temp=new File(target.getPath()+".tmp");

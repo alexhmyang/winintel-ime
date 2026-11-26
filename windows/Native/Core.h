@@ -21,14 +21,20 @@ class CandidateView {
   std::vector<std::wstring> visible;
   std::vector<RECT> cells;
   RECT previous={},next={};
+  RECT header={};
+  std::vector<int> advances;
+  unsigned caret=0;
+  int scroll=0;
   int dpi=96,hover=-1;
   unsigned selected=0,page=0,pages=0;
+  bool english=false;
   static LRESULT CALLBACK Procedure(HWND,UINT,WPARAM,LPARAM);
 public:
   std::function<void(int)> Page;
   std::function<void(unsigned)> Choose;
+  std::function<void(unsigned)> MoveCaret;
   ~CandidateView();
-  void Show(ITfContext*,TfClientId,const std::string&,const std::vector<Candidate>&,unsigned);
+  void Show(ITfContext*,TfClientId,const std::string&,const std::vector<Candidate>&,unsigned,size_t caret=std::string::npos,bool english=false);
   void Hide();
 };
 HRESULT Insert(ITfContext*,TfClientId,const std::wstring&);

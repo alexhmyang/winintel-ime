@@ -1,0 +1,15 @@
+{
+  "schema":1,
+  "id":"hardware",
+  "name":"计算机与 AI 硬件词库",
+  "entries":[
+    {"text":"数萌 AI","pinyin":"shu meng ai"},
+    {"text":"NVLink","pinyin":"nvlink"},
+    {"text":"InfiniBand","pinyin":"infiniband"},
+    {"text":"显存带宽","pinyin":"xian cun dai kuan"},
+    {"text":"推理吞吐量","pinyin":"tui li tun tu liang"},
+    {"text":"张量并行","pinyin":"zhang liang bing xing"},
+    {"text":"流水线并行","pinyin":"liu shui xian bing xing"},
+    {"text":"混合专家模型","pinyin":"hun he zhuan jia mo xing"}
+  ]
+}

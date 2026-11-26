@@ -43,9 +43,15 @@ Get-ChildItem $AssetRoot | Where-Object {$_.Name -notin @("uninstall.exe","Produ
 Copy-Item "$root\standalone\*.mjs" "$payload\standalone" -Force
 Copy-Item "$root\LICENSE" "$payload\LICENSE" -Force
 Copy-Item "$PSScriptRoot\Bilingual-guide.md" "$payload\Bilingual-guide.md" -Force
+Copy-Item "$PSScriptRoot\English-news-guide.md" "$payload\English-news-guide.md" -Force
+New-Item -ItemType Directory -Force "$payload\service" | Out-Null
+Copy-Item "$root\service\*" "$payload\service" -Recurse -Force
+Copy-Item "$root\README.md","$root\README.en.md" "$payload" -Force
 Copy-Item "$PSScriptRoot\Legal\*" "$payload\licenses" -Force
 & "$payload\runtime\node.exe" "$root\standalone\dictionary.mjs" "$payload\dictionary.bin"
 if($LASTEXITCODE){throw "Dictionary build failed"}
+& "$payload\runtime\node.exe" "$root\standalone\english-dictionary.mjs" "$payload"
+if($LASTEXITCODE){throw "English dictionary build failed"}
 $env:INCLUDE="$VcRoot\include;$SdkRoot\Include\$sdkVersion\ucrt;$SdkRoot\Include\$sdkVersion\shared;$SdkRoot\Include\$sdkVersion\um"
 foreach($arch in @("x64","x86")){
   New-Item -ItemType Directory -Force "$BuildRoot\objects-$arch","$payload\$arch" | Out-Null
@@ -55,7 +61,13 @@ foreach($arch in @("x64","x86")){
 }
 $sources=@(Get-ChildItem "$PSScriptRoot\App\*.cs" | ForEach-Object {$_.FullName})
 $sources+="$root\desktop\VoiceSession.cs";$sources+="$root\desktop\ChildJob.cs"
-& "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe /platform:x64 /codepage:65001 "/win32icon:$payload\winintel.ico" "/out:$payload\winintel-ime.exe" /r:System.Windows.Forms.dll /r:System.Drawing.dll /r:System.Web.Extensions.dll $sources
+$framework="$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319"
+$wpf="$framework\WPF"
+$winmd=Get-ChildItem "$SdkRoot\UnionMetadata" -Directory | Where-Object {$_.Name -match '^\d+\.' -and (Test-Path "$($_.FullName)\Windows.winmd")} | Sort-Object {[version]$_.Name} -Descending | Select-Object -First 1
+$facade=Get-ChildItem "$env:WINDIR\Microsoft.NET\assembly\GAC_MSIL\System.Runtime" -Filter System.Runtime.dll -Recurse | Select-Object -First 1
+if(!$winmd -or !$facade){throw "Windows SDK WinRT metadata and .NET System.Runtime are required"}
+$references=@("/r:System.Windows.Forms.dll","/r:System.Drawing.dll","/r:System.Web.Extensions.dll","/r:System.Net.Http.dll","/r:System.Security.dll","/r:$wpf\UIAutomationClient.dll","/r:$wpf\UIAutomationTypes.dll","/r:$wpf\WindowsBase.dll","/r:$framework\System.Runtime.WindowsRuntime.dll","/r:$($winmd.FullName)\Windows.winmd","/r:$($facade.FullName)")
+& "$framework\csc.exe" /nologo /target:winexe /define:WININTEL_REALTIME /main:Winintel.Windows.RealtimeProgram /platform:x64 /codepage:65001 "/win32icon:$payload\winintel.ico" "/out:$payload\winintel-ime.exe" $references $sources
 if($LASTEXITCODE){throw "Desktop application build failed"}
 [IO.File]::WriteAllText("$BuildRoot\payload-path.txt",$payload,[Text.Encoding]::UTF8)
 if($SkipInstaller){Write-Output "Compiled payload: $payload";return}

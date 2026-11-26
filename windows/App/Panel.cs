@@ -9,6 +9,7 @@ internal sealed class Panel : Form {
     readonly Label status=new Label{AutoSize=false};
     readonly Settings settings;readonly Action saved;
     internal event Action MeetingRequested;
+    internal event Action ServicesRequested,CommandsRequested;
     internal Panel(Settings s,Action onSaved){
         settings=s;saved=onSaved;Text="数萌 AI 输入法";ClientSize=new Size(600,530);MinimumSize=MaximumSize=Size;MaximizeBox=false;Font=new Font("Microsoft YaHei UI",10);StartPosition=FormStartPosition.CenterScreen;BackColor=Color.White;AutoScaleMode=AutoScaleMode.Dpi;
         var title=Skin.Label("数萌 AI 输入法",21,true);title.Location=new Point(28,22);Controls.Add(title);
@@ -20,6 +21,10 @@ internal sealed class Panel : Form {
         tabs.TabPages.AddRange(new[]{input,voice,office});Controls.Add(tabs);
         var tip=Skin.Label("候选栏跟随光标，空格选词，输入后自动收起。");tip.Location=new Point(18,20);input.Controls.Add(tip);
         var shortcut=Skin.Label("1–9 选词     ↑ ↓ 切换     PgUp / PgDn 翻页");shortcut.ForeColor=Skin.Muted;shortcut.Location=new Point(18,54);input.Controls.Add(shortcut);
+        var phrases=Skin.Button("个人词库");phrases.SetBounds(386,78,130,36);input.Controls.Add(phrases);
+        phrases.Click+=(a,b)=>{using(var manager=new PersonalPhrases())manager.ShowDialog(this);};
+        var services=Skin.Button("词库与服务");services.SetBounds(18,78,140,36);input.Controls.Add(services);services.Click+=(a,b)=>{if(ServicesRequested!=null)ServicesRequested();};
+        var commands=Skin.Button("软件助手");commands.SetBounds(172,78,140,36);input.Controls.Add(commands);commands.Click+=(a,b)=>{if(CommandsRequested!=null)CommandsRequested();};
         var testLabel=Skin.Label("试着输入");testLabel.Location=new Point(18,108);input.Controls.Add(testLabel);
         var testCard=new MaterialCard{Location=new Point(16,141),Size=new Size(508,112),Padding=new Padding(14)};
         Skin.Editor(TestBox);TestBox.Dock=DockStyle.Fill;TestBox.AccessibleName="输入测试区";testCard.Controls.Add(TestBox);input.Controls.Add(testCard);

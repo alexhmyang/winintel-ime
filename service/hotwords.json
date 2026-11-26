@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "version": "2026-11-26",
+  "source": "winintel AI 编辑精选，支持自有后台更新；不是实时热度排行榜",
+  "chinese": [
+    {"code":"ren gong zhi neng","text":"人工智能"},
+    {"code":"da yu yan mo xing","text":"大语言模型"},
+    {"code":"zhi neng ti","text":"智能体"},
+    {"code":"ju shen zhi neng","text":"具身智能"},
+    {"code":"duo mo tai","text":"多模态"},
+    {"code":"shen du qiu suo","text":"深度求索"},
+    {"code":"duan ce tui li","text":"端侧推理"},
+    {"code":"suan li ji qun","text":"算力集群"},
+    {"code":"xin zhi sheng chan li","text":"新质生产力"},
+    {"code":"di kong jing ji","text":"低空经济"},
+    {"code":"qing xu jia zhi","text":"情绪价值"},
+    {"code":"song chi gan","text":"松弛感"},
+    {"code":"da zi","text":"搭子"},
+    {"code":"nei juan","text":"内卷"},
+    {"code":"fan nei juan","text":"反内卷"},
+    {"code":"shumeng","text":"数萌"},
+    {"code":"shumengshurufa","text":"数萌输入法"}
+  ],
+  "english": [
+    "DeepSeek","ChatGPT","OpenAI","Claude","Gemini","Qwen","Llama","Grok",
+    "winintel","NVLink","InfiniBand","CUDA","PyTorch","vLLM","token","tokens",
+    "agent","agentic","agents","multimodal","reasoning","inference","embedding",
+    "embeddings","RAG","MoE","transformer","transformers","quantization",
+    "distillation","fine-tuning","prompt","vibe coding","open source"
+  ]
+}

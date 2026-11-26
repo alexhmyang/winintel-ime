@@ -1,15 +1,17 @@
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { resolve, join } from 'node:path';
+import { resolve, join, dirname } from 'node:path';
 const root = resolve(import.meta.dirname, '..');
 const rows = new Map();
-function add(code, text, score) {
+const abbreviations = new Set(), readings = new Map();
+function add(code, text, score, abbreviation = false) {
+  if (abbreviation) abbreviations.add(code);
   let list = rows.get(code);
   if (!list) rows.set(code, list = []);
   const found = list.find(r => r.text === text);
   if (found) found.score = Math.max(found.score, score);
   else list.push({ text, score });
   list.sort((a,b) => b.score-a.score);
-  list.length = Math.min(list.length, 9);
+  list.length = Math.min(list.length, abbreviations.has(code) ? 128 : 9);
 }
 function load(file, boost = 0) {
   let active = !file.endsWith('.yaml');
@@ -21,9 +23,14 @@ function load(file, boost = 0) {
     const code = spelling.toLowerCase().replace(/ü/g,'v').replace(/[^a-z]/g,'');
     if (!code || code.length > 64) continue;
     const score = Math.log2(Math.max(1, Number(freq) || 100)) + boost;
+    if (text.length === 1 && /^[a-z]+$/.test(code)) {
+      let list = readings.get(text);
+      if (!list) readings.set(text, list = new Map());
+      list.set(code, Math.max(list.get(code) || 0, score));
+    }
     add(code,text,score);
     const abbr = spelling.trim().split(/\s+/).map(s=>s[0]).join('');
-    if (abbr.length>1 && abbr !== code) add(abbr,text,score-4);
+    if (abbr.length>1 && abbr !== code) add(abbr,text,score-4,true);
   }
 }
 for (const file of readdirSync(join(root,'data','rime-ice')).filter(f=>f.endsWith('.dict.yaml'))) load(join(root,'data','rime-ice',file));
@@ -40,4 +47,6 @@ header.write('WIME0002'); header.writeUInt32LE(entries.length,8); header.writeUI
 const index=Buffer.alloc(entries.length*12);
 entries.forEach((r,i)=>{index.writeUInt32LE(r[0],i*12);index.writeUInt32LE(r[1],i*12+4);index.writeFloatLE(r[2],i*12+8);});
 writeFileSync(process.argv[2],Buffer.concat([header,index,...strings]));
+writeFileSync(join(dirname(process.argv[2]),'character-readings.tsv'),
+  [...readings].map(([text,list])=>text+'\t'+[...list].sort((a,b)=>b[1]-a[1]).map(r=>r[0]).join(' ')).join('\n')+'\n');
 console.log(`Own dictionary: ${rows.size} codes, ${entries.length} entries, ${16+index.length+offset} bytes`);

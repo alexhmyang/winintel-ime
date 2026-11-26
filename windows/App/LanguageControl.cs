@@ -7,10 +7,13 @@ internal static class LanguageControl {
     [DllImport("user32.dll")]static extern uint GetWindowThreadProcessId(IntPtr window,out uint pid);
     [DllImport("user32.dll")]static extern IntPtr SendMessageTimeout(IntPtr window,uint message,UIntPtr w,IntPtr l,uint flags,uint timeout,out UIntPtr result);
     internal static int Send(IntPtr target,int command){
+        return SendMessage(target,54,command);
+    }
+    internal static int SendMessage(IntPtr target,uint message,int command){
         uint pid;uint thread=GetWindowThreadProcessId(target,out pid);IntPtr window=IntPtr.Zero;
         while((window=FindWindowEx(IntPtr.Zero,window,"winintel.Language.054",null))!=IntPtr.Zero){
             uint owner;uint inputThread=GetWindowThreadProcessId(window,out owner);if(owner!=pid||inputThread!=thread)continue;
-            UIntPtr result;if(SendMessageTimeout(window,0x8000+54,(UIntPtr)(uint)command,IntPtr.Zero,2,100,out result)!=IntPtr.Zero)return unchecked((int)result.ToUInt64());
+            UIntPtr result;if(SendMessageTimeout(window,0x8000+message,(UIntPtr)(uint)command,IntPtr.Zero,2,100,out result)!=IntPtr.Zero)return unchecked((int)result.ToUInt64());
         }
         return -1;
     }

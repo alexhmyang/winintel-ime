@@ -62,18 +62,26 @@ internal sealed class QuickBar:PassivePopup {
     internal void SetLanguage(int mode){foreach(Control c in Controls){var b=c as QuickButton;if(b!=null&&b.Symbol==""&&b.Text.Length>0){b.Text=mode==2?"EN":mode==1?"中":"智能";tips.SetToolTip(b,"单击切换中英文 · Ctrl + 单击恢复智能判断 · 单按 Shift 切换");}}}
 }
 internal sealed class QuickPanel:PassivePopup {
-    internal event Action VoiceRequested,MeetingRequested,SettingsRequested,CopyRequested,ExitRequested,Dismissed;
+    internal event Action VoiceRequested,MeetingRequested,SettingsRequested,CopyRequested,ExitRequested,Dismissed,EmojiRequested,CommandsRequested,ServicesRequested,NewsRequested;
+    readonly QuickButton sponsor=new QuickButton();
     internal QuickPanel(){
-        Text="数萌 AI · 工具箱";ClientSize=new Size(292,310);
+        Text="数萌 AI · 工具箱";ClientSize=new Size(292,586);
         var title=Skin.Label("数萌 AI 输入法",13,true);title.Location=new Point(18,16);Controls.Add(title);
         var hint=Skin.Label("让输入更轻松",9);hint.ForeColor=Skin.Muted;hint.Location=new Point(18,46);Controls.Add(hint);
         var close=new QuickButton{Symbol="close",Location=new Point(254,12),Size=new Size(26,26),AccessibleName="关闭工具箱"};close.Click+=(s,e)=>{Hide();if(Dismissed!=null)Dismissed();};Controls.Add(close);
         Row("语音输入","按 F8 开始 / 结束","mic",82,()=>{if(VoiceRequested!=null)VoiceRequested();});
         Row("实时语音翻译","边说边译 · 双语字幕 · 离线","tools",138,()=>{if(MeetingRequested!=null)MeetingRequested();});
         Row("输入法设置","麦克风与输入测试","gear",194,()=>{if(SettingsRequested!=null)SettingsRequested();});
-        var copy=new QuickButton{Text="复制最近语音",Location=new Point(12,261),Size=new Size(155,36)};copy.Click+=(s,e)=>{if(CopyRequested!=null)CopyRequested();};Controls.Add(copy);
-        var exit=new QuickButton{Text="退出",Location=new Point(214,261),Size=new Size(62,36)};exit.Click+=(s,e)=>{if(ExitRequested!=null)ExitRequested();};Controls.Add(exit);
+        Row("表情与符号","Emoji · 特殊符号 · 颜文字","keyboard",250,()=>{if(EmojiRequested!=null)EmojiRequested();});
+        Row("软件助手","微信找人 · 打开与切换软件","tools",306,()=>{if(CommandsRequested!=null)CommandsRequested();});
+        Row("服务与赞助","词库 API · 企业服务","gear",362,()=>{if(ServicesRequested!=null)ServicesRequested();});
+        Row("每日新闻与热词","中英文词库 · 每日更新 · 离线缓存","tools",418,()=>{if(NewsRequested!=null)NewsRequested();});
+        sponsor.SetBounds(12,475,268,36);sponsor.Visible=false;Controls.Add(sponsor);
+        sponsor.Click+=(s,e)=>{var ad=SponsorPlacement.Load();if(ad!=null)System.Diagnostics.Process.Start(ad.url);};
+        var copy=new QuickButton{Text="复制最近语音",Location=new Point(12,531),Size=new Size(155,36)};copy.Click+=(s,e)=>{if(CopyRequested!=null)CopyRequested();};Controls.Add(copy);
+        var exit=new QuickButton{Text="退出",Location=new Point(214,531),Size=new Size(62,36)};exit.Click+=(s,e)=>{if(ExitRequested!=null)ExitRequested();};Controls.Add(exit);
     }
+    internal void RefreshSponsor(){var ad=SponsorPlacement.Load();sponsor.Visible=ad!=null;if(ad!=null)sponsor.Text="广告 · "+ad.label;}
     void Row(string title,string subtitle,string symbol,int y,Action action){
         var button=new QuickButton{Text=title,Subtitle=subtitle,Symbol=symbol,Location=new Point(12,y),Size=new Size(268,50),AccessibleName=title};
         button.Click+=(s,e)=>action();Controls.Add(button);
@@ -90,6 +98,8 @@ internal sealed class QuickAccess:IDisposable {
     DateTime opened;IntPtr target,openedTarget;bool disposed;
     internal event Action<IntPtr> VoiceRequested;
     internal event Action MeetingRequested,SettingsRequested,CopyRequested,ExitRequested;
+    internal event Action<IntPtr> EmojiRequested;
+    internal event Action CommandsRequested,ServicesRequested,NewsRequested;
     internal IntPtr Target{get{return target;}}
     internal QuickAccess(){
         bar.ToolsRequested+=()=>ShowTools(false);bar.VoiceRequested+=Voice;panel.VoiceRequested+=Voice;
@@ -97,6 +107,10 @@ internal sealed class QuickAccess:IDisposable {
         panel.MeetingRequested+=()=>{Dismiss();if(MeetingRequested!=null)MeetingRequested();};
         panel.CopyRequested+=()=>{Dismiss();if(CopyRequested!=null)CopyRequested();};
         panel.ExitRequested+=()=>{Dismiss();if(ExitRequested!=null)ExitRequested();};
+        panel.EmojiRequested+=()=>{var destination=target;Dismiss();if(EmojiRequested!=null)EmojiRequested(destination);};
+        panel.CommandsRequested+=()=>{Dismiss();if(CommandsRequested!=null)CommandsRequested();};
+        panel.ServicesRequested+=()=>{Dismiss();if(ServicesRequested!=null)ServicesRequested();};
+        panel.NewsRequested+=()=>{Dismiss();if(NewsRequested!=null)NewsRequested();};
         bar.Dismissed+=Dismiss;panel.Dismissed+=Dismiss;
         timer.Tick+=(s,e)=>Track();timer.Start();Track();
     }
@@ -115,7 +129,7 @@ internal sealed class QuickAccess:IDisposable {
         else if(!pointerInside&&(DateTime.UtcNow-opened).TotalMilliseconds>300&&(GetAsyncKeyState(1)<0||GetAsyncKeyState(2)<0))Dismiss();
     }
     internal void ShowBar(){if(disposed)return;if(bar.Visible){Dismiss();return;}Position();openedTarget=GetForegroundWindow();opened=DateTime.UtcNow;bar.Show();}
-    internal void ShowTools(bool showBar){if(disposed)return;Position();openedTarget=GetForegroundWindow();opened=DateTime.UtcNow;if(showBar)bar.Show();panel.Show();}
+    internal void ShowTools(bool showBar){if(disposed)return;panel.RefreshSponsor();Position();openedTarget=GetForegroundWindow();opened=DateTime.UtcNow;if(showBar)bar.Show();panel.Show();}
     void Position(){var work=Screen.FromPoint(Cursor.Position).WorkingArea;bar.Location=new Point(Math.Max(work.Left,work.Right-bar.Width-12),Math.Max(work.Top,work.Bottom-bar.Height-10));panel.Location=new Point(Math.Max(work.Left,work.Right-panel.Width-12),Math.Max(work.Top,bar.Top-panel.Height-8));}
     void Settings(){Dismiss();if(SettingsRequested!=null)SettingsRequested();}
     void Voice(){IntPtr destination=target;Dismiss();if(VoiceRequested!=null)VoiceRequested(destination);}

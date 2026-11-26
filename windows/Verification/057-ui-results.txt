@@ -1,0 +1,60 @@
+isolated TSF attachment: PASS
+candidate appears during composition: PASS
+candidate show preserves application focus: PASS
+candidate forbids mouse activation: PASS
+compact candidate geometry: PASS
+middle correction refreshes Chinese candidates: PASS
+Ctrl Z restores middle deletion and caret: PASS
+Ctrl Y redoes middle deletion: PASS
+Ctrl Shift Z never toggles language: PASS
+Ctrl Shift Z redoes middle deletion: PASS
+new insertion clears redo history: PASS
+mouse moves composition caret without activation: PASS
+empty composition passes undo and redo to host: PASS
+Home End and delete boundaries preserve buffer: PASS
+long composition editing keeps application focus: FAIL
+long edit commit HRESULT=00000000, length=256, value=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+256 letter middle correction preserves suffix: PASS
+100 letter composition commits full sentence: PASS
+settings never forced on top: PASS
+settings split into keyboard voice and office: PASS
+quick bar preserves input focus and stays out of taskbar: PASS
+quick bar ignores mouse activation: PASS
+quick bar has compact dimensions: PASS
+toolbox opens without activating or forcing topmost: PASS
+quick tools respect monitor work area: PASS
+quick tools hide when another window takes focus: PASS
+before voice: foreground=2496578, target=2496578
+after voice: foreground=2496578, preview=659660, visible=True
+voice preview appears without stealing focus: PASS
+voice compact panel stays out of taskbar: PASS
+recording action stops audio instead of inserting text: PASS
+finished draft action requests confirmation: PASS
+voice preview hides when switching applications: PASS
+voice preview returns only to its target application: PASS
+closing preview prevents asynchronous reopening: PASS
+confirmed draft has no lingering panel: PASS
+translation workspace never forced on top: PASS
+rebind after auxiliary windows: 00000000
+keyboard committed text=是
+keyboard selection inserts text and hides candidates: PASS
+pinyin composition remains functional: PASS
+mouse selection commits without taking focus: PASS
+candidates stay inside monitor work area: PASS
+candidates flip above caret near screen bottom: PASS
+escape immediately hides candidates: PASS
+single Shift switches immediately to English: PASS
+English mode passes letters directly to application: PASS
+twenty consecutive Shift taps each switch exactly once: PASS
+held Shift autorepeat toggles only once on release: PASS
+Shift with a letter never toggles language: PASS
+Shift then Control combination never toggles language: PASS
+switch preserves uncommitted letters without loss: PASS
+automatic mode recognizes clear English word: PASS
+automatic mode preserves Chinese pinyin: PASS
+web address stays in English through punctuation: PASS
+explicit Chinese choice remains fixed: PASS
+toolbar language control targets active input thread: PASS
+toolbar control restores automatic detection: PASS
+emoji injection flushes pending TSF composition: PASS
+pending spelling and emoji reach destination without loss: PASS

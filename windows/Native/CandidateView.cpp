@@ -55,6 +55,11 @@ LRESULT CALLBACK CandidateView::Procedure(HWND h,UINT m,WPARAM w,LPARAM l) {
   if(m==WM_MOUSELEAVE&&self){self->hover=-1;InvalidateRect(h,nullptr,FALSE);return 0;}
   if(m==WM_LBUTTONUP&&self){
     POINT point={GET_X_LPARAM(l),GET_Y_LPARAM(l)};
+    if(PtInRect(&self->header,point)&&self->MoveCaret&&!self->advances.empty()){
+      int x=point.x-self->header.left+self->scroll;unsigned position=0;
+      while(position+1<self->advances.size()&&x>(self->advances[position]+self->advances[position+1])/2)position++;
+      self->MoveCaret(position);return 0;
+    }
     for(unsigned i=0;i<self->cells.size();i++)if(PtInRect(&self->cells[i],point)){if(self->Choose)self->Choose(i);return 0;}
     if(self->Page){if(PtInRect(&self->previous,point)&&self->page>0)self->Page(-1);else if(PtInRect(&self->next,point)&&self->page+1<self->pages)self->Page(1);}
     return 0;
@@ -67,7 +72,18 @@ LRESULT CALLBACK CandidateView::Procedure(HWND h,UINT m,WPARAM w,LPARAM l) {
     HFONT font=Font(16,self->dpi);
     auto old=SelectObject(dc,font);SetTextColor(dc,RGB(26,115,232));SetBkMode(dc,TRANSPARENT);
     int pad=Scale(12,self->dpi);
-    RECT header={pad,Scale(5,self->dpi),r.right-Scale(112,self->dpi),Scale(33,self->dpi)};DrawTextW(dc,self->content.c_str(),-1,&header,DT_LEFT|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS|DT_NOPREFIX);
+    self->header={pad,Scale(5,self->dpi),r.right-Scale(112,self->dpi),Scale(33,self->dpi)};
+    self->advances.assign(self->content.size()+1,0);
+    for(size_t i=1;i<self->advances.size();i++){SIZE size={};GetTextExtentPoint32W(dc,self->content.c_str(),(int)i,&size);self->advances[i]=size.cx;}
+    int caretX=self->advances[self->caret],available=self->header.right-self->header.left-Scale(4,self->dpi);
+    self->scroll=std::max(0,std::min(self->scroll,std::max(0,self->advances.back()-available)));
+    if(caretX<self->scroll)self->scroll=caretX;
+    if(caretX>self->scroll+available)self->scroll=caretX-available;
+    int saved=SaveDC(dc);IntersectClipRect(dc,self->header.left,self->header.top,self->header.right,self->header.bottom);
+    TEXTMETRICW metrics={};GetTextMetricsW(dc,&metrics);int top=self->header.top+(self->header.bottom-self->header.top-metrics.tmHeight)/2;
+    TextOutW(dc,self->header.left-self->scroll,top,self->content.c_str(),(int)self->content.size());
+    RECT cursor={self->header.left+caretX-self->scroll,top,self->header.left+caretX-self->scroll+Scale(2,self->dpi),top+metrics.tmHeight};
+    HBRUSH blue=CreateSolidBrush(RGB(26,115,232));FillRect(dc,&cursor,blue);DeleteObject(blue);RestoreDC(dc,saved);
     HFONT fontSmall=Font(12,self->dpi);SelectObject(dc,fontSmall);SetTextColor(dc,RGB(95,99,104));
     RECT brand={r.right-Scale(104,self->dpi),Scale(5,self->dpi),r.right-pad,Scale(33,self->dpi)};
     DrawTextW(dc,L"数萌 AI",-1,&brand,DT_RIGHT|DT_SINGLELINE|DT_VCENTER|DT_NOPREFIX);
@@ -77,14 +93,15 @@ LRESULT CALLBACK CandidateView::Procedure(HWND h,UINT m,WPARAM w,LPARAM l) {
       if(i==self->selected||i==(unsigned)self->hover)FillRound(dc,line,i==self->selected?RGB(232,240,254):RGB(241,243,244),Scale(12,self->dpi));
       RECT number=line;number.left+=Scale(9,self->dpi);number.right=number.left+Scale(17,self->dpi);
       SelectObject(dc,fontSmall);SetTextColor(dc,i==self->selected?RGB(26,115,232):RGB(128,134,139));
-      auto digit=std::to_wstring(i+1);DrawTextW(dc,digit.c_str(),-1,&number,DT_LEFT|DT_SINGLELINE|DT_VCENTER|DT_NOPREFIX);
+      auto digit=self->english?L"·":std::to_wstring(i+1);DrawTextW(dc,digit.c_str(),-1,&number,DT_LEFT|DT_SINGLELINE|DT_VCENTER|DT_NOPREFIX);
       line.left=number.right+Scale(3,self->dpi);line.right-=Scale(9,self->dpi);
       SelectObject(dc,font);SetTextColor(dc,i==self->selected?RGB(26,115,232):RGB(32,33,36));
       DrawTextW(dc,self->visible[i].c_str(),-1,&line,DT_LEFT|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS|DT_NOPREFIX);
     }
     SelectObject(dc,fontSmall);SetTextColor(dc,RGB(128,134,139));
     RECT footer={pad,r.bottom-Scale(29,self->dpi),r.right-Scale(120,self->dpi),r.bottom-Scale(3,self->dpi)};
-    DrawTextW(dc,L"空格选词  ·  ↑ ↓ 切换",-1,&footer,DT_LEFT|DT_SINGLELINE|DT_VCENTER|DT_NOPREFIX);
+    auto hint=self->english?std::wstring(L"↑ ↓ 选择 · Tab 补全 · 空格原词"):L"← → 修改 · "+std::to_wstring(self->caret)+L"/"+std::to_wstring(self->content.size());
+    DrawTextW(dc,hint.c_str(),-1,&footer,DT_LEFT|DT_SINGLELINE|DT_VCENTER|DT_NOPREFIX);
     auto page=std::to_wstring(self->page+1)+L" / "+std::to_wstring(self->pages);
     RECT pageRect={r.right-Scale(112,self->dpi),footer.top,r.right-Scale(70,self->dpi),footer.bottom};
     DrawTextW(dc,page.c_str(),-1,&pageRect,DT_RIGHT|DT_SINGLELINE|DT_VCENTER|DT_NOPREFIX);
@@ -98,12 +115,12 @@ LRESULT CALLBACK CandidateView::Procedure(HWND h,UINT m,WPARAM w,LPARAM l) {
 }
 CandidateView::~CandidateView(){if(window)DestroyWindow(window);}
 void CandidateView::Hide(){if(window)ShowWindow(window,SW_HIDE);}
-void CandidateView::Show(ITfContext* context,TfClientId client,const std::string& code,const std::vector<Candidate>& rows,unsigned selected){
+void CandidateView::Show(ITfContext* context,TfClientId client,const std::string& code,const std::vector<Candidate>& rows,unsigned selected,size_t position,bool english){
   if(rows.empty()||code.empty()){Hide();return;}
   RECT anchor={};if(!Anchor(context,client,anchor)){Hide();return;}
   if(!window){WNDCLASSW wc={};wc.style=CS_DROPSHADOW;wc.lpfnWndProc=Procedure;wc.hInstance=module;wc.lpszClassName=L"winintel.Candidates.052";wc.hCursor=LoadCursorW(nullptr,MAKEINTRESOURCEW(32512));RegisterClassW(&wc);
     window=CreateWindowExW(WS_EX_TOOLWINDOW|WS_EX_NOACTIVATE|WS_EX_TOPMOST,wc.lpszClassName,L"数萌 AI",WS_POPUP,0,0,520,110,nullptr,nullptr,module,this);}
-  content=std::wstring(code.begin(),code.end());hover=-1;
+  this->english=english;content=std::wstring(code.begin(),code.end());caret=(unsigned)std::min(position,code.size());hover=-1;
   unsigned start=CandidatePaging::start(selected);this->selected=selected-start;
   page=start/CandidatePaging::size;pages=CandidatePaging::pages((unsigned)rows.size());visible.clear();
   for(unsigned i=start;i<std::min<unsigned>((unsigned)rows.size(),start+CandidatePaging::size);i++)visible.push_back(rows[i].text);

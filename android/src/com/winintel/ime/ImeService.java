@@ -15,6 +15,7 @@ public final class ImeService extends InputMethodService {
     private final ExecutorService lookup=Executors.newSingleThreadExecutor();
     private final Handler ui=new Handler(Looper.getMainLooper());
     private Dictionary dictionary;
+    private EnglishDictionary englishDictionary;
     private VoiceClient voice;
     private LinearLayout root,candidates,keys;
     private TextView composition,status;
@@ -27,7 +28,7 @@ public final class ImeService extends InputMethodService {
     private List<String> results=new ArrayList<>();
     @Override public void onCreate(){
         super.onCreate();voice=new VoiceClient(this,this::voiceEvent);
-        lookup.execute(()->{try{dictionary=new Dictionary(Assets.copy(this,"dictionary.bin"));ui.post(()->{if(status!=null)status.setText("离线词库已就绪");query();});}catch(Exception e){ui.post(()->{if(status!=null)status.setText("词库加载失败："+e.getMessage());});}});
+        lookup.execute(()->{try{dictionary=new Dictionary(Assets.copy(this,"dictionary-012.bin","dictionary.bin"));dictionary.loadHotwords(getAssets().open("hot-chinese.tsv"));englishDictionary=new EnglishDictionary(getAssets().open("english-words.tsv"));ui.post(()->{if(status!=null)status.setText("离线中英文词库已就绪");query();});}catch(Exception e){ui.post(()->{if(status!=null)status.setText("词库加载失败："+e.getMessage());});}});
     }
     @Override public View onCreateInputView(){
         root=Ui.column(this);root.setBackgroundColor(Ui.BG);root.setPadding(Ui.dp(this,4),Ui.dp(this,4),Ui.dp(this,4),Ui.dp(this,8));
@@ -36,6 +37,7 @@ public final class ImeService extends InputMethodService {
         add(tools,Ui.button(this,"中 / EN",v->{flush();english=!english;editing=false;renderKeys();}),1,38);
         micButton=Ui.button(this,"语音",v->toggleVoice());add(tools,micButton,1,38);
         add(tools,Ui.button(this,"切换",v->{flush();((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).showInputMethodPicker();}),1,38);
+        add(tools,Ui.button(this,"新闻",v->{flush();startActivity(new Intent(this,NewsActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));}),1,38);
         add(tools,Ui.button(this,"收起",v->requestHideSelf(0)),1,38);root.addView(tools);
         composition=Ui.text(this,"",15);composition.setVisibility(View.GONE);root.addView(composition);
         HorizontalScrollView scroll=new HorizontalScrollView(this);scroll.setHorizontalScrollBarEnabled(false);
@@ -58,12 +60,12 @@ public final class ImeService extends InputMethodService {
         LinearLayout bottom=new LinearLayout(this);
         add(bottom,Ui.button(this,numbers?"ABC":"123",v->{flush();numbers=!numbers;renderKeys();}),1.3f,46);
         Button punctuation=Ui.button(this,english?".":"，",v->{flush();commit(english?".":"，");});punctuation.setOnLongClickListener(v->{flush();commit(english?",":"。");return true;});add(bottom,punctuation,0.8f,46);
-        add(bottom,Ui.button(this,english?"Space":"空格",v->{if(!code.isEmpty())choose(results.isEmpty()?code:results.get(0));else commit(" ");}),2.8f,46);
-        Button back=Ui.button(this,"⌫",v->backspace());back.setOnLongClickListener(v->{code="";generation++;query();return true;});add(bottom,back,1.2f,46);
+        add(bottom,Ui.button(this,english?"Space":"空格",v->{if(english){flush();commit(" ");}else if(!code.isEmpty())choose(results.isEmpty()?code:results.get(0));else commit(" ");}),2.8f,46);
+        Button back=Ui.button(this,"⌫",v->backspace());back.setOnLongClickListener(v->{clearEnglishComposition();code="";generation++;query();return true;});add(bottom,back,1.2f,46);
         add(bottom,Ui.button(this,"↵",v->{if(!code.isEmpty())flush();else if(editing)commit("\n");else{InputConnection ic=getCurrentInputConnection();EditorInfo e=getCurrentInputEditorInfo();int action=e==null?0:e.imeOptions&EditorInfo.IME_MASK_ACTION;if(ic!=null){if(action!=EditorInfo.IME_ACTION_NONE && action!=EditorInfo.IME_ACTION_UNSPECIFIED)ic.performEditorAction(action);else ic.commitText("\n",1);}}}),1.2f,46);keys.addView(bottom);
     }
     private void letter(String s){
-        if(english || numbers || password){commit(s);return;}
+        if(numbers || password){flush();commit(s);return;}
         if(code.length()<48){code+=s;page=0;query();}
     }
     private void commit(String s){
@@ -71,13 +73,14 @@ public final class ImeService extends InputMethodService {
         else{InputConnection ic=getCurrentInputConnection();if(ic!=null)ic.commitText(s,1);}
     }
     private void backspace(){
-        if(!code.isEmpty()){code=code.substring(0,code.length()-1);query();}
+        if(!code.isEmpty()){code=code.substring(0,code.length()-1);if(code.isEmpty())clearEnglishComposition();query();}
         else if(editing){int p=draft.getSelectionStart();if(p>0)draft.getText().delete(draft.getText().toString().offsetByCodePoints(p,-1),p);}
         else{InputConnection ic=getCurrentInputConnection();if(ic!=null)ic.deleteSurroundingTextInCodePoints(1,0);}
     }
     private void flush(){if(!code.isEmpty())choose(code);}
+    private void clearEnglishComposition(){if(english&&!editing&&!password){InputConnection ic=getCurrentInputConnection();if(ic!=null){ic.setComposingText("",1);ic.finishComposingText();}}}
     private void choose(String text){
-        if(!password&&!code.isEmpty()&&!text.equals(code)){
+        if(!password&&!english&&!code.isEmpty()&&!text.equals(code)){
             android.content.SharedPreferences prefs=getSharedPreferences("choices",0);
             if(prefs.getAll().size()>10000)prefs.edit().clear().apply();
             prefs.edit().putString(code,text).apply();
@@ -85,11 +88,13 @@ public final class ImeService extends InputMethodService {
         commit(text);code="";page=0;query();
     }
     private void query(){
+        if(english&&!password&&!editing){InputConnection ic=getCurrentInputConnection();if(ic!=null){if(code.isEmpty())ic.finishComposingText();else ic.setComposingText(code,1);}}
         if(composition==null)return;
         composition.setVisibility(code.isEmpty()?View.GONE:View.VISIBLE);root.findViewWithTag("candidates-scroll").setVisibility(code.isEmpty()?View.GONE:View.VISIBLE);
         composition.setText(code);final String request=code;final int id=++generation;results=new ArrayList<>();candidates.removeAllViews();
         if(request.isEmpty()||dictionary==null)return;
-        lookup.execute(()->{if(id!=generation)return;List<String> list=dictionary.query(request);String prior=password?null:getSharedPreferences("choices",0).getString(request,null);if(prior!=null){list.remove(prior);list.add(0,prior);}ui.post(()->{if(id!=generation || candidates==null)return;results=list;page=0;showCandidates();});});
+        final boolean en=english;
+        lookup.execute(()->{if(id!=generation)return;List<String> list=en?(englishDictionary==null?new ArrayList<>():englishDictionary.query(request)):dictionary.query(request);String prior=password||en?null:getSharedPreferences("choices",0).getString(request,null);if(prior!=null){list.remove(prior);list.add(0,prior);}ui.post(()->{if(id!=generation || candidates==null)return;results=list;page=0;showCandidates();});});
     }
     private void showCandidates(){
         candidates.removeAllViews();int start=page*9;
@@ -117,7 +122,7 @@ public final class ImeService extends InputMethodService {
         query();renderKeys();
     }
     @Override public void onFinishInputView(boolean finishingInput){voice.cancel();recording=false;editing=false;super.onFinishInputView(finishingInput);}
-    @Override public void onFinishInput(){voice.cancel();code="";generation++;super.onFinishInput();}
+    @Override public void onFinishInput(){voice.cancel();InputConnection ic=getCurrentInputConnection();if(english&&ic!=null)ic.finishComposingText();code="";generation++;super.onFinishInput();}
     @Override public boolean onEvaluateFullscreenMode(){return false;}
     @Override public void onDestroy(){voice.close();lookup.shutdownNow();super.onDestroy();}
 }

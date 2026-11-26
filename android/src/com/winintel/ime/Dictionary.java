@@ -10,6 +10,12 @@ import java.util.*;
 public final class Dictionary {
     private final ByteBuffer data;
     private final int count, strings;
+    private final Map<String,String> hotwords=new HashMap<>();
+    public void loadHotwords(InputStream input) throws IOException {
+        try(BufferedReader reader=new BufferedReader(new InputStreamReader(input,StandardCharsets.UTF_8))){
+            String row;while((row=reader.readLine())!=null){String[] fields=row.split("\t");if(fields.length==2)hotwords.put(fields[0],fields[1]);}
+        }
+    }
     public Dictionary(File file) throws IOException {
         try (FileInputStream in = new FileInputStream(file)) {
             data = in.getChannel().map(FileChannel.MapMode.READ_ONLY,0,in.getChannel().size()).order(ByteOrder.LITTLE_ENDIAN);
@@ -43,6 +49,7 @@ public final class Dictionary {
         Map<String,Float> found=new HashMap<>();
         if(key.isEmpty())return new ArrayList<>();
         collect(key,0,found);
+        if(hotwords.containsKey(key))found.put(hotwords.get(key),110f);
         if(key.length()>1){
             int at=lower(key), scanned=0;
             while(at<count && scanned++<128){

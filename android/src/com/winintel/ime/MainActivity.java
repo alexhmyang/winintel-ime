@@ -20,8 +20,9 @@ public final class MainActivity extends Activity {
         super.onCreate(state);
         getWindow().getDecorView().setOnApplyWindowInsetsListener((v,insets)->{v.setPadding(insets.getSystemWindowInsetLeft(),insets.getSystemWindowInsetTop(),insets.getSystemWindowInsetRight(),insets.getSystemWindowInsetBottom());return insets;});
         ScrollView scroll=new ScrollView(this);LinearLayout root=Ui.column(this);root.setPadding(Ui.dp(this,20),Ui.dp(this,20),Ui.dp(this,20),Ui.dp(this,24));root.setBackgroundColor(Ui.BG);scroll.addView(root);setContentView(scroll);
-        root.addView(Ui.text(this,"数萌 AI 输入法",30));root.addView(Ui.text(this,"winintel AI  /  Android 0.1.1",14));
-        root.addView(Ui.text(this,"本地拼音 · 离线语音\n不申请联网权限，不保存录音。",17));
+        root.addView(Ui.text(this,"数萌 AI 输入法",30));root.addView(Ui.text(this,"winintel AI  /  Android 0.1.2",14));
+        root.addView(Ui.text(this,"本地拼音 · 英文补全 · 离线语音\n新闻由你开启；输入和录音只在本机处理。",17));
+        button(root,"实时新闻与双语热词",v->startActivity(new Intent(this,NewsActivity.class)));
         button(root,"1  启用数萌输入法",v->startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS)));
         button(root,"2  切换到数萌输入法",v->((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).showInputMethodPicker());
         button(root,"3  授权麦克风",v->{if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED)status.setText("麦克风已授权");else requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},7);});
@@ -32,7 +33,7 @@ public final class MainActivity extends Activity {
         notes=new EditText(this);notes.setGravity(Gravity.TOP);notes.setMinLines(5);notes.setHint("文字笔记仅手动保存到本机");notes.setTextSize(18);root.addView(notes);
         button(root,"保存文字到本机",v->{Intent i=new Intent(Intent.ACTION_CREATE_DOCUMENT);i.addCategory(Intent.CATEGORY_OPENABLE);i.setType("text/plain");i.putExtra(Intent.EXTRA_TITLE,"数萌语音笔记.txt");startActivityForResult(i,8);});
         button(root,"清空笔记",v->new AlertDialog.Builder(this).setMessage("清空当前文字笔记？").setNegativeButton("取消",null).setPositiveButton("清空",(d,w)->{voice.cancel();recording=false;record.setText("开始录音");notes.setText("");}).show());
-        root.addView(Ui.text(this,"首版支持全拼、简拼、候选横向滑动、选词学习、中英文切换及语音草稿。翻译和 SRT 导出尚未移植到安卓。",14));
+        root.addView(Ui.text(this,"支持全拼、简拼、选词学习和语音草稿。EN 输入 hel 后点击 hello 补全，Space 保留原词。离开输入框前可按 Space 提交英文。新闻采用免费源和自有接口，默认关闭。翻译与 SRT 导出由 Windows 版提供。",14));
         button(root,"开源与模型说明",v->new AlertDialog.Builder(this).setTitle("数萌 AI / winintel AI").setMessage("应用代码 GPL-3.0-or-later；词库来自 rime-ice；语音运行库 sherpa-onnx（Apache-2.0），模型 SenseVoiceSmall INT8（FunASR 模型协议 1.1）。完整许可随源码和 APK 发布。\n音频只在内存中处理，密码框不学习选词、不启用语音。").setPositiveButton("知道了",null).show());
         voice=new VoiceClient(this,(type,text)->{if(type==VoiceService.TEXT){if(notes.length()>0)notes.append("\n");notes.append(text);}else{status.setText(text);if(type==VoiceService.ERROR){voice.stop();recording=false;record.setText("开始录音");}}});
         if(state!=null)notes.setText(state.getString("notes",""));

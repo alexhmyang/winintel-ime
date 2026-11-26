@@ -1,0 +1,9 @@
+{
+  "schema":1,
+  "id":"team-demo",
+  "name":"企业术语示例",
+  "entries":[
+    {"text":"客户验收流程","pinyin":"ke hu yan shou liu cheng"},
+    {"text":"交付质量标准","pinyin":"jiao fu zhi liang biao zhun"}
+  ]
+}

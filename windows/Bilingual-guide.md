@@ -1,4 +1,17 @@
-# 数萌 AI 输入法 0.5.4
+# 数萌 AI 输入法 0.5.7
+
+| 新入口 / Entry | 用法 / Usage |
+|---|---|
+| 工具箱 → 表情与符号 / Emoji & symbols | 先点击输入框，再选择表情、数学符号或颜文字。Focus the destination field before selecting. |
+| 工具箱 → 软件助手 / App assistant | 输入 `微信找 张三`、`打开记事本`、`切换到 Excel` 后点击执行。Search WeChat or switch supported applications. |
+| 语音软件指令 / Voice commands | 说“软件指令，微信找 张三”，结束并确认后点击执行。Confirm the draft, then execute in the assistant panel. |
+| 工具箱 → 服务与赞助 / Services | 配置 API 地址、词库 ID 和访问密钥，手动同步。Configure an endpoint, pack ID and optional key, then synchronize manually. |
+
+免费开源客户端＋企业词库托管、部署与支持收费。API 只下载词库，不上传输入、语音或联系人。广告位默认关闭，仅在工具箱标明“广告”。微信操作使用本机辅助功能 / OCR，不发送消息；同名结果手动选择。先登录微信并回到主界面。公网服务与在线支付尚未上线。
+
+The GPL client remains free; enterprise hosting and support can be paid services. API requests download dictionaries without uploading input, audio or contacts. Advertising is opt-in and labeled in the toolbox. WeChat navigation uses local accessibility / OCR and never sends messages. Public hosting and payments are not included.
+
+长拼音输错时，用 ← / → 移动到错误位置再修改，无需删除后半句。Home / End 定位首尾，Backspace 删除左侧，Delete 删除右侧。Ctrl + Z 撤销，Ctrl + Y 或 Ctrl + Shift + Z 重做。候选框上方可点击定位，蓝色光标随长串滚动；支持最多 256 个字母与 32 步编辑历史。快捷键仅作用于未上屏拼音，已上屏文字通过当前应用编辑。
 
 单独按下并松开 Shift，立即切换中英文。英文模式的字母直接交给正在输入的应用，大小写、空格与标点遵循应用的正常行为。长按 Shift 只切换一次；Shift 配合字母、Ctrl、Alt、方向键等组合使用时不切换语言。
 

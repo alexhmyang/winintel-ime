@@ -40,6 +40,8 @@ $node=Get-Command node.exe -ErrorAction SilentlyContinue
 if(!$node){throw "Install Node.js 22+ to generate the dictionary"}
 & $node.Source "$repo\standalone\dictionary.mjs" "$BuildRoot\assets\dictionary.bin"
 CheckExit "Dictionary"
+& $node.Source "$repo\standalone\english-dictionary.mjs" "$BuildRoot\assets"
+CheckExit "English dictionary"
 & "$bt\aapt.exe" package -f -m -J "$BuildRoot\generated" -M "$root\AndroidManifest.xml" -S "$root\res" -A "$BuildRoot\assets" -I $platform -0 onnx -0 bin -F "$BuildRoot\resources.apk"
 CheckExit "aapt"
 $sources=@(Get-ChildItem "$root\src","$BuildRoot\generated" -Recurse -Filter *.java | ForEach-Object {$_.FullName})
