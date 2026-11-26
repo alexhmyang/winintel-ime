@@ -1,0 +1,219 @@
+{
+  "rows": [
+    {
+      "id": "0-zh",
+      "group": "日常交流",
+      "source": "你好，请问附近哪里有地铁站？",
+      "seconds": 3.895,
+      "feedWallMs": 3902.5517999999997,
+      "firstPartialMs": 731.0795000000003,
+      "firstTranslationMs": 4652.343199999999,
+      "finalRecognitionLagMs": 417.6586000000002,
+      "finalTranslationLagMs": 749.9239000000011,
+      "finals": [
+        {
+          "text": "你好请问附近哪里有地铁站",
+          "start": 0,
+          "end": 3.895,
+          "receivedMs": 4320.2104
+        }
+      ],
+      "translated": [
+        {
+          "text": "Hello, there's a subway station nearby.",
+          "arrivedMs": 4652.343199999999,
+          "ms": 331.4274999999998
+        }
+      ]
+    },
+    {
+      "id": "0-en",
+      "group": "日常交流",
+      "source": "Hello, where is the nearest subway station?",
+      "seconds": 3.485,
+      "feedWallMs": 3511.5572,
+      "firstPartialMs": 432.01480000000083,
+      "firstTranslationMs": 4187.5091,
+      "finalRecognitionLagMs": 401.0607,
+      "finalTranslationLagMs": 675.981600000001,
+      "finals": [
+        {
+          "text": "hello where is the nearest subway station",
+          "start": 0,
+          "end": 3.485,
+          "receivedMs": 3912.6179
+        }
+      ],
+      "translated": [
+        {
+          "text": "你好,最近的地铁站在哪里?",
+          "arrivedMs": 4187.5091,
+          "ms": 274.2013999999999
+        }
+      ]
+    },
+    {
+      "id": "4-zh",
+      "group": "会议与待办",
+      "source": "我们决定下周一发布新版本。",
+      "seconds": 3.565,
+      "feedWallMs": 3606.0947000000015,
+      "firstPartialMs": 440.2555000000011,
+      "firstTranslationMs": 4654.2806,
+      "finalRecognitionLagMs": 388.3225999999995,
+      "finalTranslationLagMs": 1048.2142999999996,
+      "finals": [
+        {
+          "text": "我们决定下周一发布新版本",
+          "start": 0,
+          "end": 3.565,
+          "receivedMs": 3994.417300000001
+        }
+      ],
+      "translated": [
+        {
+          "text": "We've decided next Monday Publish New Version",
+          "arrivedMs": 4654.2806,
+          "ms": 659.2234000000008
+        }
+      ]
+    },
+    {
+      "id": "4-en",
+      "group": "会议与待办",
+      "source": "We decided to release the new version next Monday.",
+      "seconds": 3.425,
+      "feedWallMs": 3512.5334999999995,
+      "firstPartialMs": 434.15359999999964,
+      "firstTranslationMs": 4109.546899999999,
+      "finalRecognitionLagMs": 350.7952000000005,
+      "finalTranslationLagMs": 597.0424999999996,
+      "finals": [
+        {
+          "text": "we decided to release the new version next monday",
+          "start": 0,
+          "end": 3.425,
+          "receivedMs": 3863.3287
+        }
+      ],
+      "translated": [
+        {
+          "text": "我们决定下周一发布新版本",
+          "arrivedMs": 4109.546899999999,
+          "ms": 245.54460000000108
+        }
+      ]
+    },
+    {
+      "id": "8-zh",
+      "group": "硬件与技术",
+      "source": "这台服务器有八张 V100 显卡，每张显存三十二 GB。",
+      "seconds": 6.24,
+      "feedWallMs": 6308.987300000001,
+      "firstPartialMs": 736.6918000000005,
+      "firstTranslationMs": 7815.180400000001,
+      "finalRecognitionLagMs": 580.803100000001,
+      "finalTranslationLagMs": 1506.2239000000009,
+      "finals": [
+        {
+          "text": "这台服务器有8张 V100显卡每张显存32GB",
+          "start": 0,
+          "end": 6.24,
+          "receivedMs": 6889.790400000002
+        }
+      ],
+      "translated": [
+        {
+          "text": "There are eight servers on this one. V100 Each card is visible. 32GB",
+          "arrivedMs": 7815.180400000001,
+          "ms": 924.6959999999999
+        }
+      ]
+    },
+    {
+      "id": "8-en",
+      "group": "硬件与技术",
+      "source": "This server has eight V100 graphics cards, each with 32 GB of memory.",
+      "seconds": 6.16,
+      "feedWallMs": 6214.529400000003,
+      "firstPartialMs": 443.29569999999876,
+      "firstTranslationMs": 7393.778300000002,
+      "finalRecognitionLagMs": 598.538999999997,
+      "finalTranslationLagMs": 1179.2839999999997,
+      "finals": [
+        {
+          "text": "this server has 8 V100 graphics cards each with 32GB of memory",
+          "start": 0,
+          "end": 6.16,
+          "receivedMs": 6813.0684
+        }
+      ],
+      "translated": [
+        {
+          "text": "此服务器有 8 V100 显卡, 每个有 32GB 显存",
+          "arrivedMs": 7393.778300000002,
+          "ms": 580.0815999999977
+        }
+      ]
+    },
+    {
+      "id": "18-zh",
+      "group": "长句字幕",
+      "source": "为了保护用户隐私，我们在本地处理全部音频，并且只有用户点击导出后才会保存会议记录。",
+      "seconds": 10.055,
+      "feedWallMs": 10103.068699999996,
+      "firstPartialMs": 727.8819999999978,
+      "firstTranslationMs": 11621.791599999997,
+      "finalRecognitionLagMs": 897.3182000000015,
+      "finalTranslationLagMs": 1518.7521000000052,
+      "finals": [
+        {
+          "text": "为了保护用户隐私我们在本地处理全部音频并且只有用户点击导出后才会保存会议记录",
+          "start": 0,
+          "end": 10.055,
+          "receivedMs": 11000.386899999998
+        }
+      ],
+      "translated": [
+        {
+          "text": "To protect user privacy, we process all audio locally and only store minutes after user clicks export",
+          "arrivedMs": 11621.791599999997,
+          "ms": 620.7249000000011
+        }
+      ]
+    },
+    {
+      "id": "18-en",
+      "group": "长句字幕",
+      "source": "To protect user privacy, we process all audio locally and save meeting records only after the user clicks Export.",
+      "seconds": 7.685,
+      "feedWallMs": 7711.335500000001,
+      "firstPartialMs": 446.9948000000004,
+      "firstTranslationMs": 9111.246,
+      "finalRecognitionLagMs": 716.0612000000037,
+      "finalTranslationLagMs": 1399.9429000000018,
+      "finals": [
+        {
+          "text": "to protect user privacy we process all audio locally and save meeting records only after the user clicks export",
+          "start": 0,
+          "end": 7.685,
+          "receivedMs": 8427.396700000005
+        }
+      ],
+      "translated": [
+        {
+          "text": "以保护用户隐私,我们处理所有本地音频,仅在用户单击导出后保存会议记录",
+          "arrivedMs": 9111.246,
+          "ms": 683.142399999997
+        }
+      ]
+    }
+  ],
+  "memory": {
+    "rss": 93106176,
+    "heapTotal": 7417856,
+    "heapUsed": 5753488,
+    "external": 3136807,
+    "arrayBuffers": 259422
+  }
+}

@@ -27,12 +27,13 @@ internal sealed class VoiceSession : IDisposable {
     readonly List<IntPtr> headers=new List<IntPtr>(),buffers=new List<IntPtr>();
     readonly object captureLock=new object();
     readonly Callback callback;
-    readonly Action<string,string> report;
+    readonly Action<string,string,long> report;
+    readonly Action<long,double,double> timing;
     IntPtr device;
     volatile bool recording;
     int disposed,stopped;
-    internal VoiceSession(Action<string,string> onResult) {report=onResult;callback=OnAudio;}
-    internal async Task Start(int port,string token) {
+    internal VoiceSession(Action<string,string,long> onResult,Action<long,double,double> onTiming=null) {report=onResult;timing=onTiming;callback=OnAudio;}
+    internal async Task Start(int port,string token,uint microphone=0xffffffff) {
         socket.Options.AddSubProtocol("winintel."+token);
         cancel.CancelAfter(5000);
         await socket.ConnectAsync(new Uri("ws://127.0.0.1:"+port+"/ws/voice"),cancel.Token);
@@ -41,7 +42,7 @@ internal sealed class VoiceSession : IDisposable {
         if((string)result["type"]!="started") throw new IOException(result.ContainsKey("error")?(string)result["error"]:"语音模型未就绪");
         cancel.CancelAfter(Timeout.Infinite);
         Format format=new Format {tag=1,channels=1,rate=16000,bytes=32000,align=2,bits=16};
-        Check(waveInOpen(out device,0xffffffff,ref format,callback,UIntPtr.Zero,0x30000));
+        Check(waveInOpen(out device,microphone,ref format,callback,UIntPtr.Zero,0x30000));
         uint size=(uint)Marshal.SizeOf(typeof(Header));
         for(int i=0;i<4;i++) {
             IntPtr buffer=Marshal.AllocHGlobal(3200),header=Marshal.AllocHGlobal((int)size);
@@ -65,7 +66,7 @@ internal sealed class VoiceSession : IDisposable {
             byte[] bytes=new byte[floats.Length*4];Buffer.BlockCopy(floats,0,bytes,0,bytes.Length);
             if(bytes.Length>0 && !audio.TryAdd(bytes)) {
                 recording=false;
-                Task.Run(delegate {report("error","处理速度不足，请停止录音后重试。");Dispose();});
+                Task.Run(delegate {report("error","处理速度不足，请停止录音后重试。",0);Dispose();});
                 return;
             }
             if(recording) waveInAddBuffer(handle,header,(uint)Marshal.SizeOf(typeof(Header)));
@@ -75,7 +76,7 @@ internal sealed class VoiceSession : IDisposable {
     internal void Stop() {
         if(Interlocked.Exchange(ref stopped,1)!=0) return;
         CloseMicrophone();audio.CompleteAdding();
-        cancel.CancelAfter(15000);
+        cancel.CancelAfter(60000);
     }
     void CloseMicrophone() {
         recording=false;
@@ -98,19 +99,21 @@ internal sealed class VoiceSession : IDisposable {
             foreach(byte[] bytes in audio.GetConsumingEnumerable(cancel.Token))
                 await socket.SendAsync(new ArraySegment<byte>(bytes),WebSocketMessageType.Binary,true,cancel.Token);
             await SendControl("finish");
-        } catch(OperationCanceledException) {} catch(Exception e) {report("error",e.Message);Dispose();}
+        } catch(OperationCanceledException) {} catch(Exception e) {report("error",e.Message,0);Dispose();}
     }
     async Task ReceiveLoop() {
         try {
             while(!cancel.IsCancellationRequested) {
                 var result=await Receive(socket,cancel.Token);
                 string kind=(string)result["type"];
-                report(kind,result.ContainsKey("text")?(string)result["text"]:result.ContainsKey("error")?(string)result["error"]:"");
+                if(kind=="final"&&timing!=null&&result.ContainsKey("start")&&result.ContainsKey("end"))
+                    timing(Convert.ToInt64(result["segment"]),Convert.ToDouble(result["start"]),Convert.ToDouble(result["end"]));
+                report(kind,result.ContainsKey("text")?(string)result["text"]:result.ContainsKey("error")?(string)result["error"]:"",result.ContainsKey("segment")?Convert.ToInt64(result["segment"]):0);
                 if(kind=="error" || (result.ContainsKey("finished") && (bool)result["finished"])) break;
             }
-        } catch(OperationCanceledException) {}
-          catch(Exception e) {report("error",e.Message);}
-        finally {Dispose();report("done","");}
+        } catch(OperationCanceledException) {if(Volatile.Read(ref disposed)==0)report("error","整句复核超时，已保留完成的草稿。",0);}
+          catch(Exception e) {report("error",e.Message,0);}
+        finally {Dispose();report("done","",0);}
     }
     internal static async Task<Dictionary<string,object>> Receive(ClientWebSocket client,CancellationToken token) {
         using(MemoryStream data=new MemoryStream()) {

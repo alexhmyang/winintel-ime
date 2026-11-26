@@ -1,0 +1,91 @@
+# text<TAB>space-separated pinyin / English<TAB>frequency
+你好	ni hao	100000
+您好	nin hao	80000
+中国	zhong guo	100000
+中文	zhong wen	100000
+英文	ying wen	90000
+输入法	shu ru fa	100000
+人工智能	ren gong zhi neng	100000
+大模型	da mo xing	100000
+实时识别	shi shi shi bie	90000
+语音输入	yu yin shu ru	100000
+边缘计算	bian yuan ji suan	90000
+本地模型	ben di mo xing	90000
+快速输入	kuai su shu ru	90000
+联想纠错	lian xiang jiu cuo	90000
+数萌	shu meng	100000
+数萌AI	shu meng ai	100000
+服务器	fu wu qi	100000
+部署	bu shu	80000
+性能	xing neng	90000
+测试	ce shi	90000
+谢谢	xie xie	100000
+再见	zai jian	90000
+今天	jin tian	100000
+明天	ming tian	95000
+会议	hui yi	95000
+开会	kai hui	90000
+时间	shi jian	95000
+世界	shi jie	90000
+是	shi	100000
+时	shi	90000
+事	shi	85000
+我	wo	100000
+你	ni	100000
+的	de	100000
+好	hao	100000
+在	zai	100000
+有	you	100000
+我们	wo men	100000
+工作	gong zuo	90000
+生活	sheng huo	90000
+喜欢	xi huan	90000
+可以	ke yi	90000
+这是	zhe shi	90000
+这是一个	zhe shi yi ge	95000
+这是一个测试	zhe shi yi ge ce shi	100000
+我想	wo xiang	95000
+我想部署	wo xiang bu shu	100000
+天气	tian qi	90000
+北京	bei jing	90000
+上海	shang hai	90000
+深圳	shen zhen	90000
+西安	xi an	90000
+先	xian	85000
+女	nv	80000
+努力	nu li	80000
+男女	nan nv	80000
+hello	hello	100000
+help	help	90000
+world	world	100000
+welcome	welcome	90000
+server	server	100000
+service	service	95000
+deploy	deploy	95000
+deployment	deployment	90000
+performance	performance	100000
+benchmark	benchmark	95000
+inference	inference	100000
+intelligence	intelligence	95000
+artificial	artificial	95000
+language	language	95000
+model	model	100000
+meeting	meeting	95000
+tomorrow	tomorrow	95000
+thanks	thanks	95000
+thank you	thankyou	95000
+correction	correction	90000
+recognition	recognition	90000
+streaming	streaming	95000
+input	input	100000
+keyboard	keyboard	90000
+winintel AI	winintel	100000
+DeepSeek	deepseek	100000
+vLLM	vllm	100000
+NVLink	nvlink	100000
+ONNX	onnx	100000
+GitHub	github	100000
+Ubuntu	ubuntu	100000
+Windows	windows	100000
+Python	python	100000
+JavaScript	javascript	100000

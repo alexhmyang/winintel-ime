@@ -1,0 +1,1889 @@
+{
+    "name":  "stream",
+    "loadMs":  929.267,
+    "rows":  [
+                 {
+                     "id":  "0-zh",
+                     "group":  "日常交流",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "你好，请问附近哪里有地铁站？",
+                     "raw":  "你好请问附近哪里有地铁站",
+                     "formatted":  "你好请问附近哪里有地铁站",
+                     "errors":  0,
+                     "chars":  12,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  3.895,
+                     "ms":  313.66855,
+                     "runs":  [
+                                  310.7358999999999,
+                                  316.60120000000006
+                              ],
+                     "rtf":  0.0805310783055199,
+                     "firstPartialMs":  26.968000000000075,
+                     "finals":  [
+                                    {
+                                        "text":  "你好请问附近哪里有地铁站",
+                                        "start":  0,
+                                        "end":  3.895
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "0-en",
+                     "group":  "日常交流",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Hello, where is the nearest subway station?",
+                     "raw":  "hello where is the nearest subway station",
+                     "formatted":  "hello where is the nearest subway station",
+                     "errors":  0,
+                     "chars":  35,
+                     "wordErrors":  0,
+                     "words":  7,
+                     "seconds":  3.485,
+                     "ms":  290.90859999999975,
+                     "runs":  [
+                                  293.7743999999998,
+                                  288.0427999999997
+                              ],
+                     "rtf":  0.08347449067431843,
+                     "firstPartialMs":  13.883299999999963,
+                     "finals":  [
+                                    {
+                                        "text":  "hello where is the nearest subway station",
+                                        "start":  0,
+                                        "end":  3.485
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "1-zh",
+                     "group":  "日常交流",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "我想订一间双人房，住三个晚上。",
+                     "raw":  "我想订一间双人房住3个晚上",
+                     "formatted":  "我想订一间双人房住3个晚上",
+                     "errors":  0,
+                     "chars":  13,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  4.35,
+                     "ms":  534.51515,
+                     "runs":  [
+                                  338.4560999999999,
+                                  730.5742
+                              ],
+                     "rtf":  0.12287704597701149,
+                     "firstPartialMs":  28.351599999999962,
+                     "finals":  [
+                                    {
+                                        "text":  "我想订一间双人房住3个晚上",
+                                        "start":  0,
+                                        "end":  4.35
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "1-en",
+                     "group":  "日常交流",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "I would like to book a double room for three nights.",
+                     "raw":  "i would like to book a double room for three nights",
+                     "formatted":  "i would like to book a double room for three nights",
+                     "errors":  0,
+                     "chars":  41,
+                     "wordErrors":  0,
+                     "words":  11,
+                     "seconds":  3.185,
+                     "ms":  576.5786,
+                     "runs":  [
+                                  577.5245,
+                                  575.6327000000001
+                              ],
+                     "rtf":  0.18102938775510205,
+                     "firstPartialMs":  27.944499999999607,
+                     "finals":  [
+                                    {
+                                        "text":  "i would like to book a double room for three nights",
+                                        "start":  0,
+                                        "end":  3.185
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "2-zh",
+                     "group":  "日常交流",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "请把这份文件发到我的邮箱。",
+                     "raw":  "请把这份文件发到我的邮箱",
+                     "formatted":  "请把这份文件发到我的邮箱",
+                     "errors":  0,
+                     "chars":  12,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  3.46,
+                     "ms":  631.2518,
+                     "runs":  [
+                                  631.0276000000003,
+                                  631.4759999999997
+                              ],
+                     "rtf":  0.1824427167630058,
+                     "firstPartialMs":  50.94980000000032,
+                     "finals":  [
+                                    {
+                                        "text":  "请把这份文件发到我的邮箱",
+                                        "start":  0,
+                                        "end":  3.46
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "2-en",
+                     "group":  "日常交流",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Please send this document to my email address.",
+                     "raw":  "please send this document to my email address",
+                     "formatted":  "please send this document to my email address",
+                     "errors":  0,
+                     "chars":  38,
+                     "wordErrors":  0,
+                     "words":  8,
+                     "seconds":  3.49,
+                     "ms":  650.9208999999996,
+                     "runs":  [
+                                  657.3858999999993,
+                                  644.4558999999999
+                              ],
+                     "rtf":  0.18651028653295115,
+                     "firstPartialMs":  26.817000000000007,
+                     "finals":  [
+                                    {
+                                        "text":  "please send this document to my email address",
+                                        "start":  0,
+                                        "end":  3.49
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "3-zh",
+                     "group":  "日常交流",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "这道菜不要放辣椒，我对花生过敏。",
+                     "raw":  "这道菜不要放辣椒我对花生过敏",
+                     "formatted":  "这道菜不要放辣椒我对花生过敏",
+                     "errors":  0,
+                     "chars":  14,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  4.345,
+                     "ms":  759.6896999999999,
+                     "runs":  [
+                                  760.5670999999993,
+                                  758.8123000000005
+                              ],
+                     "rtf":  0.17484227848101264,
+                     "firstPartialMs":  53.60599999999977,
+                     "finals":  [
+                                    {
+                                        "text":  "这道菜不要放辣椒我对花生过敏",
+                                        "start":  0,
+                                        "end":  4.345
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "3-en",
+                     "group":  "日常交流",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Please do not add chili to this dish. I am allergic to peanuts.",
+                     "raw":  "please do not add chili to this dish i am allergic to peanuts",
+                     "formatted":  "please do not add chili to this dish i am allergic to peanuts",
+                     "errors":  0,
+                     "chars":  49,
+                     "wordErrors":  0,
+                     "words":  13,
+                     "seconds":  5.125,
+                     "ms":  889.0032499999998,
+                     "runs":  [
+                                  886.7121999999999,
+                                  891.2942999999996
+                              ],
+                     "rtf":  0.17346404878048777,
+                     "firstPartialMs":  28.842599999999948,
+                     "finals":  [
+                                    {
+                                        "text":  "please do not add chili to this dish i am allergic to peanuts",
+                                        "start":  0,
+                                        "end":  5.125
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "4-zh",
+                     "group":  "会议与待办",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "我们决定下周一发布新版本。",
+                     "raw":  "我们决定下周一发布新版本",
+                     "formatted":  "我们决定下周一发布新版本",
+                     "errors":  0,
+                     "chars":  12,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  3.565,
+                     "ms":  656.7999,
+                     "runs":  [
+                                  658.4958999999999,
+                                  655.1039000000001
+                              ],
+                     "rtf":  0.18423559607293127,
+                     "firstPartialMs":  31.91830000000118,
+                     "finals":  [
+                                    {
+                                        "text":  "我们决定下周一发布新版本",
+                                        "start":  0,
+                                        "end":  3.565
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "4-en",
+                     "group":  "会议与待办",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "We decided to release the new version next Monday.",
+                     "raw":  "we decided to release the new version next monday",
+                     "formatted":  "we decided to release the new version next monday",
+                     "errors":  0,
+                     "chars":  41,
+                     "wordErrors":  0,
+                     "words":  9,
+                     "seconds":  3.425,
+                     "ms":  602.6786500000007,
+                     "runs":  [
+                                  604.7445000000007,
+                                  600.6128000000008
+                              ],
+                     "rtf":  0.17596456934306592,
+                     "firstPartialMs":  26.246900000000096,
+                     "finals":  [
+                                    {
+                                        "text":  "we decided to release the new version next monday",
+                                        "start":  0,
+                                        "end":  3.425
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "5-zh",
+                     "group":  "会议与待办",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "测试由张伟负责，截止时间是星期五下午。",
+                     "raw":  "测试由张伟负责截止时间是星期五下午",
+                     "formatted":  "测试由张伟负责截止时间是星期五下午",
+                     "errors":  0,
+                     "chars":  17,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  5.19,
+                     "ms":  1014.0228999999999,
+                     "runs":  [
+                                  935.4984999999997,
+                                  1092.5473000000002
+                              ],
+                     "rtf":  0.1953801348747591,
+                     "firstPartialMs":  26.521099999999933,
+                     "finals":  [
+                                    {
+                                        "text":  "测试由张伟负责截止时间是星期五下午",
+                                        "start":  0,
+                                        "end":  5.19
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "5-en",
+                     "group":  "会议与待办",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Zhang Wei is responsible for testing. The deadline is Friday afternoon.",
+                     "raw":  "jihang wei is responsible for testing the deadline is friday afternoon",
+                     "formatted":  "jihang wei is responsible for testing the deadline is friday afternoon",
+                     "errors":  2,
+                     "chars":  59,
+                     "wordErrors":  1,
+                     "words":  11,
+                     "seconds":  5.63,
+                     "ms":  1104.8474499999993,
+                     "runs":  [
+                                  1185.0046999999977,
+                                  1024.690200000001
+                              ],
+                     "rtf":  0.1962428863232681,
+                     "firstPartialMs":  34.53650000000016,
+                     "finals":  [
+                                    {
+                                        "text":  "jihang wei is responsible for testing the deadline is friday afternoon",
+                                        "start":  0,
+                                        "end":  5.63
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "6-zh",
+                     "group":  "会议与待办",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "今天的会议讨论预算、交付时间和质量问题。",
+                     "raw":  "今天的会议讨论预算交付时间和质量问题",
+                     "formatted":  "今天的会议讨论预算交付时间和质量问题",
+                     "errors":  0,
+                     "chars":  18,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  5.32,
+                     "ms":  1042.9025500000007,
+                     "runs":  [
+                                  960.9654999999984,
+                                  1124.839600000003
+                              ],
+                     "rtf":  0.19603431390977455,
+                     "firstPartialMs":  28.796800000000076,
+                     "finals":  [
+                                    {
+                                        "text":  "今天的会议讨论预算交付时间和质量问题",
+                                        "start":  0,
+                                        "end":  5.32
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "6-en",
+                     "group":  "会议与待办",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Today\u0027s meeting covers the budget, delivery schedule, and quality issues.",
+                     "raw":  "today\u0027s meeting covers the budget delivery schedule and quality issues",
+                     "formatted":  "today\u0027s meeting covers the budget delivery schedule and quality issues",
+                     "errors":  0,
+                     "chars":  60,
+                     "wordErrors":  0,
+                     "words":  11,
+                     "seconds":  4.875,
+                     "ms":  944.9350999999988,
+                     "runs":  [
+                                  949.8943999999974,
+                                  939.9758000000002
+                              ],
+                     "rtf":  0.19383284102564077,
+                     "firstPartialMs":  38.24289999999746,
+                     "finals":  [
+                                    {
+                                        "text":  "today\u0027s meeting covers the budget delivery schedule and quality issues",
+                                        "start":  0,
+                                        "end":  4.875
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "7-zh",
+                     "group":  "会议与待办",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "请确认客户需求，然后更新项目计划。",
+                     "raw":  "请确认客户需求然后更新项目计划",
+                     "formatted":  "请确认客户需求然后更新项目计划",
+                     "errors":  0,
+                     "chars":  15,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  4.83,
+                     "ms":  1008.8647500000006,
+                     "runs":  [
+                                  994.7950999999994,
+                                  1022.9344000000019
+                              ],
+                     "rtf":  0.20887468944099388,
+                     "firstPartialMs":  82.78939999999784,
+                     "finals":  [
+                                    {
+                                        "text":  "请确认客户需求然后更新项目计划",
+                                        "start":  0,
+                                        "end":  4.83
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "7-en",
+                     "group":  "会议与待办",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Please confirm the customer\u0027s requirements and then update the project plan.",
+                     "raw":  "please confirm the customer\u0027s requirements and then update the project plan",
+                     "formatted":  "please confirm the customer\u0027s requirements and then update the project plan",
+                     "errors":  0,
+                     "chars":  64,
+                     "wordErrors":  0,
+                     "words":  12,
+                     "seconds":  4.795,
+                     "ms":  739.9774499999985,
+                     "runs":  [
+                                  945.5521999999983,
+                                  534.4026999999987
+                              ],
+                     "rtf":  0.15432272158498406,
+                     "firstPartialMs":  60.489599999997154,
+                     "finals":  [
+                                    {
+                                        "text":  "please confirm the customer\u0027s requirements and then update the project plan",
+                                        "start":  0,
+                                        "end":  4.795
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "8-zh",
+                     "group":  "硬件与技术",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "这台服务器有八张 V100 显卡，每张显存三十二 GB。",
+                     "raw":  "这台服务器有8张 V100显卡每张显存32GB",
+                     "formatted":  "这台服务器有8张 V100显卡每张显存32GB",
+                     "errors":  0,
+                     "chars":  22,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  6.24,
+                     "ms":  626.8335000000006,
+                     "runs":  [
+                                  580.2034999999996,
+                                  673.4635000000017
+                              ],
+                     "rtf":  0.10045408653846163,
+                     "firstPartialMs":  31.23280000000159,
+                     "finals":  [
+                                    {
+                                        "text":  "这台服务器有8张 V100显卡每张显存32GB",
+                                        "start":  0,
+                                        "end":  6.24
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "8-en",
+                     "group":  "硬件与技术",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "This server has eight V100 graphics cards, each with 32 GB of memory.",
+                     "raw":  "this server has 8 V100 graphics cards each with 32GB of memory",
+                     "formatted":  "this server has 8 V100 graphics cards each with 32GB of memory",
+                     "errors":  5,
+                     "chars":  55,
+                     "wordErrors":  1,
+                     "words":  12,
+                     "seconds":  6.16,
+                     "ms":  536.7652999999991,
+                     "runs":  [
+                                  571.931099999998,
+                                  501.59950000000026
+                              ],
+                     "rtf":  0.08713722402597388,
+                     "firstPartialMs":  25.1208000000006,
+                     "finals":  [
+                                    {
+                                        "text":  "this server has 8 V100 graphics cards each with 32GB of memory",
+                                        "start":  0,
+                                        "end":  6.16
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "9-zh",
+                     "group":  "硬件与技术",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "使用 NVLink 连接显卡，网络带宽是五十六 Gbps。",
+                     "raw":  "使用 m v link 连接显卡网络带宽是56GBps",
+                     "formatted":  "使用 m v link 连接显卡网络带宽是56GBps",
+                     "errors":  1,
+                     "chars":  23,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  6.265,
+                     "ms":  535.5835499999994,
+                     "runs":  [
+                                  528.5131000000001,
+                                  542.6539999999986
+                              ],
+                     "rtf":  0.08548819632881076,
+                     "firstPartialMs":  29.103299999998853,
+                     "finals":  [
+                                    {
+                                        "text":  "使用 m v link 连接显卡网络带宽是56GBps",
+                                        "start":  0,
+                                        "end":  6.265
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "9-en",
+                     "group":  "硬件与技术",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Connect the graphics cards using NVLink. The network bandwidth is 56 Gbps.",
+                     "raw":  "connect the graphics cards using envlink the network bandwidth is 56Gbps",
+                     "formatted":  "connect the graphics cards using envlink the network bandwidth is 56Gbps",
+                     "errors":  1,
+                     "chars":  61,
+                     "wordErrors":  1,
+                     "words":  11,
+                     "seconds":  6.78,
+                     "ms":  576.1360999999997,
+                     "runs":  [
+                                  562.1818999999996,
+                                  590.0902999999998
+                              ],
+                     "rtf":  0.08497582595870203,
+                     "firstPartialMs":  16.120600000002014,
+                     "finals":  [
+                                    {
+                                        "text":  "connect the graphics cards using envlink the network bandwidth is 56Gbps",
+                                        "start":  0,
+                                        "end":  6.78
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "10-zh",
+                     "group":  "硬件与技术",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "我们在 CPU 上运行离线语音识别，不使用 GPU。",
+                     "raw":  "我们在 c p u 上运行离线语音识别不使用 g p u",
+                     "formatted":  "我们在 c p u 上运行离线语音识别不使用 g p u",
+                     "errors":  0,
+                     "chars":  21,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  5.975,
+                     "ms":  498.3590499999991,
+                     "runs":  [
+                                  497.10469999999987,
+                                  499.61339999999836
+                              ],
+                     "rtf":  0.0834073723849371,
+                     "firstPartialMs":  15.684000000001106,
+                     "finals":  [
+                                    {
+                                        "text":  "我们在 c p u 上运行离线语音识别不使用 g p u",
+                                        "start":  0,
+                                        "end":  5.975
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "10-en",
+                     "group":  "硬件与技术",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "We run offline speech recognition on the CPU without using a GPU.",
+                     "raw":  "we run offline speech recognition on the cpu without using a gpu",
+                     "formatted":  "we run offline speech recognition on the cpu without using a gpu",
+                     "errors":  0,
+                     "chars":  53,
+                     "wordErrors":  0,
+                     "words":  12,
+                     "seconds":  5.03,
+                     "ms":  416.72569999999905,
+                     "runs":  [
+                                  413.9300000000003,
+                                  419.5213999999978
+                              ],
+                     "rtf":  0.08284805168986063,
+                     "firstPartialMs":  16.72139999999854,
+                     "finals":  [
+                                    {
+                                        "text":  "we run offline speech recognition on the cpu without using a gpu",
+                                        "start":  0,
+                                        "end":  5.03
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "11-zh",
+                     "group":  "硬件与技术",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "部署 DeepSeek 模型后，使用 vLLM 测试并发性能。",
+                     "raw":  "部署 deep c 模型后使用 v l l m 测试并发性能",
+                     "formatted":  "部署 deep c 模型后使用 v l l m 测试并发性能",
+                     "errors":  4,
+                     "chars":  25,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  5.99,
+                     "ms":  469.5709999999999,
+                     "runs":  [
+                                  468.60949999999866,
+                                  470.53250000000116
+                              ],
+                     "rtf":  0.07839248747913187,
+                     "firstPartialMs":  14.405399999999645,
+                     "finals":  [
+                                    {
+                                        "text":  "部署 deep c 模型后使用 v l l m 测试并发性能",
+                                        "start":  0,
+                                        "end":  5.99
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "11-en",
+                     "group":  "硬件与技术",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "After deploying the DeepSeek model, use vLLM to test concurrent performance.",
+                     "raw":  "after deploying the deepse model use vlllm to test concurrent performance",
+                     "formatted":  "after deploying the deepse model use vlllm to test concurrent performance",
+                     "errors":  3,
+                     "chars":  64,
+                     "wordErrors":  2,
+                     "words":  11,
+                     "seconds":  5.815,
+                     "ms":  480.1944000000003,
+                     "runs":  [
+                                  471.03080000000045,
+                                  489.3580000000002
+                              ],
+                     "rtf":  0.0825785726569218,
+                     "firstPartialMs":  14.879499999999098,
+                     "finals":  [
+                                    {
+                                        "text":  "after deploying the deepse model use vlllm to test concurrent performance",
+                                        "start":  0,
+                                        "end":  5.815
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "12-zh",
+                     "group":  "数字与交易",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "订单总金额是一千二百五十元，包含运费。",
+                     "raw":  "订单总金额是1250元包含运费",
+                     "formatted":  "订单总金额是1250元包含运费",
+                     "errors":  0,
+                     "chars":  15,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  5.055,
+                     "ms":  399.81844999999885,
+                     "runs":  [
+                                  395.7304000000004,
+                                  403.9064999999973
+                              ],
+                     "rtf":  0.07909365974282866,
+                     "firstPartialMs":  27.017299999999523,
+                     "finals":  [
+                                    {
+                                        "text":  "订单总金额是1250元包含运费",
+                                        "start":  0,
+                                        "end":  5.055
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "12-en",
+                     "group":  "数字与交易",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "The total order amount is 1250 yuan, including shipping.",
+                     "raw":  "the total order amount is 1250 yuan including shipping",
+                     "formatted":  "the total order amount is 1250 yuan including shipping",
+                     "errors":  0,
+                     "chars":  46,
+                     "wordErrors":  0,
+                     "words":  9,
+                     "seconds":  5.795,
+                     "ms":  447.6260500000026,
+                     "runs":  [
+                                  447.290700000005,
+                                  447.96140000000014
+                              ],
+                     "rtf":  0.07724349439171743,
+                     "firstPartialMs":  15.036299999999756,
+                     "finals":  [
+                                    {
+                                        "text":  "the total order amount is 1250 yuan including shipping",
+                                        "start":  0,
+                                        "end":  5.795
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "13-zh",
+                     "group":  "数字与交易",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "请在十一月二十五日上午九点半参加会议。",
+                     "raw":  "请在11月25日上午九点半参加会议",
+                     "formatted":  "请在11月25日上午九点半参加会议",
+                     "errors":  0,
+                     "chars":  17,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  4.73,
+                     "ms":  381.7489499999974,
+                     "runs":  [
+                                  384.54709999999614,
+                                  378.9507999999987
+                              ],
+                     "rtf":  0.0807080232558134,
+                     "firstPartialMs":  32.28940000000148,
+                     "finals":  [
+                                    {
+                                        "text":  "请在11月25日上午九点半参加会议",
+                                        "start":  0,
+                                        "end":  4.73
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "13-en",
+                     "group":  "数字与交易",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Please attend the meeting at 9:30 AM on November 25.",
+                     "raw":  "please attend the meeting at 930 am on november 25",
+                     "formatted":  "please attend the meeting at 930 am on november 25",
+                     "errors":  0,
+                     "chars":  41,
+                     "wordErrors":  2,
+                     "words":  11,
+                     "seconds":  4.495,
+                     "ms":  358.5693500000016,
+                     "runs":  [
+                                  363.7251000000033,
+                                  353.41359999999986
+                              ],
+                     "rtf":  0.07977071190211381,
+                     "firstPartialMs":  14.657800000000861,
+                     "finals":  [
+                                    {
+                                        "text":  "please attend the meeting at 930 am on november 25",
+                                        "start":  0,
+                                        "end":  4.495
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "14-zh",
+                     "group":  "数字与交易",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "温度从二十五度上升到三十八度。",
+                     "raw":  "温度从25度上升到38度",
+                     "formatted":  "温度从25度上升到38度",
+                     "errors":  0,
+                     "chars":  12,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  3.9,
+                     "ms":  313.51834999999846,
+                     "runs":  [
+                                  314.4042999999947,
+                                  312.63240000000224
+                              ],
+                     "rtf":  0.08038932051282012,
+                     "firstPartialMs":  30.08179999999993,
+                     "finals":  [
+                                    {
+                                        "text":  "温度从25度上升到38度",
+                                        "start":  0,
+                                        "end":  3.9
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "14-en",
+                     "group":  "数字与交易",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "The temperature rose from 25 degrees to 38 degrees.",
+                     "raw":  "the temperature rose from 25 degrees to 38 degrees",
+                     "formatted":  "the temperature rose from 25 degrees to 38 degrees",
+                     "errors":  0,
+                     "chars":  42,
+                     "wordErrors":  0,
+                     "words":  9,
+                     "seconds":  4.435,
+                     "ms":  361.80005000000165,
+                     "runs":  [
+                                  369.3608000000022,
+                                  354.2393000000011
+                              ],
+                     "rtf":  0.08157836527621233,
+                     "firstPartialMs":  15.013800000000629,
+                     "finals":  [
+                                    {
+                                        "text":  "the temperature rose from 25 degrees to 38 degrees",
+                                        "start":  0,
+                                        "end":  4.435
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "15-zh",
+                     "group":  "数字与交易",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "这个季度收入增长了百分之十二点五。",
+                     "raw":  "这个季度收入增长了百分之12.5",
+                     "formatted":  "这个季度收入增长了百分之12.5",
+                     "errors":  0,
+                     "chars":  15,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  4.09,
+                     "ms":  332.7729999999974,
+                     "runs":  [
+                                  332.76229999999487,
+                                  332.78369999999995
+                              ],
+                     "rtf":  0.08136259168704094,
+                     "firstPartialMs":  15.033899999994901,
+                     "finals":  [
+                                    {
+                                        "text":  "这个季度收入增长了百分之12.5",
+                                        "start":  0,
+                                        "end":  4.09
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "15-en",
+                     "group":  "数字与交易",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Revenue increased by 12.5 percent this quarter.",
+                     "raw":  "revenue increased by 125 this quarter",
+                     "formatted":  "revenue increased by 125 this quarter",
+                     "errors":  7,
+                     "chars":  39,
+                     "wordErrors":  3,
+                     "words":  8,
+                     "seconds":  4.145,
+                     "ms":  335.66159999999945,
+                     "runs":  [
+                                  330.21429999999964,
+                                  341.10889999999927
+                              ],
+                     "rtf":  0.08097987937273811,
+                     "firstPartialMs":  14.475800000000163,
+                     "finals":  [
+                                    {
+                                        "text":  "revenue increased by 125 this quarter",
+                                        "start":  0,
+                                        "end":  4.145
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "16-zh",
+                     "group":  "否定与逻辑",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "不要删除原始文件，只删除临时文件。",
+                     "raw":  "不要删除原始文件只删除临时文件",
+                     "formatted":  "不要删除原始文件只删除临时文件",
+                     "errors":  0,
+                     "chars":  15,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  4.715,
+                     "ms":  377.4143499999991,
+                     "runs":  [
+                                  377.90350000000035,
+                                  376.92519999999786
+                              ],
+                     "rtf":  0.0800454612937432,
+                     "firstPartialMs":  14.499199999998382,
+                     "finals":  [
+                                    {
+                                        "text":  "不要删除原始文件只删除临时文件",
+                                        "start":  0,
+                                        "end":  4.715
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "16-en",
+                     "group":  "否定与逻辑",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Do not delete the original files. Only delete the temporary files.",
+                     "raw":  "do not delete the original files only delete the temporary files",
+                     "formatted":  "do not delete the original files only delete the temporary files",
+                     "errors":  0,
+                     "chars":  54,
+                     "wordErrors":  0,
+                     "words":  11,
+                     "seconds":  5.565,
+                     "ms":  428.3197999999975,
+                     "runs":  [
+                                  424.8330999999962,
+                                  431.8064999999988
+                              ],
+                     "rtf":  0.076966720575022,
+                     "firstPartialMs":  13.728499999997439,
+                     "finals":  [
+                                    {
+                                        "text":  "do not delete the original files only delete the temporary files",
+                                        "start":  0,
+                                        "end":  5.565
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "17-zh",
+                     "group":  "否定与逻辑",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "如果测试没有通过，就不能发布。",
+                     "raw":  "如果测试没有通过就不能发布",
+                     "formatted":  "如果测试没有通过就不能发布",
+                     "errors":  0,
+                     "chars":  13,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  4.155,
+                     "ms":  332.4445499999965,
+                     "runs":  [
+                                  331.63439999999537,
+                                  333.2546999999977
+                              ],
+                     "rtf":  0.0800107220216598,
+                     "firstPartialMs":  14.121899999998277,
+                     "finals":  [
+                                    {
+                                        "text":  "如果测试没有通过就不能发布",
+                                        "start":  0,
+                                        "end":  4.155
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "17-en",
+                     "group":  "否定与逻辑",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "If the tests fail, we cannot release the software.",
+                     "raw":  "if the tests fail we cannot release the software",
+                     "formatted":  "if the tests fail we cannot release the software",
+                     "errors":  0,
+                     "chars":  40,
+                     "wordErrors":  0,
+                     "words":  9,
+                     "seconds":  4,
+                     "ms":  321.96789999999964,
+                     "runs":  [
+                                  328.2416999999987,
+                                  315.6941000000006
+                              ],
+                     "rtf":  0.08049197499999991,
+                     "firstPartialMs":  14.462200000001758,
+                     "finals":  [
+                                    {
+                                        "text":  "if the tests fail we cannot release the software",
+                                        "start":  0,
+                                        "end":  4
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "18-zh",
+                     "group":  "长句字幕",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "为了保护用户隐私，我们在本地处理全部音频，并且只有用户点击导出后才会保存会议记录。",
+                     "raw":  "为了保护用户隐私我们在本地处理全部音频并且只有用户点击导出后才会保存会议记录",
+                     "formatted":  "为了保护用户隐私我们在本地处理全部音频并且只有用户点击导出后才会保存会议记录",
+                     "errors":  0,
+                     "chars":  38,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  10.055,
+                     "ms":  852.5589999999975,
+                     "runs":  [
+                                  800.3316999999952,
+                                  904.7862999999998
+                              ],
+                     "rtf":  0.08478955743411214,
+                     "firstPartialMs":  29.74989999999525,
+                     "finals":  [
+                                    {
+                                        "text":  "为了保护用户隐私我们在本地处理全部音频并且只有用户点击导出后才会保存会议记录",
+                                        "start":  0,
+                                        "end":  10.055
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "18-en",
+                     "group":  "长句字幕",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "To protect user privacy, we process all audio locally and save meeting records only after the user clicks Export.",
+                     "raw":  "to protect user privacy we process all audio locally and save meeting records only after the user clicks export",
+                     "formatted":  "to protect user privacy we process all audio locally and save meeting records only after the user clicks export",
+                     "errors":  0,
+                     "chars":  93,
+                     "wordErrors":  0,
+                     "words":  19,
+                     "seconds":  7.685,
+                     "ms":  625.4647999999979,
+                     "runs":  [
+                                  611.7518999999957,
+                                  639.1777000000002
+                              ],
+                     "rtf":  0.08138774235523721,
+                     "firstPartialMs":  14.756600000000617,
+                     "finals":  [
+                                    {
+                                        "text":  "to protect user privacy we process all audio locally and save meeting records only after the user clicks export",
+                                        "start":  0,
+                                        "end":  7.685
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "19-zh",
+                     "group":  "长句字幕",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "虽然新的识别模型准确率更高，但是在普通电脑上运行速度较慢，所以我们先保留快速模型，再对完整句子进行复核。",
+                     "raw":  "虽然新的识别模型准确率更高但是在普通电脑上运行速度较慢所以我们先保留快速模型再对完整句子进行复合",
+                     "formatted":  "虽然新的识别模型准确率更高但是在普通电脑上运行速度较慢所以我们先保留快速模型再对完整句子进行复合",
+                     "errors":  1,
+                     "chars":  48,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  13.24,
+                     "ms":  1002.7420999999995,
+                     "runs":  [
+                                  992.9195000000036,
+                                  1012.5646999999954
+                              ],
+                     "rtf":  0.07573580815709965,
+                     "firstPartialMs":  27.92750000000524,
+                     "finals":  [
+                                    {
+                                        "text":  "虽然新的识别模型准确率更高但是在普通电脑上运行速度较慢所以我们先保留快速模型再对完整句子进行复合",
+                                        "start":  0,
+                                        "end":  13.24
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "19-en",
+                     "group":  "长句字幕",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Although the new recognition model is more accurate, it runs more slowly on ordinary computers, so we keep the fast model and then review complete sentences.",
+                     "raw":  "although the new recognition model is more accurate it runs more slowly on ordinary computers so we keep the fast model and then review complete sentences",
+                     "formatted":  "although the new recognition model is more accurate it runs more slowly on ordinary computers so we keep the fast model and then review complete sentences",
+                     "errors":  0,
+                     "chars":  129,
+                     "wordErrors":  0,
+                     "words":  26,
+                     "seconds":  10.05,
+                     "ms":  765.1369000000013,
+                     "runs":  [
+                                  769.3866000000053,
+                                  760.8871999999974
+                              ],
+                     "rtf":  0.07613302487562201,
+                     "firstPartialMs":  15.241100000006554,
+                     "finals":  [
+                                    {
+                                        "text":  "although the new recognition model is more accurate it runs more slowly on ordinary computers so we keep the fast model and then review complete sentences",
+                                        "start":  0,
+                                        "end":  10.05
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "20-zh",
+                     "group":  "中英混说",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "请打开 Windows 设置，检查 microphone 权限，然后重新启动。",
+                     "raw":  "请打开 windows 设置检查 microphone 权限然后重新启动",
+                     "formatted":  "请打开 windows 设置检查 microphone 权限然后重新启动",
+                     "errors":  0,
+                     "chars":  32,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  6.745,
+                     "ms":  526.9523499999959,
+                     "runs":  [
+                                  523.2791999999972,
+                                  530.6254999999946
+                              ],
+                     "rtf":  0.07812488510007352,
+                     "firstPartialMs":  28.495100000000093,
+                     "finals":  [
+                                    {
+                                        "text":  "请打开 windows 设置检查 microphone 权限然后重新启动",
+                                        "start":  0,
+                                        "end":  6.745
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "20-en",
+                     "group":  "中英混说",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Please open Windows Settings, check microphone permissions, and restart.",
+                     "raw":  "please open windows settings check microphone permissions and restart",
+                     "formatted":  "please open windows settings check microphone permissions and restart",
+                     "errors":  0,
+                     "chars":  61,
+                     "wordErrors":  0,
+                     "words":  9,
+                     "seconds":  5.44,
+                     "ms":  424.2322000000022,
+                     "runs":  [
+                                  430.7540999999983,
+                                  417.7103000000061
+                              ],
+                     "rtf":  0.07798386029411804,
+                     "firstPartialMs":  14.908900000002177,
+                     "finals":  [
+                                    {
+                                        "text":  "please open windows settings check microphone permissions and restart",
+                                        "start":  0,
+                                        "end":  5.44
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "21-zh",
+                     "group":  "中英混说",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "这个项目完全 offline，不需要 API key，也不会上传 audio。",
+                     "raw":  "这个项目完全 offline 不需要 a p i key 也不会上传 audio",
+                     "formatted":  "这个项目完全 offline 不需要 a p i key 也不会上传 audio",
+                     "errors":  0,
+                     "chars":  32,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  6.615,
+                     "ms":  399.22615000000224,
+                     "runs":  [
+                                  393.63980000000447,
+                                  404.8125
+                              ],
+                     "rtf":  0.060351647770219535,
+                     "firstPartialMs":  14.338900000002468,
+                     "finals":  [
+                                    {
+                                        "text":  "这个项目完全 offline 不需要 a p i key",
+                                        "start":  0,
+                                        "end":  4.3
+                                    },
+                                    {
+                                        "text":  "也不会上传 audio",
+                                        "start":  4.3,
+                                        "end":  6.615
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "21-en",
+                     "group":  "中英混说",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "This project is completely offline. It does not need an API key and does not upload audio.",
+                     "raw":  "this project is completely offline do not need an api key and does not upload audio",
+                     "formatted":  "this project is completely offline do not need an api key and does not upload audio",
+                     "errors":  4,
+                     "chars":  72,
+                     "wordErrors":  2,
+                     "words":  17,
+                     "seconds":  7.075,
+                     "ms":  452.31540000000314,
+                     "runs":  [
+                                  456.95530000000144,
+                                  447.67550000000483
+                              ],
+                     "rtf":  0.0639315053003538,
+                     "firstPartialMs":  21.36319999999978,
+                     "finals":  [
+                                    {
+                                        "text":  "this project is completely offline",
+                                        "start":  0,
+                                        "end":  3.3
+                                    },
+                                    {
+                                        "text":  "do not need an api key and does not upload audio",
+                                        "start":  3.3,
+                                        "end":  7.074999999999999
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "22-zh",
+                     "group":  "中英混说",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "今天先做 benchmark，明天再优化 latency 和 throughput。",
+                     "raw":  "今天先做 benchmark 明天 在优化 latency 和 throughput",
+                     "formatted":  "今天先做 benchmark 明天 在优化 latency 和 throughput",
+                     "errors":  1,
+                     "chars":  36,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  5.715,
+                     "ms":  423.1467499999999,
+                     "runs":  [
+                                  369.1947,
+                                  477.09879999999976
+                              ],
+                     "rtf":  0.07404142607174102,
+                     "firstPartialMs":  26.930599999999686,
+                     "finals":  [
+                                    {
+                                        "text":  "今天先做 benchmark 明天",
+                                        "start":  0,
+                                        "end":  2.7
+                                    },
+                                    {
+                                        "text":  "在优化 latency 和 throughput",
+                                        "start":  2.7,
+                                        "end":  5.715
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "22-en",
+                     "group":  "中英混说",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Run the benchmark today, then optimize latency and throughput tomorrow.",
+                     "raw":  "run the benchmark today then optimize latency and throughput tomorrow",
+                     "formatted":  "run the benchmark today then optimize latency and throughput tomorrow",
+                     "errors":  0,
+                     "chars":  60,
+                     "wordErrors":  0,
+                     "words":  10,
+                     "seconds":  5.025,
+                     "ms":  461.24389999999767,
+                     "runs":  [
+                                  437.66070000000036,
+                                  484.82709999999497
+                              ],
+                     "rtf":  0.09178983084577066,
+                     "firstPartialMs":  14.238899999996647,
+                     "finals":  [
+                                    {
+                                        "text":  "run the benchmark today then optimize latency and throughput tomorrow",
+                                        "start":  0,
+                                        "end":  5.025
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "23-zh",
+                     "group":  "中英混说",
+                     "lang":  "zh",
+                     "condition":  "干净",
+                     "expected":  "打开 winintel.com，下载数萌 AI 输入法。",
+                     "raw":  "打开 one until tell 点 com 下载数萌 a i 输入法",
+                     "formatted":  "打开 one until tell 点 com 下载数萌 a i 输入法",
+                     "errors":  8,
+                     "chars":  22,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  5.24,
+                     "ms":  470.62975000000006,
+                     "runs":  [
+                                  497.21630000000005,
+                                  444.04320000000007
+                              ],
+                     "rtf":  0.08981483778625955,
+                     "firstPartialMs":  19.71140000000014,
+                     "finals":  [
+                                    {
+                                        "text":  "打开 one until tell 点 com 下载数萌 a i 输入法",
+                                        "start":  0,
+                                        "end":  5.24
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "23-en",
+                     "group":  "中英混说",
+                     "lang":  "en",
+                     "condition":  "干净",
+                     "expected":  "Open winintel.com and download the winintel AI input method.",
+                     "raw":  "openwinintelcom and download the wineintel ai input method",
+                     "formatted":  "openwinintelcom and download the wineintel ai input method",
+                     "errors":  1,
+                     "chars":  50,
+                     "wordErrors":  4,
+                     "words":  10,
+                     "seconds":  4.695,
+                     "ms":  371.05185000000347,
+                     "runs":  [
+                                  373.7220000000016,
+                                  368.38170000000537
+                              ],
+                     "rtf":  0.0790312779552723,
+                     "firstPartialMs":  14.376499999998487,
+                     "finals":  [
+                                    {
+                                        "text":  "openwinintelcom and download the wineintel ai input method",
+                                        "start":  0,
+                                        "end":  4.695
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "0-zh-noise",
+                     "group":  "日常交流",
+                     "lang":  "zh",
+                     "condition":  "12dB白噪声",
+                     "expected":  "你好，请问附近哪里有地铁站？",
+                     "raw":  "你好请问附近哪里有地铁站",
+                     "formatted":  "你好请问附近哪里有地铁站",
+                     "errors":  0,
+                     "chars":  12,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  3.895,
+                     "ms":  321.69024999999965,
+                     "runs":  [
+                                  318.4858000000022,
+                                  324.8946999999971
+                              ],
+                     "rtf":  0.08259056482670081,
+                     "firstPartialMs":  29.33400000000256,
+                     "finals":  [
+                                    {
+                                        "text":  "你好请问附近哪里有地铁站",
+                                        "start":  0,
+                                        "end":  3.895
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "0-en-noise",
+                     "group":  "日常交流",
+                     "lang":  "en",
+                     "condition":  "12dB白噪声",
+                     "expected":  "Hello, where is the nearest subway station?",
+                     "raw":  "hello where is the nearest subway station",
+                     "formatted":  "hello where is the nearest subway station",
+                     "errors":  0,
+                     "chars":  35,
+                     "wordErrors":  0,
+                     "words":  7,
+                     "seconds":  3.485,
+                     "ms":  293.10199999999895,
+                     "runs":  [
+                                  291.9421999999977,
+                                  294.2618000000002
+                              ],
+                     "rtf":  0.08410387374461951,
+                     "firstPartialMs":  14.53190000000177,
+                     "finals":  [
+                                    {
+                                        "text":  "hello where is the nearest subway station",
+                                        "start":  0,
+                                        "end":  3.485
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "4-zh-noise",
+                     "group":  "会议与待办",
+                     "lang":  "zh",
+                     "condition":  "12dB白噪声",
+                     "expected":  "我们决定下周一发布新版本。",
+                     "raw":  "我们决定下周一发布新版本",
+                     "formatted":  "我们决定下周一发布新版本",
+                     "errors":  0,
+                     "chars":  12,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  3.565,
+                     "ms":  289.1078499999967,
+                     "runs":  [
+                                  288.3246999999974,
+                                  289.890999999996
+                              ],
+                     "rtf":  0.08109617110799346,
+                     "firstPartialMs":  13.982100000001083,
+                     "finals":  [
+                                    {
+                                        "text":  "我们决定下周一发布新版本",
+                                        "start":  0,
+                                        "end":  3.565
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "4-en-noise",
+                     "group":  "会议与待办",
+                     "lang":  "en",
+                     "condition":  "12dB白噪声",
+                     "expected":  "We decided to release the new version next Monday.",
+                     "raw":  "we decided to release the new version next monday",
+                     "formatted":  "we decided to release the new version next monday",
+                     "errors":  0,
+                     "chars":  41,
+                     "wordErrors":  0,
+                     "words":  9,
+                     "seconds":  3.425,
+                     "ms":  290.87374999999884,
+                     "runs":  [
+                                  275.41829999999754,
+                                  306.3292000000001
+                              ],
+                     "rtf":  0.08492664233576608,
+                     "firstPartialMs":  28.63459999999759,
+                     "finals":  [
+                                    {
+                                        "text":  "we decided to release the new version next monday",
+                                        "start":  0,
+                                        "end":  3.425
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "8-zh-noise",
+                     "group":  "硬件与技术",
+                     "lang":  "zh",
+                     "condition":  "12dB白噪声",
+                     "expected":  "这台服务器有八张 V100 显卡，每张显存三十二 GB。",
+                     "raw":  "这台服务器有8张 V100显卡每张显存32G c",
+                     "formatted":  "这台服务器有8张 V100显卡每张显存32G c",
+                     "errors":  1,
+                     "chars":  22,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  6.24,
+                     "ms":  479.8592499999977,
+                     "runs":  [
+                                  483.2245999999941,
+                                  476.4939000000013
+                              ],
+                     "rtf":  0.07690052083333296,
+                     "firstPartialMs":  29.395099999994272,
+                     "finals":  [
+                                    {
+                                        "text":  "这台服务器有8张 V100显卡每张显存32G c",
+                                        "start":  0,
+                                        "end":  6.24
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "8-en-noise",
+                     "group":  "硬件与技术",
+                     "lang":  "en",
+                     "condition":  "12dB白噪声",
+                     "expected":  "This server has eight V100 graphics cards, each with 32 GB of memory.",
+                     "raw":  "this server has 8 V100 graphics cards each with 32GB of memory",
+                     "formatted":  "this server has 8 V100 graphics cards each with 32GB of memory",
+                     "errors":  5,
+                     "chars":  55,
+                     "wordErrors":  1,
+                     "words":  12,
+                     "seconds":  6.16,
+                     "ms":  492.7752500000024,
+                     "runs":  [
+                                  473.7104000000036,
+                                  511.84010000000126
+                              ],
+                     "rtf":  0.07999598214285754,
+                     "firstPartialMs":  27.643400000000838,
+                     "finals":  [
+                                    {
+                                        "text":  "this server has 8 V100 graphics cards each with 32GB of memory",
+                                        "start":  0,
+                                        "end":  6.16
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "12-zh-noise",
+                     "group":  "数字与交易",
+                     "lang":  "zh",
+                     "condition":  "12dB白噪声",
+                     "expected":  "订单总金额是一千二百五十元，包含运费。",
+                     "raw":  "订单总金额是1250元包含运费",
+                     "formatted":  "订单总金额是1250元包含运费",
+                     "errors":  0,
+                     "chars":  15,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  5.055,
+                     "ms":  419.6547999999966,
+                     "runs":  [
+                                  423.3880999999965,
+                                  415.92149999999674
+                              ],
+                     "rtf":  0.08301776458951467,
+                     "firstPartialMs":  28.932499999995343,
+                     "finals":  [
+                                    {
+                                        "text":  "订单总金额是1250元包含运费",
+                                        "start":  0,
+                                        "end":  5.055
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "12-en-noise",
+                     "group":  "数字与交易",
+                     "lang":  "en",
+                     "condition":  "12dB白噪声",
+                     "expected":  "The total order amount is 1250 yuan, including shipping.",
+                     "raw":  "the total order amount is one thousand two hundred and fifty yuan including shipping",
+                     "formatted":  "the total order amount is one thousand two hundred and fifty yuan including shipping",
+                     "errors":  29,
+                     "chars":  46,
+                     "wordErrors":  6,
+                     "words":  9,
+                     "seconds":  5.795,
+                     "ms":  488.68675000000076,
+                     "runs":  [
+                                  488.54989999999816,
+                                  488.82360000000335
+                              ],
+                     "rtf":  0.08432903364969815,
+                     "firstPartialMs":  29.127800000002026,
+                     "finals":  [
+                                    {
+                                        "text":  "the total order amount is one thousand two hundred and fifty yuan including shipping",
+                                        "start":  0,
+                                        "end":  5.795
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "16-zh-noise",
+                     "group":  "否定与逻辑",
+                     "lang":  "zh",
+                     "condition":  "12dB白噪声",
+                     "expected":  "不要删除原始文件，只删除临时文件。",
+                     "raw":  "不要删除原始文件只删除临时文件",
+                     "formatted":  "不要删除原始文件只删除临时文件",
+                     "errors":  0,
+                     "chars":  15,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  4.715,
+                     "ms":  401.1538500000024,
+                     "runs":  [
+                                  422.48129999999946,
+                                  379.8264000000054
+                              ],
+                     "rtf":  0.08508034994697825,
+                     "firstPartialMs":  14.92659999999887,
+                     "finals":  [
+                                    {
+                                        "text":  "不要删除原始文件只删除临时文件",
+                                        "start":  0,
+                                        "end":  4.715
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "16-en-noise",
+                     "group":  "否定与逻辑",
+                     "lang":  "en",
+                     "condition":  "12dB白噪声",
+                     "expected":  "Do not delete the original files. Only delete the temporary files.",
+                     "raw":  "do not delete the original files only delete the temporary files",
+                     "formatted":  "do not delete the original files only delete the temporary files",
+                     "errors":  0,
+                     "chars":  54,
+                     "wordErrors":  0,
+                     "words":  11,
+                     "seconds":  5.565,
+                     "ms":  367.39470000000074,
+                     "runs":  [
+                                  360.8712999999989,
+                                  373.9181000000026
+                              ],
+                     "rtf":  0.06601881401617264,
+                     "firstPartialMs":  138.43299999999726,
+                     "finals":  [
+                                    {
+                                        "text":  "do not delete the original files",
+                                        "start":  0,
+                                        "end":  2.7
+                                    },
+                                    {
+                                        "text":  "only delete the temporary files",
+                                        "start":  2.7,
+                                        "end":  5.565
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "18-zh-noise",
+                     "group":  "长句字幕",
+                     "lang":  "zh",
+                     "condition":  "12dB白噪声",
+                     "expected":  "为了保护用户隐私，我们在本地处理全部音频，并且只有用户点击导出后才会保存会议记录。",
+                     "raw":  "为了保护用户隐私我们在本地处理全部音频并且只有用户点击导出后才会保存会议记录",
+                     "formatted":  "为了保护用户隐私我们在本地处理全部音频并且只有用户点击导出后才会保存会议记录",
+                     "errors":  0,
+                     "chars":  38,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  10.055,
+                     "ms":  759.3562999999995,
+                     "runs":  [
+                                  759.4901000000027,
+                                  759.2224999999962
+                              ],
+                     "rtf":  0.07552026852312277,
+                     "firstPartialMs":  27.838999999999942,
+                     "finals":  [
+                                    {
+                                        "text":  "为了保护用户隐私我们在本地处理全部音频并且只有用户点击导出后才会保存会议记录",
+                                        "start":  0,
+                                        "end":  10.055
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "18-en-noise",
+                     "group":  "长句字幕",
+                     "lang":  "en",
+                     "condition":  "12dB白噪声",
+                     "expected":  "To protect user privacy, we process all audio locally and save meeting records only after the user clicks Export.",
+                     "raw":  "to protect user privacy we process all audio locally and save meeting records only after the user clicks export",
+                     "formatted":  "to protect user privacy we process all audio locally and save meeting records only after the user clicks export",
+                     "errors":  0,
+                     "chars":  93,
+                     "wordErrors":  0,
+                     "words":  19,
+                     "seconds":  7.685,
+                     "ms":  585.9734499999977,
+                     "runs":  [
+                                  583.7900999999983,
+                                  588.156799999997
+                              ],
+                     "rtf":  0.0762489850357837,
+                     "firstPartialMs":  26.624400000000605,
+                     "finals":  [
+                                    {
+                                        "text":  "to protect user privacy we process all audio locally and save meeting records only after the user clicks export",
+                                        "start":  0,
+                                        "end":  7.685
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "20-zh-noise",
+                     "group":  "中英混说",
+                     "lang":  "zh",
+                     "condition":  "12dB白噪声",
+                     "expected":  "请打开 Windows 设置，检查 microphone 权限，然后重新启动。",
+                     "raw":  "请打开 windows 设置检查 microphone 权限然后重新启动",
+                     "formatted":  "请打开 windows 设置检查 microphone 权限然后重新启动",
+                     "errors":  0,
+                     "chars":  32,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  6.745,
+                     "ms":  530.1903499999971,
+                     "runs":  [
+                                  521.8781000000017,
+                                  538.5025999999925
+                              ],
+                     "rtf":  0.07860494440326125,
+                     "firstPartialMs":  27.176999999996042,
+                     "finals":  [
+                                    {
+                                        "text":  "请打开 windows 设置检查 microphone 权限然后重新启动",
+                                        "start":  0,
+                                        "end":  6.745
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "20-en-noise",
+                     "group":  "中英混说",
+                     "lang":  "en",
+                     "condition":  "12dB白噪声",
+                     "expected":  "Please open Windows Settings, check microphone permissions, and restart.",
+                     "raw":  "please open windows settings check microphone permissions and restart",
+                     "formatted":  "please open windows settings check microphone permissions and restart",
+                     "errors":  0,
+                     "chars":  61,
+                     "wordErrors":  0,
+                     "words":  9,
+                     "seconds":  5.44,
+                     "ms":  430.2566000000006,
+                     "runs":  [
+                                  434.51759999999194,
+                                  425.9956000000093
+                              ],
+                     "rtf":  0.07909128676470599,
+                     "firstPartialMs":  28.12159999999858,
+                     "finals":  [
+                                    {
+                                        "text":  "please open windows settings check microphone permissions and restart",
+                                        "start":  0,
+                                        "end":  5.44
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "23-zh-noise",
+                     "group":  "中英混说",
+                     "lang":  "zh",
+                     "condition":  "12dB白噪声",
+                     "expected":  "打开 winintel.com，下载数萌 AI 输入法。",
+                     "raw":  "打开 y 点 com 下载数萌 a i 输入法",
+                     "formatted":  "打开 y 点 com 下载数萌 a i 输入法",
+                     "errors":  8,
+                     "chars":  22,
+                     "wordErrors":  null,
+                     "words":  null,
+                     "seconds":  5.24,
+                     "ms":  408.27795000000333,
+                     "runs":  [
+                                  403.73180000000866,
+                                  412.824099999998
+                              ],
+                     "rtf":  0.07791563931297774,
+                     "firstPartialMs":  13.840200000006007,
+                     "finals":  [
+                                    {
+                                        "text":  "打开 y 点 com 下载数萌 a i 输入法",
+                                        "start":  0,
+                                        "end":  5.24
+                                    }
+                                ],
+                     "consistent":  true
+                 },
+                 {
+                     "id":  "23-en-noise",
+                     "group":  "中英混说",
+                     "lang":  "en",
+                     "condition":  "12dB白噪声",
+                     "expected":  "Open winintel.com and download the winintel AI input method.",
+                     "raw":  "openwinintelt com and download the wine andtel ai input method",
+                     "formatted":  "openwinintelt com and download the wine andtel ai input method",
+                     "errors":  4,
+                     "chars":  50,
+                     "wordErrors":  4,
+                     "words":  10,
+                     "seconds":  4.695,
+                     "ms":  360.7202499999985,
+                     "runs":  [
+                                  355.2332000000024,
+                                  366.2072999999946
+                              ],
+                     "rtf":  0.07683072417465356,
+                     "firstPartialMs":  27.104900000005728,
+                     "finals":  [
+                                    {
+                                        "text":  "openwinintelt com and download the wine andtel ai input method",
+                                        "start":  0,
+                                        "end":  4.695
+                                    }
+                                ],
+                     "consistent":  true
+                 }
+             ],
+    "memory":  {
+                   "rss":  122552320,
+                   "heapTotal":  7680000,
+                   "heapUsed":  6046192,
+                   "external":  25493809,
+                   "arrayBuffers":  6898803
+               }
+}

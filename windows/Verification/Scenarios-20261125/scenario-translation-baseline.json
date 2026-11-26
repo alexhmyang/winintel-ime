@@ -1,0 +1,1115 @@
+{
+  "rows": [
+    {
+      "id": "0-zh-en",
+      "group": "日常交流",
+      "direction": "zh-en",
+      "source": "你好，请问附近哪里有地铁站？",
+      "reference": "Hello, where is the nearest subway station?",
+      "output": "Hello, where's the subway station?",
+      "raw": "Hello, where's the subway station?",
+      "chrf": 65.35380993158851,
+      "firstLoadMs": 700.3824,
+      "firstInferenceMs": 204.21169999999984,
+      "warmMs": 206.7037499999999,
+      "runs": [
+        204.21169999999984,
+        203.3506,
+        210.0568999999998
+      ],
+      "total": [
+        904.7913,
+        203.38030000000003,
+        210.06989999999996
+      ]
+    },
+    {
+      "id": "0-en-zh",
+      "group": "日常交流",
+      "direction": "en-zh",
+      "source": "Hello, where is the nearest subway station?",
+      "reference": "你好，请问附近哪里有地铁站？",
+      "output": "喂,最近的地铁站在哪里?",
+      "raw": "喂,最近的地铁站在哪里?",
+      "chrf": 12.758141967758558,
+      "firstLoadMs": 643.5010000000002,
+      "firstInferenceMs": 197.76829999999973,
+      "warmMs": 175.11284999999975,
+      "runs": [
+        197.76829999999973,
+        178.47689999999966,
+        171.74879999999985
+      ],
+      "total": [
+        841.3423999999998,
+        178.5032000000001,
+        171.76069999999982
+      ]
+    },
+    {
+      "id": "1-zh-en",
+      "group": "日常交流",
+      "direction": "zh-en",
+      "source": "我想订一间双人房，住三个晚上。",
+      "reference": "I would like to book a double room for three nights.",
+      "output": "I want to book a double room for three nights.",
+      "raw": "I want to book a double room for three nights.",
+      "chrf": 77.80735175502807,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 233.04970000000003,
+      "warmMs": 229.12609999999995,
+      "runs": [
+        233.04970000000003,
+        222.33040000000028,
+        235.92179999999962
+      ],
+      "total": [
+        233.09180000000015,
+        222.35779999999977,
+        235.93610000000035
+      ]
+    },
+    {
+      "id": "1-en-zh",
+      "group": "日常交流",
+      "direction": "en-zh",
+      "source": "I would like to book a double room for three nights.",
+      "reference": "我想订一间双人房，住三个晚上。",
+      "output": "我想订1个双人房 住3个晚上",
+      "raw": "我想订一个双人房 住三个晚上",
+      "chrf": 33.42180855560545,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 207.09799999999996,
+      "warmMs": 198.61990000000014,
+      "runs": [
+        207.09799999999996,
+        198.72890000000007,
+        198.51090000000022
+      ],
+      "total": [
+        207.11450000000013,
+        198.74179999999978,
+        198.51950000000033
+      ]
+    },
+    {
+      "id": "2-zh-en",
+      "group": "日常交流",
+      "direction": "zh-en",
+      "source": "请把这份文件发到我的邮箱。",
+      "reference": "Please send this document to my email address.",
+      "output": "Please send this document to my mailbox.",
+      "raw": "Please send this document to my mailbox.",
+      "chrf": 71.06566416198199,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 182.71849999999995,
+      "warmMs": 181.64490000000023,
+      "runs": [
+        182.71849999999995,
+        196.9908000000005,
+        166.29899999999998
+      ],
+      "total": [
+        182.73490000000038,
+        197.0029999999997,
+        166.3105999999998
+      ]
+    },
+    {
+      "id": "2-en-zh",
+      "group": "日常交流",
+      "direction": "en-zh",
+      "source": "Please send this document to my email address.",
+      "reference": "请把这份文件发到我的邮箱。",
+      "output": "请将此文档发送到我的电子邮件地址 。",
+      "raw": "请将此文档发送到我的电子邮件地址 。",
+      "chrf": 14.886655465276885,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 231.8171999999995,
+      "warmMs": 227.90239999999994,
+      "runs": [
+        231.8171999999995,
+        235.05180000000018,
+        220.7529999999997
+      ],
+      "total": [
+        231.82970000000023,
+        235.0628999999999,
+        220.76350000000002
+      ]
+    },
+    {
+      "id": "3-zh-en",
+      "group": "日常交流",
+      "direction": "zh-en",
+      "source": "这道菜不要放辣椒，我对花生过敏。",
+      "reference": "Please do not add chili to this dish. I am allergic to peanuts.",
+      "output": "Don't put pepper on this dish. I'm allergic to peanuts.",
+      "raw": "Don't put pepper on this dish. I'm allergic to peanuts.",
+      "chrf": 54.36028561352347,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 348.14390000000003,
+      "warmMs": 350.2412999999997,
+      "runs": [
+        348.14390000000003,
+        352.3263999999999,
+        348.15619999999944
+      ],
+      "total": [
+        348.15620000000035,
+        352.34000000000015,
+        348.1685000000007
+      ]
+    },
+    {
+      "id": "3-en-zh",
+      "group": "日常交流",
+      "direction": "en-zh",
+      "source": "Please do not add chili to this dish. I am allergic to peanuts.",
+      "reference": "这道菜不要放辣椒，我对花生过敏。",
+      "output": "请不要把辣椒加到这盘菜上我对花生过敏",
+      "raw": "请不要把辣椒加到这盘菜上我对花生过敏",
+      "chrf": 32.28309450682024,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 399.4372999999996,
+      "warmMs": 356.2244499999997,
+      "runs": [
+        399.4372999999996,
+        354.7638999999999,
+        357.6849999999995
+      ],
+      "total": [
+        399.4556999999995,
+        354.77869999999984,
+        357.6974999999993
+      ]
+    },
+    {
+      "id": "4-zh-en",
+      "group": "会议与待办",
+      "direction": "zh-en",
+      "source": "我们决定下周一发布新版本。",
+      "reference": "We decided to release the new version next Monday.",
+      "output": "We decided to release the new version on Monday.",
+      "raw": "We decided to release the new version on Monday.",
+      "chrf": 84.57841279196133,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 215.8796000000002,
+      "warmMs": 210.88445000000047,
+      "runs": [
+        215.8796000000002,
+        219.08460000000014,
+        202.6843000000008
+      ],
+      "total": [
+        215.89600000000064,
+        219.09589999999935,
+        202.6927999999998
+      ]
+    },
+    {
+      "id": "4-en-zh",
+      "group": "会议与待办",
+      "direction": "en-zh",
+      "source": "We decided to release the new version next Monday.",
+      "reference": "我们决定下周一发布新版本。",
+      "output": "我们决定下周一发布新版本",
+      "raw": "我们决定下周一发布新版本",
+      "chrf": 92.01329840103502,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 157.30339999999887,
+      "warmMs": 167.77640000000065,
+      "runs": [
+        157.30339999999887,
+        149.8069000000014,
+        185.7458999999999
+      ],
+      "total": [
+        157.3155999999999,
+        149.8163000000004,
+        185.7554
+      ]
+    },
+    {
+      "id": "5-zh-en",
+      "group": "会议与待办",
+      "direction": "zh-en",
+      "source": "测试由张伟负责，截止时间是星期五下午。",
+      "reference": "Zhang Wei is responsible for testing. The deadline is Friday afternoon.",
+      "output": "The test is performed by Zhang Wai, and the deadline is Friday afternoon.",
+      "raw": "The test is performed by Zhang Wai, and the deadline is Friday afternoon.",
+      "chrf": 60.0192014822421,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 304.15250000000015,
+      "warmMs": 307.5932500000008,
+      "runs": [
+        304.15250000000015,
+        312.3791000000001,
+        302.8074000000015
+      ],
+      "total": [
+        304.1707999999999,
+        312.38880000000063,
+        302.8161
+      ]
+    },
+    {
+      "id": "5-en-zh",
+      "group": "会议与待办",
+      "direction": "en-zh",
+      "source": "Zhang Wei is responsible for testing. The deadline is Friday afternoon.",
+      "reference": "测试由张伟负责，截止时间是星期五下午。",
+      "output": "张伟负责测试截止日期是星期五下午。",
+      "raw": "张伟负责测试截止日期是星期五下午。",
+      "chrf": 42.10412632567107,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 252.7500999999993,
+      "warmMs": 246.20864999999958,
+      "runs": [
+        252.7500999999993,
+        247.73029999999926,
+        244.6869999999999
+      ],
+      "total": [
+        252.76109999999971,
+        247.74159999999938,
+        244.6966999999986
+      ]
+    },
+    {
+      "id": "6-zh-en",
+      "group": "会议与待办",
+      "direction": "zh-en",
+      "source": "今天的会议讨论预算、交付时间和质量问题。",
+      "reference": "Today's meeting covers the budget, delivery schedule, and quality issues.",
+      "output": "Today's meeting is devoted to the issues of budget, delivery time and quality.",
+      "raw": "Today's meeting is devoted to the issues of budget, delivery time and quality.",
+      "chrf": 60.18355802259564,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 347.60759999999937,
+      "warmMs": 357.47595,
+      "runs": [
+        347.60759999999937,
+        349.41899999999987,
+        365.53290000000015
+      ],
+      "total": [
+        347.6196,
+        349.4267999999993,
+        365.54140000000007
+      ]
+    },
+    {
+      "id": "6-en-zh",
+      "group": "会议与待办",
+      "direction": "en-zh",
+      "source": "Today's meeting covers the budget, delivery schedule, and quality issues.",
+      "reference": "今天的会议讨论预算、交付时间和质量问题。",
+      "output": "今天的会议涉及预算、交付时间表和质量问题。",
+      "raw": "今天的会议涉及预算、交付时间表和质量问题。",
+      "chrf": 57.044774479319436,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 207.60249999999905,
+      "warmMs": 201.1962999999996,
+      "runs": [
+        207.60249999999905,
+        201.23679999999877,
+        201.15580000000045
+      ],
+      "total": [
+        207.6115000000009,
+        201.24469999999928,
+        201.16690000000017
+      ]
+    },
+    {
+      "id": "7-zh-en",
+      "group": "会议与待办",
+      "direction": "zh-en",
+      "source": "请确认客户需求，然后更新项目计划。",
+      "reference": "Please confirm the customer's requirements and then update the project plan.",
+      "output": "Please identify the client needs and then update the project plan.",
+      "raw": "Please identify the client needs and then update the project plan.",
+      "chrf": 54.97259809032062,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 255.40509999999995,
+      "warmMs": 243.79855000000043,
+      "runs": [
+        255.40509999999995,
+        242.63810000000012,
+        244.95900000000074
+      ],
+      "total": [
+        255.41359999999986,
+        242.64639999999963,
+        244.96730000000025
+      ]
+    },
+    {
+      "id": "7-en-zh",
+      "group": "会议与待办",
+      "direction": "en-zh",
+      "source": "Please confirm the customer's requirements and then update the project plan.",
+      "reference": "请确认客户需求，然后更新项目计划。",
+      "output": "请确认客户的要求,然后更新项目计划。",
+      "raw": "请确认客户的要求,然后更新项目计划。",
+      "chrf": 60.27590743659707,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 233.34950000000026,
+      "warmMs": 219.12204999999994,
+      "runs": [
+        233.34950000000026,
+        218.9457999999995,
+        219.29830000000038
+      ],
+      "total": [
+        233.35829999999987,
+        218.95579999999973,
+        219.3065999999999
+      ]
+    },
+    {
+      "id": "8-zh-en",
+      "group": "硬件与技术",
+      "direction": "zh-en",
+      "source": "这台服务器有八张 V100 显卡，每张显存三十二 GB。",
+      "reference": "This server has eight V100 graphics cards, each with 32 GB of memory.",
+      "output": "This server has eight V100 cards, each with 32GB.",
+      "raw": "This server has eight V100 cards, each with 32 GB.",
+      "chrf": 68.39106695867054,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 344.34319999999934,
+      "warmMs": 351.57854999999927,
+      "runs": [
+        344.34319999999934,
+        332.7056999999986,
+        370.4513999999999
+      ],
+      "total": [
+        344.35239999999976,
+        332.71490000000085,
+        370.45970000000125
+      ]
+    },
+    {
+      "id": "8-en-zh",
+      "group": "硬件与技术",
+      "direction": "en-zh",
+      "source": "This server has eight V100 graphics cards, each with 32 GB of memory.",
+      "reference": "这台服务器有八张 V100 显卡，每张显存三十二 GB。",
+      "output": "这个服务器有八张V100图形卡, 每个有32GB的内存。",
+      "raw": "这个服务器有八张V100图形卡, 每个有32GB的内存。",
+      "chrf": 28.315167687041342,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 434.8244999999988,
+      "warmMs": 448.49375000000055,
+      "runs": [
+        434.8244999999988,
+        455.03470000000016,
+        441.95280000000093
+      ],
+      "total": [
+        434.83590000000004,
+        455.0493999999999,
+        441.9615999999987
+      ]
+    },
+    {
+      "id": "9-zh-en",
+      "group": "硬件与技术",
+      "direction": "zh-en",
+      "source": "使用 NVLink 连接显卡，网络带宽是五十六 Gbps。",
+      "reference": "Connect the graphics cards using NVLink. The network bandwidth is 56 Gbps.",
+      "output": "Use the nullink to connect to a video card with A56Gbps bandwidth.",
+      "raw": "Use the nullink to connect to a video card with a 56 Gbps bandwidth.",
+      "chrf": 38.72247044237189,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 475.1921000000002,
+      "warmMs": 476.55994999999893,
+      "runs": [
+        475.1921000000002,
+        475.14990000000034,
+        477.9699999999975
+      ],
+      "total": [
+        475.20340000000033,
+        475.15979999999763,
+        477.9792000000016
+      ]
+    },
+    {
+      "id": "9-en-zh",
+      "group": "硬件与技术",
+      "direction": "en-zh",
+      "source": "Connect the graphics cards using NVLink. The network bandwidth is 56 Gbps.",
+      "reference": "使用 NVLink 连接显卡，网络带宽是五十六 Gbps。",
+      "output": "使用 NVLink 连接图形卡 。网络带宽为56千兆位/秒。",
+      "raw": "使用 NVLink 连接图形卡 。网络带宽为56千兆位/秒。",
+      "chrf": 42.52381214533954,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 581.5217000000011,
+      "warmMs": 563.7044000000005,
+      "runs": [
+        581.5217000000011,
+        576.2008999999998,
+        551.2079000000012
+      ],
+      "total": [
+        581.5335999999988,
+        576.210500000001,
+        551.2191999999995
+      ]
+    },
+    {
+      "id": "10-zh-en",
+      "group": "硬件与技术",
+      "direction": "zh-en",
+      "source": "我们在 CPU 上运行离线语音识别，不使用 GPU。",
+      "reference": "We run offline speech recognition on the CPU without using a GPU.",
+      "output": "We run offline voice recognition on CPU, not GPU.",
+      "raw": "We run offline voice recognition on CPU, not GPU.",
+      "chrf": 47.93134514812768,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 350.2590999999993,
+      "warmMs": 377.90869999999995,
+      "runs": [
+        350.2590999999993,
+        347.0666000000019,
+        408.750799999998
+      ],
+      "total": [
+        350.26840000000084,
+        347.0744999999988,
+        408.7600999999995
+      ]
+    },
+    {
+      "id": "10-en-zh",
+      "group": "硬件与技术",
+      "direction": "en-zh",
+      "source": "We run offline speech recognition on the CPU without using a GPU.",
+      "reference": "我们在 CPU 上运行离线语音识别，不使用 GPU。",
+      "output": "我们不用GPU在CPU上运行脱机语音识别。",
+      "raw": "我们不用GPU在CPU上运行脱机语音识别。",
+      "chrf": 41.00871333725808,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 343.78250000000116,
+      "warmMs": 303.8241999999991,
+      "runs": [
+        343.78250000000116,
+        302.6368999999977,
+        305.0115000000005
+      ],
+      "total": [
+        343.7910000000011,
+        302.64500000000044,
+        305.01970000000074
+      ]
+    },
+    {
+      "id": "11-zh-en",
+      "group": "硬件与技术",
+      "direction": "zh-en",
+      "source": "部署 DeepSeek 模型后，使用 vLLM 测试并发性能。",
+      "reference": "After deploying the DeepSeek model, use vLLM to test concurrent performance.",
+      "output": "After deploying the k model, use the vLMM to test and develop performance.",
+      "raw": "After deploying the k model, use the vLMM to test and develop performance.",
+      "chrf": 62.61625825766899,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 382.02289999999994,
+      "warmMs": 433.2973000000002,
+      "runs": [
+        382.02289999999994,
+        435.4971000000005,
+        431.09749999999985
+      ],
+      "total": [
+        382.03159999999843,
+        435.5059000000001,
+        431.1096000000034
+      ]
+    },
+    {
+      "id": "11-en-zh",
+      "group": "硬件与技术",
+      "direction": "en-zh",
+      "source": "After deploying the DeepSeek model, use vLLM to test concurrent performance.",
+      "reference": "部署 DeepSeek 模型后，使用 vLLM 测试并发性能。",
+      "output": "在部署深搜索模型后,使用 vLLM 测试同时性能。",
+      "raw": "在部署深搜索模型后,使用 vLLM 测试同时性能。",
+      "chrf": 32.57843402420148,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 383.719299999997,
+      "warmMs": 380.3971499999989,
+      "runs": [
+        383.719299999997,
+        382.7589000000007,
+        378.035399999997
+      ],
+      "total": [
+        383.73119999999835,
+        382.76810000000114,
+        378.0436000000009
+      ]
+    },
+    {
+      "id": "12-zh-en",
+      "group": "数字与交易",
+      "direction": "zh-en",
+      "source": "订单总金额是一千二百五十元，包含运费。",
+      "reference": "The total order amount is 1250 yuan, including shipping.",
+      "output": "The total amount of the order was $1250, including freight charges.",
+      "raw": "The total amount of the order was $1250, including freight charges.",
+      "chrf": 45.45869790364552,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 304.84029999999984,
+      "warmMs": 313.9339,
+      "runs": [
+        304.84029999999984,
+        300.07830000000104,
+        327.78949999999895
+      ],
+      "total": [
+        304.85029999999824,
+        300.08729999999923,
+        327.79899999999907
+      ]
+    },
+    {
+      "id": "12-en-zh",
+      "group": "数字与交易",
+      "direction": "en-zh",
+      "source": "The total order amount is 1250 yuan, including shipping.",
+      "reference": "订单总金额是一千二百五十元，包含运费。",
+      "output": "订货总额为1,250元,包括货运。",
+      "raw": "订货总额为1,250元,包括货运。",
+      "chrf": 17.32201213818861,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 254.34990000000107,
+      "warmMs": 401.4830499999989,
+      "runs": [
+        254.34990000000107,
+        340.879399999998,
+        462.08669999999984
+      ],
+      "total": [
+        254.35879999999815,
+        340.8883999999998,
+        462.09779999999955
+      ]
+    },
+    {
+      "id": "13-zh-en",
+      "group": "数字与交易",
+      "direction": "zh-en",
+      "source": "请在十一月二十五日上午九点半参加会议。",
+      "reference": "Please attend the meeting at 9:30 AM on November 25.",
+      "output": "The meeting is invited to take place at 9:30 a.m. on 25 November.",
+      "raw": "The meeting is invited to take place at 9:30 a.m. on 25 November.",
+      "chrf": 50.08492689554917,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 812.8492000000006,
+      "warmMs": 683.1769999999997,
+      "runs": [
+        812.8492000000006,
+        687.6100000000006,
+        678.7439999999988
+      ],
+      "total": [
+        812.8607000000011,
+        687.6209000000017,
+        678.755000000001
+      ]
+    },
+    {
+      "id": "13-en-zh",
+      "group": "数字与交易",
+      "direction": "en-zh",
+      "source": "Please attend the meeting at 9:30 AM on November 25.",
+      "reference": "请在十一月二十五日上午九点半参加会议。",
+      "output": "请出席11月25日上午9时30分的会议。",
+      "raw": "请出席11月25日上午9时30分的会议。",
+      "chrf": 40.377311391432194,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 442.2794999999969,
+      "warmMs": 428.7684499999996,
+      "runs": [
+        442.2794999999969,
+        433.03830000000016,
+        424.498599999999
+      ],
+      "total": [
+        442.2913000000008,
+        433.04859999999826,
+        424.51060000000143
+      ]
+    },
+    {
+      "id": "14-zh-en",
+      "group": "数字与交易",
+      "direction": "zh-en",
+      "source": "温度从二十五度上升到三十八度。",
+      "reference": "The temperature rose from 25 degrees to 38 degrees.",
+      "output": "Temperatures rose from 25 degrees to 38 degrees.",
+      "raw": "Temperatures rose from 25 degrees to 38 degrees.",
+      "chrf": 87.07676355027093,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 452.77899999999863,
+      "warmMs": 448.04129999999896,
+      "runs": [
+        452.77899999999863,
+        432.4461999999985,
+        463.6363999999994
+      ],
+      "total": [
+        452.79030000000057,
+        432.4585999999981,
+        463.64760000000024
+      ]
+    },
+    {
+      "id": "14-en-zh",
+      "group": "数字与交易",
+      "direction": "en-zh",
+      "source": "The temperature rose from 25 degrees to 38 degrees.",
+      "reference": "温度从二十五度上升到三十八度。",
+      "output": "温度从25度上升到38度。",
+      "raw": "温度从25度上升到38度。",
+      "chrf": 100,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 454.963499999998,
+      "warmMs": 412.0077000000001,
+      "runs": [
+        454.963499999998,
+        419.8365999999987,
+        404.1788000000015
+      ],
+      "total": [
+        454.97629999999845,
+        419.84790000000066,
+        404.1916999999994
+      ]
+    },
+    {
+      "id": "15-zh-en",
+      "group": "数字与交易",
+      "direction": "zh-en",
+      "source": "这个季度收入增长了百分之十二点五。",
+      "reference": "Revenue increased by 12.5 percent this quarter.",
+      "output": "Income increased by 12.5 per cent this quarter.",
+      "raw": "Income increased by 12.5 per cent this quarter.",
+      "chrf": 85.23469800623862,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 395.2926000000007,
+      "warmMs": 362.25154999999904,
+      "runs": [
+        395.2926000000007,
+        357.11759999999776,
+        367.3855000000003
+      ],
+      "total": [
+        395.3064000000013,
+        357.1293000000005,
+        367.3983000000044
+      ]
+    },
+    {
+      "id": "15-en-zh",
+      "group": "数字与交易",
+      "direction": "en-zh",
+      "source": "Revenue increased by 12.5 percent this quarter.",
+      "reference": "这个季度收入增长了百分之十二点五。",
+      "output": "本季度收入增加了12.5%。",
+      "raw": "本季度收入增加了12.5%。",
+      "chrf": 29.618624954632544,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 274.2580999999991,
+      "warmMs": 276.53805000000284,
+      "runs": [
+        274.2580999999991,
+        275.472400000006,
+        277.60369999999966
+      ],
+      "total": [
+        274.27219999999943,
+        275.4858999999997,
+        277.6149000000005
+      ]
+    },
+    {
+      "id": "16-zh-en",
+      "group": "否定与逻辑",
+      "direction": "zh-en",
+      "source": "不要删除原始文件，只删除临时文件。",
+      "reference": "Do not delete the original files. Only delete the temporary files.",
+      "output": "Do not delete original files, but only temporary files.",
+      "raw": "Do not delete original files, but only temporary files.",
+      "chrf": 65.73774674972267,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 432.18640000000596,
+      "warmMs": 434.72885000000315,
+      "runs": [
+        432.18640000000596,
+        413.2040000000052,
+        456.2537000000011
+      ],
+      "total": [
+        432.19750000000204,
+        413.2286000000022,
+        456.2656999999963
+      ]
+    },
+    {
+      "id": "16-en-zh",
+      "group": "否定与逻辑",
+      "direction": "en-zh",
+      "source": "Do not delete the original files. Only delete the temporary files.",
+      "reference": "不要删除原始文件，只删除临时文件。",
+      "output": "不删除原始文件 。只删除临时文件。",
+      "raw": "不删除原始文件 。只删除临时文件。",
+      "chrf": 61.9251512899325,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 469.3833000000013,
+      "warmMs": 454.3021499999959,
+      "runs": [
+        469.3833000000013,
+        461.00449999999546,
+        447.5997999999963
+      ],
+      "total": [
+        469.3973999999944,
+        461.0173000000068,
+        447.61739999999554
+      ]
+    },
+    {
+      "id": "17-zh-en",
+      "group": "否定与逻辑",
+      "direction": "zh-en",
+      "source": "如果测试没有通过，就不能发布。",
+      "reference": "If the tests fail, we cannot release the software.",
+      "output": "If the test is not passed, it cannot be published.",
+      "raw": "If the test is not passed, it cannot be published.",
+      "chrf": 32.32093289659908,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 467.89310000000114,
+      "warmMs": 429.417300000001,
+      "runs": [
+        467.89310000000114,
+        451.6768000000011,
+        407.15780000000086
+      ],
+      "total": [
+        467.9061999999976,
+        451.6898999999976,
+        407.1696000000011
+      ]
+    },
+    {
+      "id": "17-en-zh",
+      "group": "否定与逻辑",
+      "direction": "en-zh",
+      "source": "If the tests fail, we cannot release the software.",
+      "reference": "如果测试没有通过，就不能发布。",
+      "output": "如果测试失败,我们就不能释放软件。",
+      "raw": "如果测试失败,我们就不能释放软件。",
+      "chrf": 19.520736833167295,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 332.90750000000116,
+      "warmMs": 329.4192000000003,
+      "runs": [
+        332.90750000000116,
+        320.4158000000025,
+        338.42259999999806
+      ],
+      "total": [
+        332.92059999999765,
+        320.42689999999857,
+        338.4360000000015
+      ]
+    },
+    {
+      "id": "18-zh-en",
+      "group": "长句字幕",
+      "direction": "zh-en",
+      "source": "为了保护用户隐私，我们在本地处理全部音频，并且只有用户点击导出后才会保存会议记录。",
+      "reference": "To protect user privacy, we process all audio locally and save meeting records only after the user clicks Export.",
+      "output": "To protect user privacy, we process all audio locally and only after the user clicks to export the meeting records.",
+      "raw": "To protect user privacy, we process all audio locally and only after the user clicks to export the meeting records.",
+      "chrf": 87.44754147946597,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 807.027900000001,
+      "warmMs": 770.3315999999977,
+      "runs": [
+        807.027900000001,
+        773.7604999999967,
+        766.9026999999987
+      ],
+      "total": [
+        807.0390000000043,
+        773.7721999999994,
+        766.9145000000062
+      ]
+    },
+    {
+      "id": "18-en-zh",
+      "group": "长句字幕",
+      "direction": "en-zh",
+      "source": "To protect user privacy, we process all audio locally and save meeting records only after the user clicks Export.",
+      "reference": "为了保护用户隐私，我们在本地处理全部音频，并且只有用户点击导出后才会保存会议记录。",
+      "output": "为了保护用户隐私,我们处理所有本地音频,仅在用户点击导出后保存会议记录。",
+      "raw": "为了保护用户隐私,我们处理所有本地音频,仅在用户点击导出后保存会议记录。",
+      "chrf": 43.99900308708888,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 686.7279000000053,
+      "warmMs": 740.909599999999,
+      "runs": [
+        686.7279000000053,
+        711.2952000000005,
+        770.5239999999976
+      ],
+      "total": [
+        686.740899999997,
+        711.3067999999985,
+        770.5357000000004
+      ]
+    },
+    {
+      "id": "19-zh-en",
+      "group": "长句字幕",
+      "direction": "zh-en",
+      "source": "虽然新的识别模型准确率更高，但是在普通电脑上运行速度较慢，所以我们先保留快速模型，再对完整句子进行复核。",
+      "reference": "Although the new recognition model is more accurate, it runs more slowly on ordinary computers, so we keep the fast model and then review complete sentences.",
+      "output": "Although the new identification model is more accurate, it is running slowly on the common computer, so we retain the fast model before reviewing the entire sentence.",
+      "raw": "Although the new identification model is more accurate, it is running slowly on the common computer, so we retain the fast model before reviewing the entire sentence.",
+      "chrf": 58.88091553141128,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 1066.5211999999956,
+      "warmMs": 709.5482499999998,
+      "runs": [
+        1066.5211999999956,
+        647.8300999999992,
+        771.2664000000004
+      ],
+      "total": [
+        1066.5319999999992,
+        647.8395999999993,
+        771.2770999999993
+      ]
+    },
+    {
+      "id": "19-en-zh",
+      "group": "长句字幕",
+      "direction": "en-zh",
+      "source": "Although the new recognition model is more accurate, it runs more slowly on ordinary computers, so we keep the fast model and then review complete sentences.",
+      "reference": "虽然新的识别模型准确率更高，但是在普通电脑上运行速度较慢，所以我们先保留快速模型，再对完整句子进行复核。",
+      "output": "虽然新的识别模式更准确,但它在普通计算机上运行得更慢, 所以我们保留快速模型, 然后审查完整句子。",
+      "raw": "虽然新的识别模式更准确,但它在普通计算机上运行得更慢, 所以我们保留快速模型, 然后审查完整句子。",
+      "chrf": 29.20473732178563,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 643.4459000000061,
+      "warmMs": 542.2281500000026,
+      "runs": [
+        643.4459000000061,
+        534.5210000000006,
+        549.9353000000046
+      ],
+      "total": [
+        643.4560000000056,
+        534.5295000000042,
+        549.9434000000037
+      ]
+    },
+    {
+      "id": "20-zh-en",
+      "group": "中英混说",
+      "direction": "zh-en",
+      "source": "请打开 Windows 设置，检查 microphone 权限，然后重新启动。",
+      "reference": "Please open Windows Settings, check microphone permissions, and restart.",
+      "output": "Please open platinum settings, check ## permissions, and restart.",
+      "raw": "Please open platinum settings, check ## permissions, and restart.",
+      "chrf": 66.87000422921575,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 371.9398999999976,
+      "warmMs": 357.04765000000043,
+      "runs": [
+        371.9398999999976,
+        354.71779999999853,
+        359.3775000000023
+      ],
+      "total": [
+        371.94840000000113,
+        354.7270999999964,
+        359.38640000000305
+      ]
+    },
+    {
+      "id": "20-en-zh",
+      "group": "中英混说",
+      "direction": "en-zh",
+      "source": "Please open Windows Settings, check microphone permissions, and restart.",
+      "reference": "请打开 Windows 设置，检查 microphone 权限，然后重新启动。",
+      "output": "请打开 Windows 设置, 检查麦克风权限, 并重新启动 。",
+      "raw": "请打开 Windows 设置, 检查麦克风权限, 并重新启动 。",
+      "chrf": 41.366354550485354,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 424.25539999999455,
+      "warmMs": 405.1518499999984,
+      "runs": [
+        424.25539999999455,
+        416.5167000000001,
+        393.7869999999966
+      ],
+      "total": [
+        424.2644,
+        416.5254000000059,
+        393.796500000004
+      ]
+    },
+    {
+      "id": "21-zh-en",
+      "group": "中英混说",
+      "direction": "zh-en",
+      "source": "这个项目完全 offline，不需要 API key，也不会上传 audio。",
+      "reference": "This project is completely offline. It does not need an API key and does not upload audio.",
+      "output": "The project is completely flatlined, no API 002, and it will not be uploaded.",
+      "raw": "The project is completely flatlined, no API 002, and it will not be uploaded.",
+      "chrf": 40.33967505893165,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 527.7609000000011,
+      "warmMs": 477.9425999999985,
+      "runs": [
+        527.7609000000011,
+        469.3827999999994,
+        486.5023999999976
+      ],
+      "total": [
+        527.7709000000032,
+        469.3928999999989,
+        486.51140000000305
+      ]
+    },
+    {
+      "id": "21-en-zh",
+      "group": "中英混说",
+      "direction": "en-zh",
+      "source": "This project is completely offline. It does not need an API key and does not upload audio.",
+      "reference": "这个项目完全 offline，不需要 API key，也不会上传 audio。",
+      "output": "这个项目完全脱机了它不需要 API 键, 也不上传音频 。",
+      "raw": "这个项目完全脱机了它不需要 API 键, 也不上传音频 。",
+      "chrf": 25.96091319693964,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 505.2024999999994,
+      "warmMs": 481.4848499999971,
+      "runs": [
+        505.2024999999994,
+        479.97679999999673,
+        482.99289999999746
+      ],
+      "total": [
+        505.2127999999939,
+        479.98710000000574,
+        483.0037000000011
+      ]
+    },
+    {
+      "id": "22-zh-en",
+      "group": "中英混说",
+      "direction": "zh-en",
+      "source": "今天先做 benchmark，明天再优化 latency 和 throughput。",
+      "reference": "Run the benchmark today, then optimize latency and throughput tomorrow.",
+      "output": "Do cymbals today, then optimize latemies and daissing tomorrow.",
+      "raw": "Do cymbals today, then optimize latemies and daissing tomorrow.",
+      "chrf": 49.03986566945783,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 433.8339999999953,
+      "warmMs": 554.7735499999981,
+      "runs": [
+        433.8339999999953,
+        582.9032999999981,
+        526.643799999998
+      ],
+      "total": [
+        433.84419999999955,
+        582.9119999999966,
+        526.6529999999984
+      ]
+    },
+    {
+      "id": "22-en-zh",
+      "group": "中英混说",
+      "direction": "en-zh",
+      "source": "Run the benchmark today, then optimize latency and throughput tomorrow.",
+      "reference": "今天先做 benchmark，明天再优化 latency 和 throughput。",
+      "output": "今天运行基准,然后优化 延时和输送明天。",
+      "raw": "今天运行基准,然后优化 延时和输送明天。",
+      "chrf": 5.404739643834149,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 290.72580000000016,
+      "warmMs": 259.0508499999996,
+      "runs": [
+        290.72580000000016,
+        265.8793000000005,
+        252.22239999999874
+      ],
+      "total": [
+        290.7346999999936,
+        265.8873999999996,
+        252.23099999999977
+      ]
+    },
+    {
+      "id": "23-zh-en",
+      "group": "中英混说",
+      "direction": "zh-en",
+      "source": "打开 winintel.com，下载数萌 AI 输入法。",
+      "reference": "Open winintel.com and download the winintel AI input method.",
+      "output": "Opens hinte.com, downloads the number of original AI input methods.",
+      "raw": "Opens hinte.com, downloads the number of original AI input methods.",
+      "chrf": 47.3397228025441,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 372.6391000000003,
+      "warmMs": 362.3091000000022,
+      "runs": [
+        372.6391000000003,
+        362.6515000000072,
+        361.9666999999972
+      ],
+      "total": [
+        372.6477999999988,
+        362.6602999999959,
+        361.97490000000107
+      ]
+    },
+    {
+      "id": "23-en-zh",
+      "group": "中英混说",
+      "direction": "en-zh",
+      "source": "Open winintel.com and download the winintel AI input method.",
+      "reference": "打开 winintel.com，下载数萌 AI 输入法。",
+      "output": "打开 winintel.com 并下载 winintel AI 输入方法 。",
+      "raw": "打开 winintel.com 并下载 winintel AI 输入方法 。",
+      "chrf": 58.263048756880444,
+      "firstLoadMs": 0,
+      "firstInferenceMs": 427.48709999999846,
+      "warmMs": 418.3008499999996,
+      "runs": [
+        427.48709999999846,
+        414.77670000000217,
+        421.8249999999971
+      ],
+      "total": [
+        427.4953999999998,
+        414.78510000000097,
+        421.83340000000317
+      ]
+    }
+  ],
+  "memory": {
+    "rss": 1008668672,
+    "heapTotal": 241700864,
+    "heapUsed": 96076296,
+    "external": 24531965,
+    "arrayBuffers": 17174687
+  }
+}

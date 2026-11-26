@@ -1,0 +1,7 @@
+[
+  {"text":"英伟达 V 一百三十二 G。","expected":"英伟达 V100 32G"},
+  {"text":"英伟达 V 一百，三十二 GB。","expected":"英伟达 V100 32GB"},
+  {"text":"英伟达 A 一百，八十 G。","expected":"英伟达 A100 80G"},
+  {"text":"一百三十二 GB。","expected":"132GB"},
+  {"text":"两张 V 一百，每张三十二 GB。","expected":"2张 V100，每张32GB"}
+]

@@ -1,0 +1,6 @@
+[
+  {"text":"V 一百，三十二 G，S X M 三。","expected":"V100 32G SXM3"},
+  {"text":"N V Link，N V Link。","expected":"NVLink NVLink"},
+  {"text":"我们的网站叫 W I N intel 点 com。","expected":"我们的网站叫 winintel.com"},
+  {"text":"五十六 gigabits per second，八 bits。","expected":"56Gbps 8 bits"}
+]
