@@ -8,6 +8,49 @@
 
 **[下载安装包](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)** · **[中文旁白产品演示（0.5.4）](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.4/winintel-ime-0.5.4-demo.mp4)** · [官网](https://winintel.com) · [Bilibili](https://space.bilibili.com/429959998) · [YouTube](https://www.youtube.com/@winintelcom)
 
+## 功能一眼看懂
+
+**说话成文字，长词随手输入。电脑与手机都能用，输入和录音在本机处理。**
+
+[![数萌 AI 输入法真实功能展示：电脑离线语音与表情，手机绿色候选与大按键](docs/screenshots/feature-showcase.png)](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)
+
+| 手机输入 | 电脑办公 |
+|---|---|
+| **绿色候选、大按键**：常用长词清楚显示，点选即可上屏 | **离线语音**：说完检查草稿，再确认输入到当前软件 |
+| **本机记词**：纠正后的词保留在设备，重启后继续使用 | **表情与符号**：点击插入，保留当前软件输入焦点 |
+| **直接编辑**：触摸草稿定位，左右键与选区工具随手修改 | **每日新闻与热词**：中英文内容、手动刷新和离线缓存 |
+
+<details>
+<summary><b>展开更多真实功能截图</b></summary>
+
+### 手机：长词候选与直接编辑
+
+<img src="docs/screenshots/android-keyboard-0.1.5.png" alt="Android 0.1.5 绿色长词候选、全键盘和直接编辑工具" width="460">
+
+图中“数萌算力集群”来自实际纠正后的本机词库，使用完整拼音即可再次选到。
+
+### 电脑：离线语音草稿
+
+![Windows 离线语音草稿，支持清空、撤销、复制与确认上屏](docs/screenshots/windows-voice-0.5.9.png)
+
+按 F8 开始或结束录音，文字进入可检查、可修改的草稿。
+
+### 电脑：表情与符号
+
+![Windows 表情与符号面板](docs/screenshots/windows-emoji-0.5.7.png)
+
+常用表情、手势和符号分类展示，点击即可输入。
+
+### 电脑：每日新闻与中英文热词
+
+![Windows 每日新闻与中英文热词页面](docs/screenshots/windows-news-0.5.8.png)
+
+查看中英文新闻、来源与发布时间，支持刷新和本机缓存。
+
+截图为实际运行画面，已裁去无关区域；手机来自 0.1.5，电脑语音、表情与新闻分别来自 0.5.9、0.5.7、0.5.8 功能实录。
+
+</details>
+
 ## 下载与功能
 
 | 平台 | 安装包 | 功能 |

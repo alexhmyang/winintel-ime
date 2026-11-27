@@ -12,6 +12,32 @@ Send button.
 
 [Windows installer](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-0.5.11-setup.exe) · [Android APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-android-0.1.5.apk) · [Source, checksums and reports](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)
 
+## See it in action
+
+[![Real winintel AI screenshots: offline Windows voice drafts and emoji, Android green candidates and large keys](docs/screenshots/feature-showcase.png)](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)
+
+| Android | Windows |
+|---|---|
+| Large keys and green phrase candidates | Offline voice drafts with review before insertion |
+| Corrected phrases remembered on the device | Emoji and symbols inserted into the active application |
+| Direct draft editing and selection tools | Bilingual news, publication dates and offline caching |
+
+<details>
+<summary><b>More real screenshots</b></summary>
+
+<img src="docs/screenshots/android-keyboard-0.1.5.png" alt="Android 0.1.5 full keyboard and a locally learned phrase" width="460">
+
+![Windows offline voice draft](docs/screenshots/windows-voice-0.5.9.png)
+
+![Windows emoji and symbols](docs/screenshots/windows-emoji-0.5.7.png)
+
+![Windows bilingual daily news](docs/screenshots/windows-news-0.5.8.png)
+
+Screenshots are cropped from actual running applications. Android: 0.1.5.
+Windows voice, emoji and news: 0.5.9, 0.5.7 and 0.5.8 respectively.
+
+</details>
+
 The dictionary contains 1,751,276 full-pinyin and abbreviation index records.
 Android adds nine-key and full keyboard layouts, larger keys, direct draft
 editing and a newline key. Windows caches long-pinyin segmentation queries to
