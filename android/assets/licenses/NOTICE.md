@@ -11,3 +11,9 @@ Application code Copyright (C) 2026 winintel AI — GPL-3.0-or-later.
 | SenseVoiceSmall INT8 | Alibaba / FunAudioLLM/SenseVoiceSmall; ONNX conversion csukuangfj | FunASR Model Open Source License Agreement 1.1, separately licensed model weights |
 
 The binary WIME0002 index is generated from the fixed dictionary revision and winintel starter terminology. The full model license, upstream identity and SHA256 are included. No paid dependency or server is required.
+
+Android 0.1.5 also includes cn_dicts/ext.dict.yaml, tencent.dict.yaml,
+others.dict.yaml and 41448.dict.yaml from the same pinned revision.
+The expanded source list and upstream blob identifiers are recorded in
+dictionary-provenance.json. This uses dictionary data only; the keyboard engine
+remains winintel's own implementation.

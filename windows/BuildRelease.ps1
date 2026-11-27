@@ -48,6 +48,7 @@ New-Item -ItemType Directory -Force "$payload\service" | Out-Null
 Copy-Item "$root\service\*" "$payload\service" -Recurse -Force
 Copy-Item "$root\README.md","$root\README.en.md" "$payload" -Force
 Copy-Item "$PSScriptRoot\Legal\*" "$payload\licenses" -Force
+Copy-Item "$root\data\rime-ice\provenance.json" "$payload\licenses\dictionary-provenance.json" -Force
 & "$payload\runtime\node.exe" "$root\standalone\dictionary.mjs" "$payload\dictionary.bin"
 if($LASTEXITCODE){throw "Dictionary build failed"}
 & "$payload\runtime\node.exe" "$root\standalone\english-dictionary.mjs" "$payload"

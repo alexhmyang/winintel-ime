@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
 const root = resolve(import.meta.dirname, '..');
@@ -11,7 +13,7 @@ function add(code, text, score, abbreviation = false) {
   if (found) found.score = Math.max(found.score, score);
   else list.push({ text, score });
   list.sort((a,b) => b.score-a.score);
-  list.length = Math.min(list.length, abbreviations.has(code) ? 128 : 9);
+  list.length = Math.min(list.length, abbreviations.has(code) ? 192 : 96);
 }
 function load(file, boost = 0) {
   let active = !file.endsWith('.yaml');

@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
+// Project: winintel AI Input Method - https://github.com/alexhmyang/winintel-ime
 #include "Core.h"
 HMODULE module=nullptr;long objects=0;
 const CLSID ServiceId={0x1b6f3bd2,0x51a0,0x4935,{0xb2,0xf9,0x31,0xca,0xf0,0x34,0x5e,0x71}};

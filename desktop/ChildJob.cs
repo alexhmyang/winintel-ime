@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 // GPL-3.0-or-later. Stop bundled child runtimes even if the tray process crashes.
 using System;
 using System.Diagnostics;

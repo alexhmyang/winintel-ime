@@ -1,6 +1,7 @@
 {
   "repository": "https://github.com/iDvel/rime-ice",
   "revision": "927e1cf1d3eeb9bf4be85e3f684dba4dd485b6f6",
+  "expanded_on": "2026-11-27",
   "files": [
     {
       "path": "cn_dicts/8105.dict.yaml",
@@ -21,6 +22,26 @@
       "path": "en_dicts/en_ext.dict.yaml",
       "sha": "d233d63802257429f9ec8366ff32b996777f6ce2",
       "size": 52724
+    },
+    {
+      "path": "cn_dicts/ext.dict.yaml",
+      "sha": "8bfaa9d17cc14a19a3f6cc0e55d8fb158e1755e2",
+      "size": 11923503
+    },
+    {
+      "path": "cn_dicts/tencent.dict.yaml",
+      "sha": "cc0311a390480607a7bd804025aa5d1e5556e196",
+      "size": 17339328
+    },
+    {
+      "path": "cn_dicts/others.dict.yaml",
+      "sha": "e300d40b1ccf91fc410be6ac8d008b9fc8f1ec9e",
+      "size": 17454
+    },
+    {
+      "path": "cn_dicts/41448.dict.yaml",
+      "sha": "f29621c55455e3ff0c99cadec64a317d11c8d951",
+      "size": 387353
     },
     {
       "path": "LICENSE",

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -18,7 +19,7 @@ internal sealed class VoiceDraft {
             // ASR can omit punctuation. Preserve preceding completed utterances.
             for(int i=history.Count-1;i>=0;i--){
                 string prior=history[i];
-                if(prior.Length>0&&prior.Length<value.Length&&value.StartsWith(prior+" ",StringComparison.Ordinal)){Edit(prior);return;}
+                if(prior.Length>0&&prior.Length<value.Length&&value.StartsWith(prior,StringComparison.Ordinal)){Edit(prior);return;}
             }
         }
         Edit(previous<0?"":value.Substring(0,previous+1));
@@ -34,10 +35,10 @@ internal sealed class VoiceDraft {
                 ("二三四五".IndexOf(m.Groups[1].Value,StringComparison.Ordinal)+2).ToString():m.Groups[1].Value),options);
     }
     internal string Accept(string utterance){
-        string value=(utterance??"").Trim();if(value.Length==0)return "";
+        string value=(utterance??"").Trim(' ','\t','\r');if(value.Length==0)return "";
         // Only a complete utterance beginning with this prefix can edit the draft.
         Match prefix=Regex.Match(value,@"^(?:数萌指令|输入法指令)[，,：:\s]*(.*)$");
-        if(!prefix.Success){Edit(JoinTechnicalTerms(Text+(Text.Length>0&&!Regex.IsMatch(Text,@"[。！？.!?\r\n]$")?" ":"")+value));return "";}
+        if(!prefix.Success){bool spacing=Text.Length>0&&Regex.IsMatch(Text,@"[A-Za-z0-9,.!?]$")&&Regex.IsMatch(value,@"^[A-Za-z0-9]");Edit(JoinTechnicalTerms(Text+(spacing?" ":"")+value));return "";}
         string command=prefix.Groups[1].Value.Trim().TrimEnd('。','！','!','?','？','.');
         string compact=Regex.Replace(command,@"[\s，,：:]","");
         if(compact=="清空"||compact=="清除"||compact=="清空文字"||compact=="清除文字"){Clear();return "已清空草稿，可撤销";}

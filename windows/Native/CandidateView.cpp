@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 #include "Core.h"
 #include <windowsx.h>
 namespace {
@@ -69,7 +70,7 @@ LRESULT CALLBACK CandidateView::Procedure(HWND h,UINT m,WPARAM w,LPARAM l) {
     PAINTSTRUCT ps;HDC target=BeginPaint(h,&ps);RECT r;GetClientRect(h,&r);
     HDC dc=CreateCompatibleDC(target);HBITMAP bitmap=CreateCompatibleBitmap(target,r.right,r.bottom);auto oldBitmap=SelectObject(dc,bitmap);
     HBRUSH bg=CreateSolidBrush(RGB(255,255,255));FillRect(dc,&r,bg);DeleteObject(bg);
-    HFONT font=Font(16,self->dpi);
+    HFONT font=Font(20,self->dpi);
     auto old=SelectObject(dc,font);SetTextColor(dc,RGB(26,115,232));SetBkMode(dc,TRANSPARENT);
     int pad=Scale(12,self->dpi);
     self->header={pad,Scale(5,self->dpi),r.right-Scale(112,self->dpi),Scale(33,self->dpi)};
@@ -90,12 +91,12 @@ LRESULT CALLBACK CandidateView::Procedure(HWND h,UINT m,WPARAM w,LPARAM l) {
     SelectObject(dc,font);
     for(unsigned i=0;i<self->visible.size();i++){
       RECT line=self->cells[i];
-      if(i==self->selected||i==(unsigned)self->hover)FillRound(dc,line,i==self->selected?RGB(232,240,254):RGB(241,243,244),Scale(12,self->dpi));
+      if(i==self->selected||i==(unsigned)self->hover)FillRound(dc,line,i==self->selected?RGB(0,122,78):RGB(227,243,234),Scale(12,self->dpi));
       RECT number=line;number.left+=Scale(9,self->dpi);number.right=number.left+Scale(17,self->dpi);
-      SelectObject(dc,fontSmall);SetTextColor(dc,i==self->selected?RGB(26,115,232):RGB(128,134,139));
+      SelectObject(dc,fontSmall);SetTextColor(dc,i==self->selected?RGB(255,255,255):RGB(128,134,139));
       auto digit=self->english?L"·":std::to_wstring(i+1);DrawTextW(dc,digit.c_str(),-1,&number,DT_LEFT|DT_SINGLELINE|DT_VCENTER|DT_NOPREFIX);
       line.left=number.right+Scale(3,self->dpi);line.right-=Scale(9,self->dpi);
-      SelectObject(dc,font);SetTextColor(dc,i==self->selected?RGB(26,115,232):RGB(32,33,36));
+      SelectObject(dc,font);SetTextColor(dc,i==self->selected?RGB(255,255,255):RGB(32,33,36));
       DrawTextW(dc,self->visible[i].c_str(),-1,&line,DT_LEFT|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS|DT_NOPREFIX);
     }
     SelectObject(dc,fontSmall);SetTextColor(dc,RGB(128,134,139));
@@ -128,8 +129,8 @@ void CandidateView::Show(ITfContext* context,TfClientId client,const std::string
   MONITORINFO monitor={sizeof(monitor)};GetMonitorInfoW(MonitorFromPoint(p,MONITOR_DEFAULTTONEAREST),&monitor);RECT work=monitor.rcWork;
   typedef UINT(WINAPI* DpiFunction)(HWND);auto getDpi=(DpiFunction)GetProcAddress(GetModuleHandleW(L"user32.dll"),"GetDpiForWindow");
   GUITHREADINFO gi={sizeof(gi)};GetGUIThreadInfo(0,&gi);dpi=getDpi&&gi.hwndFocus?(int)getDpi(gi.hwndFocus):96;if(!dpi)dpi=96;
-  HDC dc=GetDC(window);HFONT font=Font(16,dpi);auto old=SelectObject(dc,font);
-  int pad=Scale(8,dpi),gap=Scale(4,dpi),cellHeight=Scale(36,dpi),limit=std::min<int>(Scale(660,dpi),work.right-work.left),width=Scale(340,dpi);
+  HDC dc=GetDC(window);HFONT font=Font(20,dpi);auto old=SelectObject(dc,font);
+  int pad=Scale(8,dpi),gap=Scale(5,dpi),cellHeight=Scale(44,dpi),limit=std::min<int>(Scale(740,dpi),work.right-work.left),width=Scale(380,dpi);
   std::vector<int> widths;int natural=pad*2;
   for(auto& text:visible){SIZE size={};GetTextExtentPoint32W(dc,text.c_str(),(int)text.size(),&size);int w=size.cx+Scale(42,dpi);widths.push_back(w);natural+=w+gap;}
   width=std::min(limit,std::max(width,natural-gap));

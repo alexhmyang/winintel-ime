@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 import { parentPort,Worker } from 'node:worker_threads';
 import { createRequire } from 'node:module';
 import { readdirSync } from 'node:fs';
@@ -39,7 +41,7 @@ try {
     featConfig:{sampleRate:16000,featureDim:80},
     modelConfig:{transducer:{encoder:find('encoder'),decoder:find('decoder'),joiner:find('joiner')},tokens:join(dir,'tokens.txt'),numThreads:2,provider:'cpu',modelType:'zipformer',debug:0},
     decodingMethod:'modified_beam_search',maxActivePaths:4,hotwordsFile:join(dir,'hotwords.txt'),hotwordsScore:1.5,
-    enableEndpoint:true,rule1MinTrailingSilence:2.4,rule2MinTrailingSilence:0.9,rule3MinUtteranceLength:20
+    enableEndpoint:true,rule1MinTrailingSilence:2.4,rule2MinTrailingSilence:1.2,rule3MinUtteranceLength:20
   });
   if(refinerReady)parentPort.postMessage({type:'status',ready:true});
 } catch(e) {parentPort.postMessage({type:'status',ready:false,error:e.message});}
@@ -61,7 +63,8 @@ parentPort.on('message',m=>{
       if(type==='finish')session.stream.inputFinished();
       while(recognizer.isReady(session.stream))recognizer.decode(session.stream);
       const text=normalizeVoiceNumbers(recognizer.getResult(session.stream).text.trim());
-      const endpoint=type==='finish'||recognizer.isEndpoint(session.stream)||session.length>=320000;
+      const naturalEndpoint=recognizer.isEndpoint(session.stream);
+      const endpoint=type==='finish'||naturalEndpoint||session.length>=320000;
       if(text!==session.text||endpoint){parentPort.postMessage({id,type:'partial',segment:session.segment,text});session.text=text;}
       if(endpoint){
         if(session.inflight>=4)throw Error('整句复核处理速度不足，请停止录音');
@@ -71,7 +74,7 @@ parentPort.on('message',m=>{
         const start=(session.elapsed||0)/16000,end=start+session.length/16000;
         session.elapsed=(session.elapsed||0)+session.length;
         pending.set(request,{id,session,segment:session.segment,finished:type==='finish',start,end});
-        refiner.postMessage({request,samples:pcm.buffer,fallback:text},[pcm.buffer]);
+        refiner.postMessage({request,samples:pcm.buffer,fallback:text,sentenceEnd:type==='finish'||naturalEndpoint},[pcm.buffer]);
         session.segment++;session.chunks=[];session.length=0;recognizer.reset(session.stream);session.text='';
       }
       if(type==='finish')session.finishing=true;

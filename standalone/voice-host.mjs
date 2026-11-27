@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 import { createServer } from 'node:http';
 import { Worker } from 'node:worker_threads';
 import { createRequire } from 'node:module';

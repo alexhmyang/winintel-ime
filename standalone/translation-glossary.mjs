@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 import {normalizeVoiceNumbers} from './voice-numbers.mjs';
 const terms={
   deepseek:['DeepSeek','DeepSeek'],vllm:['vLLM','vLLM'],windows:['Windows','Windows'],

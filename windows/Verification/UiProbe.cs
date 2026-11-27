@@ -62,7 +62,7 @@ internal sealed class UiProbe:Form {
             Check(candidate!=IntPtr.Zero&&IsWindowVisible(candidate),"candidate appears during composition");
             Check(GetForegroundWindow()==Handle,"candidate show preserves application focus");
             Check((GetWindowLong(candidate,-20)&0x08000000)!=0&&SendMessage(candidate,0x21,IntPtr.Zero,IntPtr.Zero).ToInt32()==3,"candidate forbids mouse activation");
-            GetWindowRect(candidate,out rect);Check(rect.Bottom-rect.Top<=190&&rect.Right-rect.Left<=680,"compact candidate geometry");
+            GetWindowRect(candidate,out rect);Check(rect.Bottom-rect.Top<=220&&rect.Right-rect.Left<=760,"large text candidate geometry");
             await Type("nihxo");await Press(37);await Press(37);await Press(46);await Press('A');await Press(32);
             Check(box.Text=="你好","middle correction refreshes Chinese candidates");
             var up=(Key)Marshal.GetDelegateForFunctionPointer(GetProcAddress(library,"WinintelTestKeyUp"),typeof(Key));
@@ -128,7 +128,7 @@ internal sealed class UiProbe:Form {
                 log.Add("after voice: foreground="+GetForegroundWindow()+", preview="+preview.Handle+", visible="+preview.Visible);
                 Check(preview.Visible&&GetForegroundWindow()==Handle,"voice preview appears without stealing focus");
                 await Task.Delay(100);
-                Check(preview.ClientSize.Height<=170&&!preview.ShowInTaskbar,"voice compact panel stays out of taskbar");
+                Check(preview.ClientSize.Height<=200&&!preview.ShowInTaskbar,"voice compact panel stays out of taskbar");
                 int stopped=0,confirmed=0;
                 preview.GetType().GetEvent("StopRequested",BindingFlags.Instance|BindingFlags.NonPublic).GetAddMethod(true).Invoke(preview,new object[]{(Action)(()=>stopped++)});
                 preview.GetType().GetEvent("ConfirmRequested",BindingFlags.Instance|BindingFlags.NonPublic).GetAddMethod(true).Invoke(preview,new object[]{(Action)(()=>confirmed++)});
@@ -136,6 +136,18 @@ internal sealed class UiProbe:Form {
                 Check(stopped==1&&confirmed==0,"recording action stops audio instead of inserting text");
                 Call(preview,"Draft","让输入更自然，让表达更轻松。",false);commit.PerformClick();
                 Check(stopped==1&&confirmed==1,"finished draft action requests confirmation");
+                FocusTest(preview);
+                var draftEditor=(TextBox)Descendants(preview).Find(c=>c is TextBox);draftEditor.Focus();draftEditor.Select(2,3);
+                Call(preview,"Draft","让输入更自然，让表达更轻松。追加。",false);
+                Check(draftEditor.SelectionStart==2&&draftEditor.SelectionLength==3,"draft refresh preserves active selection");
+                draftEditor.SelectedText="新";
+                Check(draftEditor.Text.StartsWith("让输新然"),"draft selection replacement stays in place");
+                FocusTest(this);box.Focus();box.Text="前旧后";box.Select(1,1);
+                var insert=assembly.GetType("Winintel.Windows.TextInput").GetMethod("Insert",BindingFlags.Static|BindingFlags.NonPublic);
+                bool inserted=(bool)insert.Invoke(null,new object[]{Handle,"新",false,4096});await Task.Delay(150);
+                Check(inserted&&box.Text=="前新后","desktop voice insertion replaces target selection");
+                box.Text="前后";box.Select(1,0);inserted=(bool)insert.Invoke(null,new object[]{Handle,"中",false,4096});await Task.Delay(150);
+                Check(inserted&&box.Text=="前中后","desktop voice insertion uses middle caret");
                 Call(preview,"Draft","让输入更自然，让表达更轻松。",true);
                 Capture(preview,Path.Combine(output,"voice.png"));
                 using(var other=new Form{Text="Other application",Location=new Point(40,40),StartPosition=FormStartPosition.Manual}){other.Show();other.Activate();await Task.Delay(400);Check(!preview.Visible,"voice preview hides when switching applications");other.Close();}

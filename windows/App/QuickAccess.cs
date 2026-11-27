@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -6,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 namespace Winintel.Windows {
 internal static class QuickStyle {
-    internal static readonly Color Orange=Color.FromArgb(242,113,35),Pale=Color.FromArgb(255,244,235);
+    internal static readonly Color Orange=Color.FromArgb(26,115,232),Pale=Color.FromArgb(232,240,254);
     internal static void Border(Graphics g,Rectangle bounds){g.SmoothingMode=SmoothingMode.AntiAlias;using(var path=Skin.Round(new Rectangle(0,0,bounds.Width-1,bounds.Height-1),8))using(var pen=new Pen(Skin.Outline))g.DrawPath(pen,path);}
 }
 internal sealed class QuickButton:Button {

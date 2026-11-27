@@ -1,4 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later. Private stdio; never opens a network socket.
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
+// Private stdio; never opens a network socket.
 import {createInterface} from 'node:readline';
 import {translate} from './translation-engine.mjs';
 let chain=Promise.resolve();

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 // Self-hosted interface: publish your own dated headlines from a local JSON file.
 import {createServer} from 'node:http';
 import {readFile} from 'node:fs/promises';

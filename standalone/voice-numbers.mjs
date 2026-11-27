@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 const digits={零:0,〇:0,一:1,二:2,两:2,三:3,四:4,五:5,六:6,七:7,八:8,九:9};
 const digit='零〇一二两三四五六七八九',nonzero='一二两三四五六七八九';
 const smallPattern=new RegExp(`^(?:[${nonzero}]千)?(?:零?[${nonzero}]百)?(?:零?[${nonzero}]?十)?(?:零?[${nonzero}])?$`);

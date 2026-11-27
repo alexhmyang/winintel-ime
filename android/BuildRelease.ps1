@@ -33,6 +33,7 @@ Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 [IO.Compression.ZipFile]::ExtractToDirectory("$ToolRoot\sherpa-onnx-2.0.3.aar","$BuildRoot\aar")
 Copy-Item "$root\assets\*" "$BuildRoot\assets" -Recurse -Force
+Copy-Item "$repo\data\rime-ice\provenance.json" "$BuildRoot\assets\licenses\dictionary-provenance.json" -Force
 Copy-Item "$ModelRoot\sensevoice\model.int8.onnx","$ModelRoot\sensevoice\tokens.txt" "$BuildRoot\assets\sensevoice" -Force
 function CheckExit([string]$stage){if($LASTEXITCODE){throw "$stage failed: $LASTEXITCODE"}}
 # Generated dictionary stays in the build directory.

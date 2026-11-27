@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
@@ -20,8 +21,8 @@ internal static class TextInput {
     [DllImport("user32.dll")]static extern IntPtr GetAncestor(IntPtr h,uint flags);
     [DllImport("user32.dll")]static extern IntPtr SendMessageTimeout(IntPtr h,uint message,UIntPtr w,IntPtr l,uint flags,uint timeout,out UIntPtr result);
     internal static bool Ready(IntPtr target){return target!=IntPtr.Zero&&IsWindow(target)&&GetForegroundWindow()==target&&GetAsyncKeyState(17)>=0&&GetAsyncKeyState(18)>=0&&GetAsyncKeyState(16)>=0&&GetAsyncKeyState(91)>=0&&GetAsyncKeyState(92)>=0;}
-    internal static bool Insert(IntPtr target,string text,bool flush=true){
-        if(!Ready(target)||string.IsNullOrEmpty(text)||text.Length>4096)return false;
+    internal static bool Insert(IntPtr target,string text,bool flush=true,int maxLength=4096){
+        if(!Ready(target)||string.IsNullOrEmpty(text)||text.Length>maxLength)return false;
         if(flush&&LanguageControl.SendMessage(target,55,0)==-2)return false;
         if(!Ready(target))return false;
         var keys=new List<Input>();foreach(char ch in text){keys.Add(new Input{type=1,data=new Union{key=new Key{scan=ch,flags=4}}});keys.Add(new Input{type=1,data=new Union{key=new Key{scan=ch,flags=6}}});}

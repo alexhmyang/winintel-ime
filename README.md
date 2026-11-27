@@ -4,18 +4,34 @@
 
 [English](README.en.md)
 
-**[下载安装包](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.8)** · **[中文旁白产品演示（0.5.4）](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.4/winintel-ime-0.5.4-demo.mp4)** · [官网](https://winintel.com) · [Bilibili](https://space.bilibili.com/429959998) · [YouTube](https://www.youtube.com/@winintelcom)
+最新发布：Windows **0.5.11** / Android **0.1.5**。新增长词与扩展词库、绿色反色候选高亮；Android 去除编辑和发送按钮，语音草稿直接点选编辑，修复同一输入框重启连接导致拼音丢失，并在本机保存纠正词和连续输入的新词。
+
+**[下载安装包](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)** · **[中文旁白产品演示（0.5.4）](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.4/winintel-ime-0.5.4-demo.mp4)** · [官网](https://winintel.com) · [Bilibili](https://space.bilibili.com/429959998) · [YouTube](https://www.youtube.com/@winintelcom)
 
 ## 下载与功能
 
 | 平台 | 安装包 | 功能 |
 |---|---|---|
-| Windows 10 / 11，64 位 | [0.5.8 EXE](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.8/winintel-ime-0.5.8-setup.exe) | 长拼音编辑、个人词库、英文补全、双语热词、实时新闻、离线语音与实时翻译 |
-| Android 8.0+，arm64 手机 | [0.1.2 APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.8/winintel-ime-android-0.1.2.apk) | 系统拼音键盘、英文补全、双语热词、实时新闻、选词学习、离线语音草稿与笔记；包含 x86_64 运行库 |
+| Windows 10 / 11，64 位 | [0.5.11 EXE](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-0.5.11-setup.exe) | 扩展长词、绿色候选高亮、长拼音编辑、个人词库、英文补全、实时新闻、离线语音与实时翻译 |
+| Android 8.0+，arm64 手机 | [0.1.5 APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-android-0.1.5.apk) | 九宫格与全键盘、大按键与绿色候选、直接编辑、本机纠正记词、英文补全、实时新闻、离线语音草稿与笔记；包含 x86_64 运行库 |
 
 Windows 包含 x64 与 x86 TSF 组件，支持 64 位系统中的两种应用。两平台独立编号；Android 采用停顿后识别，实时翻译和 SRT 导出目前仅在 Windows 提供。
 
 Release 提供完整源码 ZIP、SHA-256 校验文件和验证报告；中文旁白视频与字幕见 0.5.4 演示。模型与运行库随安装包提供，不放入 Git 源码仓库。
+
+### 本次更新与验证
+
+新增 ext、tencent、others、41448 词典源，整合 1,751,276 条全拼与简拼索引记录。手机候选使用绿色白字，按键按下变深绿色；语言、数字、符号分类与录音状态会高亮。回车统一为“换行”。同一输入框重启连接时保留待选拼音，纠正和连续中文组合词保存在本机，进程重启后可继续使用。Windows 缓存长拼音分段查词，改善句中编辑响应。
+
+| 验证项目 | 结果 |
+|---|---|
+| Android 词库、九宫格与个人记词 | JVM 18 项通过，192MB 堆上限 |
+| Android 编辑与输入连接 | 最终 APK 27 项通过 |
+| Android 独立应用交互 | 14 项通过，含每次上屏重启连接、纠正长词与进程重启保留 |
+| Windows 界面与输入 | 57 项通过；另有 7 个引擎基础与错拼样例通过 |
+| Android 发布包 | 原签名，v2/v3 与 16KB 对齐校验通过 |
+
+详细资料：[升级说明](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-0.5.11-upgrade-guide.md) · [验证报告](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-0.5.11-release-report.md)。手机交互使用 x86_64 模拟器和独立测试应用验证，微信等真机版本仍需实际使用验证。覆盖安装保留个人词库，卸载或清除应用数据会删除记录。
 
 ## Windows 安装与使用
 
@@ -48,7 +64,7 @@ Release 提供完整源码 ZIP、SHA-256 校验文件和验证报告；中文旁
 
 ### Windows 0.5.6：简拼与个人词库
 
-简拼索引最多保留 128 个候选，界面仍按每页 9 个显示。完整拼音选词后，按实际读音自动学习对应简拼，支持多音字匹配；后续输入简拼时优先显示近期选词。
+当前简拼索引最多保留 192 个候选，完整拼音最多保留 96 个候选，界面仍按每页 9 个显示。完整拼音选词后，按实际读音自动学习对应简拼，支持多音字匹配；后续输入简拼时优先显示近期选词。
 
 打开 **设置 → 键盘输入 → 个人词库**，填写姓名或专业词。拼音自动填入，多音字可手动修改，用空格分隔每个字的拼音。保存后完整拼音与首字母简拼立即可查，支持删除。个人词库和学习记录只保存在本机，不进入公共词库。简拼可能对应多个姓名，首次需要明确选择或添加，无法仅靠几个字母确定具体汉字。
 
@@ -154,5 +170,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\windows\BuildRelease.ps1
 应用代码 **GPL-3.0-or-later**；第三方模型与依赖采用各自许可，见 [第三方说明](THIRD_PARTY_NOTICES.md) 和 [贡献说明](CONTRIBUTING.md)。安装包包含相应许可证。
 
 作者：**数萌AI服务器 (winintel)** · 联系：**service@winintel.com**
+
+Copyright (c) 2026 数萌AI服务器 (winintel) / Alex YANG。源码保留版权与许可声明；分发修改版须遵守 GPL 并提供对应源码。作者署名、品牌及独立宣传素材授权见 [作者与版权](AUTHORS.md)。
 
 问题与建议：[GitHub Issues](https://github.com/alexhmyang/winintel-ime/issues)

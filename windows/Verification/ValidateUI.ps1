@@ -5,7 +5,7 @@ param(
 $ErrorActionPreference="Stop"
 $source=Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 New-Item -ItemType Directory -Force $WorkRoot,"$WorkRoot\objects","$WorkRoot\testpayload\x64","$WorkRoot\screens" | Out-Null
-Copy-Item "$Payload\dictionary.bin" "$WorkRoot\testpayload" -Force
+Copy-Item "$Payload\dictionary.bin","$Payload\character-readings.tsv","$Payload\english-words.tsv","$Payload\hot-chinese.tsv" "$WorkRoot\testpayload" -Force
 Copy-Item "$Payload\winintel-ime.exe" $WorkRoot -Force
 $vc="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519"
 $sdk="${env:ProgramFiles(x86)}\Windows Kits\10"

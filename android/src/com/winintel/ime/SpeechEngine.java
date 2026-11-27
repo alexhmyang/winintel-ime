@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 package com.winintel.ime;
 import android.content.Context;
 import com.k2fsa.sherpa.onnx.*;

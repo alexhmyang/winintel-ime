@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 import {pipeline,env} from '@huggingface/transformers';
 import {resolve} from 'node:path';
 import {performance} from 'node:perf_hooks';

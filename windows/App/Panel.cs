@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -34,7 +35,7 @@ internal sealed class Panel : Form {
         foreach(var mic in Microphone.List()){int index=microphones.Items.Add(mic);if(mic.Id==s.Microphone)microphones.SelectedIndex=index;}if(microphones.SelectedIndex<0&&microphones.Items.Count>0)microphones.SelectedIndex=0;
         var voiceCard=new MaterialCard{Location=new Point(16,120),Size=new Size(508,118)};
         var vTitle=Skin.Label("按 F8，说出你想写的内容",12,true);vTitle.Location=new Point(18,18);voiceCard.Controls.Add(vTitle);
-        var vText=Skin.Label("再按 F8 结束。检查草稿后，点击「确认上屏」。");vText.Location=new Point(18,57);vText.ForeColor=Skin.Muted;voiceCard.Controls.Add(vText);voice.Controls.Add(voiceCard);
+        var vText=Skin.Label("短停顿连续识别，句尾补标点。再按 F8 检查草稿。");vText.Location=new Point(18,57);vText.ForeColor=Skin.Muted;voiceCard.Controls.Add(vText);voice.Controls.Add(voiceCard);
         var save=Skin.Button("保存设置",true);save.Location=new Point(16,254);voice.Controls.Add(save);save.Click+=(a,b)=>{Apply();Status("麦克风设置已保存");};
         var officeCard=new MaterialCard{Location=new Point(16,20),Size=new Size(508,238)};
         var oTitle=Skin.Label("让语言自然流动",16,true);oTitle.Location=new Point(22,25);officeCard.Controls.Add(oTitle);
@@ -64,16 +65,16 @@ internal sealed class VoicePreview:Form {
     internal event Action<string> Edited;
     internal event Action ClearRequested,UndoRequested,ConfirmRequested,StopRequested;
     internal VoicePreview(){
-        Text="数萌 AI · 语音草稿";FormBorderStyle=FormBorderStyle.None;ShowInTaskbar=false;TopMost=false;ClientSize=new Size(420,158);Padding=new Padding(1);StartPosition=FormStartPosition.Manual;BackColor=Color.White;AutoScaleDimensions=new SizeF(96,96);AutoScaleMode=AutoScaleMode.Dpi;DoubleBuffered=true;
+        Text="数萌 AI · 语音草稿";FormBorderStyle=FormBorderStyle.None;ShowInTaskbar=false;TopMost=false;ClientSize=new Size(460,184);Padding=new Padding(1);StartPosition=FormStartPosition.Manual;BackColor=Color.White;AutoScaleDimensions=new SizeF(96,96);AutoScaleMode=AutoScaleMode.Dpi;DoubleBuffered=true;
         var bar=new FlowLayoutPanel{Dock=DockStyle.Bottom,Height=48,Padding=new Padding(6),WrapContents=false,BackColor=Color.White};
         var clear=Skin.Button("清空");clear.Width=52;var undo=Skin.Button("撤销");undo.Width=52;var copy=Skin.Button("复制");copy.Width=52;var expand=Skin.Button("展开");expand.Width=52;confirm.Width=108;
-        clear.Warm=undo.Warm=copy.Warm=expand.Warm=confirm.Warm=true;
+        clear.Warm=undo.Warm=copy.Warm=expand.Warm=confirm.Warm=false;
         bar.Controls.AddRange(new Control[]{clear,undo,copy,expand,confirm});
-        var card=new System.Windows.Forms.Panel{Dock=DockStyle.Fill,Padding=new Padding(12,4,12,4)};Skin.Editor(editor);card.Controls.Add(editor);
-        var header=new System.Windows.Forms.Panel{Dock=DockStyle.Top,Height=36,BackColor=QuickStyle.Pale};header.Controls.Add(label);
+        var card=new System.Windows.Forms.Panel{Dock=DockStyle.Fill,Padding=new Padding(16,8,16,8)};Skin.Editor(editor);editor.Font=new Font("Microsoft YaHei UI",13);card.Controls.Add(editor);
+        var header=new System.Windows.Forms.Panel{Dock=DockStyle.Top,Height=40,BackColor=Color.FromArgb(232,240,254)};header.Controls.Add(label);
         var close=new QuickButton{Symbol="close",Dock=DockStyle.Right,Width=32,AccessibleName="关闭语音草稿"};header.Controls.Add(close);close.Click+=(s,e)=>Close();
         Controls.Add(card);Controls.Add(header);Controls.Add(bar);
-        expand.Click+=(s,e)=>{expanded=!expanded;ClientSize=new Size(420,expanded?280:158);expand.Text=expanded?"收起":"展开";Position();};
+        expand.Click+=(s,e)=>{expanded=!expanded;ClientSize=new Size(460,expanded?320:184);expand.Text=expanded?"收起":"展开";Position();};
         clear.Click+=(s,e)=>{if(ClearRequested!=null)ClearRequested();};
         undo.Click+=(s,e)=>{if(UndoRequested!=null)UndoRequested();};
         copy.Click+=(s,e)=>{if(editor.Text.Length>0)Clipboard.SetText(editor.Text);};
@@ -112,7 +113,7 @@ internal sealed class VoicePreview:Form {
     }
     internal void Draft(string text,bool recording){
         if(IsDisposed||Disposing||editor.IsDisposed)return;
-        updating=true;try{if(editor.Text!=text){editor.Text=text;editor.SelectionStart=editor.TextLength;}}finally{updating=false;}
+        updating=true;try{if(editor.Text!=text){int start=editor.SelectionStart,length=editor.SelectionLength;bool preserve=editor.Focused&&!editor.ReadOnly;editor.Text=text;if(preserve)editor.Select(Math.Min(start,text.Length),Math.Min(length,Math.Max(0,text.Length-start)));else editor.SelectionStart=editor.TextLength;}}finally{updating=false;}
         editor.ReadOnly=recording;confirm.Enabled=recording||text.Length>0;confirm.Text=recording?"结束录音":"确认上屏";
     }
     internal void UpdateText(string text){

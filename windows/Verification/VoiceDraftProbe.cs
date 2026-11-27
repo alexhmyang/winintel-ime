@@ -15,8 +15,8 @@ internal static class VoiceDraftProbe {
         draft.Accept("请不要清空这些文字。");Check(draft.Text.EndsWith("请不要清空这些文字。"),"literal clear");
         draft.Accept("我说输入法指令清空只是举例。");Check(draft.Text.EndsWith("我说输入法指令清空只是举例。"),"literal prefix");
         string before=draft.Text;draft.Accept("输入法指令，未知操作。");Check(draft.Text==before,"unknown command");
-        draft.Clear();draft.Accept("测试");draft.Accept("测试");Check(draft.Text=="测试 测试","intentional repetition");
-        draft.Edit("手动编辑");draft.Undo();Check(draft.Text=="测试 测试","manual undo");
+        draft.Clear();draft.Accept("测试");draft.Accept("测试");Check(draft.Text=="测试测试","intentional repetition");
+        draft.Edit("手动编辑");draft.Undo();Check(draft.Text=="测试测试","manual undo");
         draft.Clear();draft.Accept("没有句号的文字");draft.DeleteSentence();Check(draft.Text=="","unpunctuated sentence");
         draft.Accept("上一句话");draft.Accept("最后一句话");draft.DeleteSentence();Check(draft.Text=="上一句话","unpunctuated segments");
         draft.Clear();draft.Accept("我们的网站叫 w i n intel");draft.Accept("com");Check(draft.Text=="我们的网站叫 winintel.com","domain across endpoint");
@@ -26,6 +26,8 @@ internal static class VoiceDraftProbe {
         draft.Clear();draft.Accept("V100 32G s x");draft.Accept("m 三");Check(draft.Text=="V100 32G SXM3","sxm across endpoint");
         draft.Clear();draft.Accept("winintel company envy linkage");Check(draft.Text=="winintel company envy linkage","term boundaries");
         draft.Clear();draft.Accept("网址w i n intel 点 com");Check(draft.Text=="网址winintel.com","Chinese adjacent boundary");
+        draft.Clear();draft.Accept("你好\n");draft.Accept("明天见。");Check(draft.Text=="你好\n明天见。","spoken trailing line break");
+        draft.Accept("\n\n");draft.Accept("下一段。");Check(draft.Text=="你好\n明天见。\n\n下一段。","spoken paragraph break");
         File.WriteAllText(args[0],"| 项目 | 结果 |\n|---|---|\n| 清空、撤销、删除句子、替换、普通口述保护、重复文字、手动编辑 | "+checks+" 项通过 |\n");
     }
 }

@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
+// Project: winintel AI Input Method - https://github.com/alexhmyang/winintel-ime
 #pragma once
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -23,6 +26,7 @@ class Engine {
   const Entry* entries=nullptr;
   const char* strings=nullptr;
   unsigned count=0;
+  std::unordered_map<std::string,Candidate> segmentCache;
   struct Choice { unsigned count=0; uint64_t sequence=0; };
   std::unordered_map<std::string,Choice> learning;
   std::wstring learnPath,legacyPath,mutexName;
@@ -201,8 +205,19 @@ public:
       struct Part{std::wstring text;float score=-1e9f;};
       std::vector<Part> dp(code.size()+1);dp[0].score=0;
       for(size_t end=1;end<=code.size();end++)for(size_t start=end>24?end-24:0;start<end;start++){
-        if(dp[start].score<-1e8)continue;std::vector<Candidate> part;collect(code.substr(start,end-start),0,part);
-        for(auto& c:part)if(!c.text.empty()&&c.text[0]>=0x3400&&dp[start].score+c.score-34>dp[end].score)dp[end]={dp[start].text+c.text,dp[start].score+c.score-34};
+        if(dp[start].score<-1e8)continue;
+        auto spelling=code.substr(start,end-start);auto cached=segmentCache.find(spelling);
+        if(cached==segmentCache.end()){
+          Candidate best{L"",-1e9f};
+          for(unsigned at=lower(spelling);at<count&&spelling==strings+entries[at].code;at++){
+            if(entries[at].score<=best.score)continue;
+            auto text=wide(strings+entries[at].text);if(!text.empty()&&text[0]>=0x3400)best={std::move(text),entries[at].score};
+          }
+          if(segmentCache.size()>4096)segmentCache.clear();
+          cached=segmentCache.emplace(spelling,std::move(best)).first;
+        }
+        const auto& c=cached->second;
+        if(!c.text.empty()&&dp[start].score+c.score-34>dp[end].score)dp[end]={dp[start].text+c.text,dp[start].score+c.score-34};
       }
       if(!dp.back().text.empty())result.push_back({dp.back().text,dp.back().score});
     }

@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.winintel.ime.check">
   <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="35"/>
-  <application android:label="winintel verification"/>
+  <application android:label="winintel verification">
+    <activity android:name=".KeyboardActivity" android:exported="true" android:windowSoftInputMode="adjustResize"/>
+  </application>
   <instrumentation android:name=".DeviceCheck" android:targetPackage="com.winintel.ime" android:label="Offline verification"/>
   <instrumentation android:name=".FeatureCheck" android:targetPackage="com.winintel.ime" android:label="Local completion and news verification"/>
+  <instrumentation android:name=".CaretCheck" android:targetPackage="com.winintel.ime" android:label="Caret and speech editing verification"/>
+  <instrumentation android:name=".VoiceSwitchCheck" android:targetPackage="com.winintel.ime" android:label="Rapid microphone switching verification"/>
 </manifest>

@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 import {parentPort} from 'node:worker_threads';
 import {createRequire} from 'node:module';
 import {resolve,join} from 'node:path';
 import {normalizeVoiceNumbers} from './voice-numbers.mjs';
+import {punctuateVoice} from './voice-punctuation.mjs';
 let recognizer;
 try {
   const dir=resolve(import.meta.dirname,'..','models','sensevoice');
@@ -28,6 +30,6 @@ parentPort.on('message',m=>{
       text=recognizer.getResult(stream).text.replace(/<\|[^|]*\|>/g,'').trim()||m.fallback;
       text=text.replace(/数萌\s*a\s*i\s*服务器/gi,'数萌AI服务器');
     }else text='';
-    parentPort.postMessage({request:m.request,text:normalizeVoiceNumbers(text)});
-  }catch(e){parentPort.postMessage({request:m.request,text:normalizeVoiceNumbers(m.fallback),error:e.message});}
+    parentPort.postMessage({request:m.request,text:punctuateVoice(normalizeVoiceNumbers(text),m.sentenceEnd!==false)});
+  }catch(e){parentPort.postMessage({request:m.request,text:punctuateVoice(normalizeVoiceNumbers(m.fallback),m.sentenceEnd!==false),error:e.message});}
 });

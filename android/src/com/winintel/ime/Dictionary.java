@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
 package com.winintel.ime;
 
 import java.io.*;
@@ -50,6 +52,7 @@ public final class Dictionary {
         if(key.isEmpty())return new ArrayList<>();
         collect(key,0,found);
         if(hotwords.containsKey(key))found.put(hotwords.get(key),110f);
+        boolean exact=!found.isEmpty();
         if(key.length()>1){
             int at=lower(key), scanned=0;
             while(at<count && scanned++<128){
@@ -67,7 +70,7 @@ public final class Dictionary {
             }
             for(char c='a';c<='z';c++)collect(key+c,13,found);
         }
-        if(found.isEmpty() && key.length()<=48){
+        if(!exact && key.length()>=4 && key.length()<=48){
             float[] scores=new float[key.length()+1];Arrays.fill(scores,-9999);scores[0]=0;
             String[] texts=new String[key.length()+1];texts[0]="";
             for(int end=1;end<=key.length();end++)for(int start=Math.max(0,end-24);start<end;start++){
@@ -79,7 +82,7 @@ public final class Dictionary {
                     if(score>scores[end]){scores[end]=score;texts[end]=texts[start]+p.getKey();}
                 }
             }
-            if(texts[key.length()]!=null)found.put(texts[key.length()],scores[key.length()]);
+            if(texts[key.length()]!=null)found.put(texts[key.length()],Math.max(found.getOrDefault(texts[key.length()],-999f),scores[key.length()]));
         }
         List<String> result=new ArrayList<>(found.keySet());
         result.sort((a,b)->{int c=Float.compare(found.get(b),found.get(a));return c!=0?c:a.compareTo(b);});

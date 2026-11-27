@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 数萌AI服务器 (winintel) / Alex YANG
+// Project: winintel AI Input Method - https://github.com/alexhmyang/winintel-ime
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -97,9 +99,7 @@ internal sealed class Controller:ApplicationContext {
         if(!IsWindow(target)){preview.UpdateText("目标窗口已关闭，请复制草稿到需要输入的位置");return;}
         SetForegroundWindow(target);
         if(GetForegroundWindow()!=target){preview.UpdateText("未能切换回输入窗口，请使用复制按钮");return;}
-        Input[] keys=new Input[result.Length*2];for(int i=0;i<result.Length;i++){keys[i*2]=new Input{type=1,data=new Union{key=new Key{scan=result[i],flags=4}}};keys[i*2+1]=new Input{type=1,data=new Union{key=new Key{scan=result[i],flags=6}}};}
-        uint sent=SendInput((uint)keys.Length,keys,Marshal.SizeOf(typeof(Input)));
-        if(sent==keys.Length){lastText=result;draft.Clear();preview.Draft("",false);preview.EndSession();}
+        if(TextInput.Insert(target,result,true,int.MaxValue)){lastText=result;draft.Clear();preview.Draft("",false);preview.EndSession();}
         else preview.UpdateText("未完整输入，草稿已保留，请检查目标窗口");
     }
     void Result(int generation,string kind,string text,long segment){
