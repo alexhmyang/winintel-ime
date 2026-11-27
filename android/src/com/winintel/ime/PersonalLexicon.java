@@ -8,6 +8,7 @@ import java.util.*;
 /** Device-local words and corrections. Accessed only by the lookup worker. */
 public final class PersonalLexicon {
     private final File file;
+    private final NameCandidates names;
     private final Map<String,String> readings=new HashMap<>();
     private final Map<String,Entry> words=new HashMap<>();
     private long lastTouched;
@@ -17,6 +18,7 @@ public final class PersonalLexicon {
     }
     public PersonalLexicon(File file,InputStream input)throws IOException{
         this.file=file;
+        names=new NameCandidates(new File(file.getParentFile(),"name-parts.tsv"));
         try(BufferedReader r=new BufferedReader(new InputStreamReader(input,StandardCharsets.UTF_8))){
             String line;while((line=r.readLine())!=null){String[] f=line.split("\t");if(f.length==2)readings.put(f[0],f[1].split(" ")[0]);}
         }
@@ -34,6 +36,8 @@ public final class PersonalLexicon {
         if(text==null||text.codePointCount(0,text.length())<2||text.length()>48||!text.codePoints().allMatch(c->c>=0x3400&&c<=0x9fff))return;
         StringBuilder full=new StringBuilder(),initials=new StringBuilder();
         for(int i=0;i<text.length();i++){String p=readings.get(text.substring(i,i+1));if(p==null){full.setLength(0);break;}full.append(p);initials.append(p.charAt(0));}
+        String[] name=names.spelling(text);
+        if(name!=null){full=new StringBuilder(name[0]);initials=new StringBuilder(name[1]);}
         if(typed!=null&&!typed.isEmpty())remember(typed.replace("'",""),text);
         if(full.length()>0){
             remember(full.toString(),text);remember(initials.toString(),text);

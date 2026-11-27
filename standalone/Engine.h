@@ -19,13 +19,16 @@
 #include <functional>
 #include <unordered_set>
 struct Candidate { std::wstring text; float score; };
+#include "NameCandidates.h"
 class Engine {
+  NameCandidates names;
   struct Entry { unsigned code, text; float score; };
   HANDLE file=INVALID_HANDLE_VALUE, mapping=nullptr;
   const char* base=nullptr;
   const Entry* entries=nullptr;
   const char* strings=nullptr;
   unsigned count=0;
+  std::unordered_map<std::wstring,size_t> candidateOffsets;
   std::unordered_map<std::string,Candidate> segmentCache;
   struct Choice { unsigned count=0; uint64_t sequence=0; };
   std::unordered_map<std::string,Choice> learning;
@@ -138,13 +141,15 @@ class Engine {
     unsigned lo=0,hi=count;
     while(lo<hi) {unsigned m=lo+(hi-lo)/2;if(strcmp(strings+entries[m].code,code.c_str())<0)lo=m+1;else hi=m;} return lo;
   }
-  void collect(const std::string& key,float penalty,std::vector<Candidate>& result) {
+  void collect(const std::string& key,float penalty,std::vector<Candidate>& result,unsigned limit=0) {
     unsigned at=lower(key);
-    while(at<count && key==strings+entries[at].code) {
+    unsigned scanned=0;
+    while(at<count && key==strings+entries[at].code && (!limit||scanned++<limit)) {
       auto text=wide(strings+entries[at].text);
       float score=entries[at].score-penalty;
-      auto prior=std::find_if(result.begin(),result.end(),[&](const Candidate& c){return c.text==text;});
-      if(prior==result.end()) result.push_back({text,score}); else prior->score=std::max(prior->score,score);
+      auto prior=candidateOffsets.find(text);
+      if(prior==candidateOffsets.end()){candidateOffsets[text]=result.size();result.push_back({text,score});}
+      else result[prior->second].score=std::max(result[prior->second].score,score);
       at++;
     }
   }
@@ -162,6 +167,7 @@ public:
     if(start!=16ULL+count*12 || start>=size.QuadPart){count=0;return false;}
     entries=(const Entry*)(base+16); strings=base+start;
     auto slash=path.find_last_of(L"\\/");loadReadings(path.substr(0,slash+1)+L"character-readings.tsv");
+    names.load(path.substr(0,slash+1)+L"name-parts.tsv");
     builtinHotPath=path.substr(0,slash+1)+L"hot-chinese.tsv";
     // Validate all offsets once, before using the mapped dictionary.
     size_t length=(size_t)size.QuadPart-start;
@@ -179,6 +185,7 @@ public:
   }
   std::vector<Candidate> query(std::string code) {
     std::vector<Candidate> result;if(!count||code.empty())return result;
+    candidateOffsets.clear();
     code=normalize(code);refreshLearning();loadPhrases(personalPath,personal);loadPhrases(apiPath,api);loadPhrases(hotPath,hot);loadPhrases(builtinHotPath,builtinHot);
     collect(code,0,result);
     const size_t exactCount=result.size();
@@ -186,7 +193,7 @@ public:
       unsigned at=lower(code),scanned=0;
       while(at<count && !strncmp(strings+entries[at].code,code.c_str(),code.size()) && scanned++<128){
         std::string key=strings+entries[at].code;
-        if(key!=code)collect(key,9+(float)std::min<size_t>(6,key.size()-code.size()),result);
+        if(key!=code)collect(key,9+(float)std::min<size_t>(6,key.size()-code.size()),result,24);
         do{at++;}while(at<count&&key==strings+entries[at].code);
       }
     }
@@ -201,7 +208,7 @@ public:
       }
       for(char c='a';c<='z';c++)collect(code+c,13,result);
     }
-    if(result.empty() && code.size()<=256){
+    if(exactCount==0 && code.size()<=256){
       struct Part{std::wstring text;float score=-1e9f;};
       std::vector<Part> dp(code.size()+1);dp[0].score=0;
       for(size_t end=1;end<=code.size();end++)for(size_t start=end>24?end-24:0;start<end;start++){
@@ -249,6 +256,15 @@ public:
       if(ar!=br)return ar;
       return a.score!=b.score?a.score>b.score:a.text<b.text;
     });
+    // Keep normal words and learned choices ahead of speculative names; reserve
+    // three visible slots, then retain the rest for ordinary candidate paging.
+    size_t insertAt=exactCount?std::min<size_t>(5,result.size()):0,visible=0;
+    if(hasPreference(code)||custom!=personal.end())insertAt=std::min<size_t>(5,result.size());
+    for(auto& text:names.query(code)){
+      if(std::any_of(result.begin(),result.end(),[&](const Candidate& c){return c.text==text;}))continue;
+      Candidate row{text,-100};
+      if(visible++<3)result.insert(result.begin()+insertAt++,row);else result.push_back(row);
+    }
     if(result.empty())result.push_back({std::wstring(code.begin(),code.end()),0});
     return result;
   }
@@ -258,8 +274,17 @@ public:
     LearningLock lock(mutexName);if(!lock.acquired)return;loadLearning();
     auto& value=learning[normalized+"\t"+utf];value.count=std::min(1000u,value.count+1);value.sequence=++sequence;
     auto abbr=initials(normalized,text);
+    std::string full;
+    if(abbr.empty()&&text.size()>=2&&text.size()<=48){
+      auto name=names.spelling(text);full=name.first;abbr=name.second;
+      if(full.empty())for(auto ch:text){auto found=readings.find(ch);if(found==readings.end()||found->second.empty()){full.clear();abbr.clear();break;}
+        full+=found->second.front();abbr+=found->second.front()[0];}
+    }
     if(!abbr.empty()&&abbr!=normalized){
       auto& alias=learning[abbr+"\t"+utf];alias.count=std::min(1000u,alias.count+1);alias.sequence=value.sequence;
+    }
+    if(!full.empty()&&full!=normalized){
+      auto& alias=learning[full+"\t"+utf];alias.count=std::min(1000u,alias.count+1);alias.sequence=value.sequence;
     }
     if(learning.size()>10000){
       auto oldest=std::min_element(learning.begin(),learning.end(),[](const auto& a,const auto& b){

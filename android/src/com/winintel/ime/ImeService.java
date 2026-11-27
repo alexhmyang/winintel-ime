@@ -45,7 +45,7 @@ public final class ImeService extends InputMethodService {
     private List<String> results=new ArrayList<>();
     @Override public void onCreate(){
         super.onCreate();voice=new VoiceClient(this,this::voiceEvent);nine=getSharedPreferences("layout",0).getBoolean("nine",true);
-        lookup.execute(()->{try{dictionary=new Dictionary(Assets.copy(this,"dictionary-015.bin","dictionary.bin"));dictionary.loadHotwords(getAssets().open("hot-chinese.tsv"));englishDictionary=new EnglishDictionary(getAssets().open("english-words.tsv"));personal=new PersonalLexicon(new java.io.File(getFilesDir(),"personal-words.tsv"),getAssets().open("character-readings.tsv"));ui.post(()->{if(status!=null)status.setText("离线中英文词库已就绪");query();});}catch(Exception e){ui.post(()->{if(status!=null)status.setText("词库加载失败："+e.getMessage());});}});
+        lookup.execute(()->{try{Assets.copy(this,"name-parts.tsv");dictionary=new Dictionary(Assets.copy(this,"dictionary-016.bin","dictionary.bin"));dictionary.loadHotwords(getAssets().open("hot-chinese.tsv"));englishDictionary=new EnglishDictionary(getAssets().open("english-words.tsv"));personal=new PersonalLexicon(new java.io.File(getFilesDir(),"personal-words.tsv"),getAssets().open("character-readings.tsv"));ui.post(()->{if(status!=null)status.setText("离线中英文词库已就绪");query();});}catch(Exception e){ui.post(()->{if(status!=null)status.setText("词库加载失败："+e.getMessage());});}});
     }
     @Override public View onCreateInputView(){
         root=Ui.column(this);root.setBackgroundColor(Ui.BG);root.setPadding(Ui.dp(this,4),Ui.dp(this,4),Ui.dp(this,4),Ui.dp(this,8));
@@ -200,7 +200,7 @@ public final class ImeService extends InputMethodService {
         if(request.isEmpty()||dictionary==null)return;
         final boolean en=english,t9=nine&&!english&&!password;
         lookup.execute(()->{if(id!=generation)return;List<String> list;
-            if(t9){try{if(nineDictionary==null){nineDictionary=new NineKeyDictionary(Assets.copy(this,"dictionary-015.bin","dictionary.bin"));nineDictionary.loadHotwords(getAssets().open("hot-chinese.tsv"));}list=new ArrayList<>();
+            if(t9){try{if(nineDictionary==null){nineDictionary=new NineKeyDictionary(Assets.copy(this,"dictionary-016.bin","dictionary.bin"));nineDictionary.loadHotwords(getAssets().open("hot-chinese.tsv"));}list=new ArrayList<>();
                 String[] parts=request.split("'",-1);String prefix="";for(int i=0;i<parts.length;i++){if(parts[i].isEmpty()){if(i==parts.length-1&&!prefix.isEmpty())list.add(prefix);continue;}List<String> part=nineDictionary.query(parts[i]);if(i<parts.length-1){if(!part.isEmpty())prefix+=part.get(0);}else for(String s:part)list.add(prefix+s);}
             }catch(Exception e){list=new ArrayList<>();}}
             else list=en?(englishDictionary==null?new ArrayList<>():englishDictionary.query(request)):dictionary.query(request);

@@ -51,6 +51,7 @@ internal sealed class UiProbe:Form {
     async Task Run(){
         try{
             Environment.SetEnvironmentVariable("LOCALAPPDATA",Path.Combine(output,"learning"));
+            Directory.CreateDirectory(Path.Combine(output,"learning"));
             var library=LoadLibrary(Path.Combine(root,"x64","winintel-tsf.dll"));if(library==IntPtr.Zero)throw new Exception("Cannot load TSF test module");
             key=(Key)Marshal.GetDelegateForFunctionPointer(GetProcAddress(library,"WinintelTestKey"),typeof(Key));
             detach=(Detach)Marshal.GetDelegateForFunctionPointer(GetProcAddress(library,"WinintelTestDetach"),typeof(Detach));
@@ -160,7 +161,12 @@ internal sealed class UiProbe:Form {
                 window.Show();window.Activate();await Task.Delay(100);Check(!window.TopMost,"translation workspace never forced on top");Capture(window,Path.Combine(output,"translation.png"));window.Hide();
             }
             ((IDisposable)translation).Dispose();
-            FocusTest(this);box.Focus();int rebound=focus(box.Handle);log.Add("rebind after auxiliary windows: "+rebound.ToString("X8"));await Task.Delay(150);await Type("shi");var candidate=FindWindow("winintel.Candidates.052",null);Rect r;GetWindowRect(candidate,out r);
+            FocusTest(this);box.Focus();int rebound=focus(box.Handle);log.Add("rebind after auxiliary windows: "+rebound.ToString("X8"));await Task.Delay(150);
+            await Type("yanghuiming");var nameWindow=FindWindow("winintel.Candidates.052",null);CaptureWindow(nameWindow,Path.Combine(output,"name-candidates.png"));
+            await Press('1');Check(box.Text=="杨慧明","full pinyin composes an unlisted name in TSF");
+            await Type("yhm");await Press('1');Check(box.Text=="杨慧明","learned name is first with initials in TSF");
+            await Type("shanhaoming");await Press('1');Check(box.Text=="单浩明","surname-specific pronunciation inserts correctly in TSF");
+            await Type("shi");var candidate=FindWindow("winintel.Candidates.052",null);Rect r;GetWindowRect(candidate,out r);
             CaptureWindow(candidate,Path.Combine(output,"candidates.png"));
             await Press(34);await Press(33);await Press('1');log.Add("keyboard committed text="+box.Text);Check(box.Text.Length>0&&!IsWindowVisible(candidate),"keyboard selection inserts text and hides candidates");
             await Type("nihao");await Press(32);Check(box.Text=="\u4f60\u597d","pinyin composition remains functional");

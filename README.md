@@ -4,13 +4,17 @@
 
 [English](README.en.md)
 
-最新发布：Windows **0.5.11** / Android **0.1.5**。新增长词与扩展词库、绿色反色候选高亮；Android 去除编辑和发送按钮，语音草稿直接点选编辑，修复同一输入框重启连接导致拼音丢失，并在本机保存纠正词和连续输入的新词。
+最新发布：Windows **0.5.12** / Android **0.1.6**。新增离线姓名组合候选，支持全拼、简拼、混合拼音与手机九宫格；恢复被截掉的低频和长词候选，选过的姓名与纠正词会在本机保存。
 
-**[下载安装包](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)** · **[中文旁白产品演示（0.5.4）](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.4/winintel-ime-0.5.4-demo.mp4)** · [官网](https://winintel.com) · [Bilibili](https://space.bilibili.com/429959998) · [YouTube](https://www.youtube.com/@winintelcom)
+**[下载安装包](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.12)** · **[中文旁白产品演示（0.5.4）](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.4/winintel-ime-0.5.4-demo.mp4)** · [官网](https://winintel.com) · [Bilibili](https://space.bilibili.com/429959998) · [YouTube](https://www.youtube.com/@winintelcom)
 
 ## 功能一眼看懂
 
 **说话成文字，长词随手输入。电脑与手机都能用，输入和录音在本机处理。**
+
+<img src="docs/screenshots/android-name-0.1.6.png" alt="真实 Android 0.1.6：yhm 简拼候选包含杨慧明" width="460">
+
+**姓名也能用简拼**：图为首次输入 `yhm` 后的真实候选，横向滑动即可选“杨慧明”；选过一次后自动优先显示。
 
 [![数萌 AI 输入法真实功能展示：电脑离线语音与表情，手机绿色候选与大按键](docs/screenshots/feature-showcase.png)](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)
 
@@ -55,8 +59,8 @@
 
 | 平台 | 安装包 | 功能 |
 |---|---|---|
-| Windows 10 / 11，64 位 | [0.5.11 EXE](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-0.5.11-setup.exe) | 扩展长词、绿色候选高亮、长拼音编辑、个人词库、英文补全、实时新闻、离线语音与实时翻译 |
-| Android 8.0+，arm64 手机 | [0.1.5 APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-android-0.1.5.apk) | 九宫格与全键盘、大按键与绿色候选、直接编辑、本机纠正记词、英文补全、实时新闻、离线语音草稿与笔记；包含 x86_64 运行库 |
+| Windows 10 / 11，64 位 | [0.5.12 EXE](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-0.5.12-setup.exe) | 姓名简拼、完整候选词库、绿色候选、个人记词、英文补全、实时新闻、离线语音与实时翻译 |
+| Android 8.0+，arm64 手机 | [0.1.6 APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-android-0.1.6.apk) | 姓名全拼与九宫格、大按键与绿色候选、直接编辑、本机纠正记词、英文补全、实时新闻、离线语音草稿与笔记；包含 x86_64 运行库 |
 
 Windows 包含 x64 与 x86 TSF 组件，支持 64 位系统中的两种应用。两平台独立编号；Android 采用停顿后识别，实时翻译和 SRT 导出目前仅在 Windows 提供。
 
@@ -64,17 +68,20 @@ Release 提供完整源码 ZIP、SHA-256 校验文件和验证报告；中文旁
 
 ### 本次更新与验证
 
-新增 ext、tencent、others、41448 词典源，整合 1,751,276 条全拼与简拼索引记录。手机候选使用绿色白字，按键按下变深绿色；语言、数字、符号分类与录音状态会高亮。回车统一为“换行”。同一输入框重启连接时保留待选拼音，纠正和连续中文组合词保存在本机，进程重启后可继续使用。Windows 缓存长拼音分段查词，改善句中编辑响应。
+词库保留 **944,740 个不同候选词**（其中 765,372 个超过两个字符），共 **1,833,993 条全拼与简拼索引**；移除旧版同码 96 / 192 项和手机查询 90 项的截断，恢复 82,717 条索引记录。共用字符串池后，词库文件由 55.13MB 缩小到 45.51MB。
+
+`yhm`、`yanghuiming`、`yanghm`、`yhuiming` 都能查到“杨慧明”，首次 `yhm` 在第一页展示。姓名由本机姓氏与常见名字用字组合产生，也支持“张浩宇”“陈嘉明”“欧阳子涵”等姓名，并非逐个硬编码完整姓名。普通词优先保留，首次选择后本机记词优先；更生僻的姓名或专业长词可通过全拼、逐字输入纠正或 Windows 个人词库添加。
 
 | 验证项目 | 结果 |
 |---|---|
-| Android 词库、九宫格与个人记词 | JVM 18 项通过，192MB 堆上限 |
-| Android 编辑与输入连接 | 最终 APK 27 项通过 |
-| Android 独立应用交互 | 14 项通过，含每次上屏重启连接、纠正长词与进程重启保留 |
-| Windows 界面与输入 | 57 项通过；另有 7 个引擎基础与错拼样例通过 |
+| Android 姓名、九宫格与个人记词 | JVM 21 项通过，192MB 堆上限；原有 18 项词库回归通过 |
+| Windows 姓名、长词与纠错引擎 | 22 项通过，包括首次简拼第一页及多音字姓氏重载后首选 |
+| Windows 实际输入与界面 | 60 项通过，含姓名全拼上屏、学习后简拼首选 |
+| Android 实际输入与编辑 | 27 项编辑回归和 5 项姓名交互通过 |
+| 手机候选翻页 | 精确词库候选完整保留，每页 9 项 |
 | Android 发布包 | 原签名，v2/v3 与 16KB 对齐校验通过 |
 
-详细资料：[升级说明](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-0.5.11-upgrade-guide.md) · [验证报告](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-0.5.11-release-report.md)。手机交互使用 x86_64 模拟器和独立测试应用验证，微信等真机版本仍需实际使用验证。覆盖安装保留个人词库，卸载或清除应用数据会删除记录。
+详细资料：[验证与升级报告](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-0.5.12-release-report.md)。覆盖安装保留个人词库，卸载或清除应用数据会删除记录。
 
 ## Windows 安装与使用
 

@@ -7,6 +7,9 @@ $ErrorActionPreference="Stop"
 $source=Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 New-Item -ItemType Directory -Force "$Work\objects","$Work\testpayload\x64","$Work\screens" | Out-Null
 Copy-Item "$Assets\dictionary.bin" "$Work\testpayload" -Force
+foreach($asset in @("character-readings.tsv","name-parts.tsv","hot-chinese.tsv")){
+  if(Test-Path "$Assets\$asset"){Copy-Item "$Assets\$asset" "$Work\testpayload" -Force}
+}
 Copy-Item $App "$Work\winintel-ime.exe" -Force
 $vc="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519"
 $sdk="${env:ProgramFiles(x86)}\Windows Kits\10"

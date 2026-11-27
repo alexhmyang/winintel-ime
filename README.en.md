@@ -4,15 +4,19 @@ An open-source Windows and Android system keyboard with a local pinyin engine, a
 
 [中文说明](README.md) · [Public releases](https://github.com/alexhmyang/winintel-ime/releases) · [Website](https://winintel.com)
 
-Latest release: Windows 0.5.11 / Android 0.1.5. Expanded word data improves long
-phrases; candidates use green with white text. Android drafts can be edited
-directly, same-editor connection restarts preserve pending Chinese input, and
-corrections/new phrases are stored on the device. The keyboard has no Edit or
-Send button.
+Latest release: Windows 0.5.12 / Android 0.1.6. Offline surname and given-character
+composition supplies missing names through full, abbreviated and mixed pinyin,
+including Android T9. Exact dictionary candidates are retained without the old
+per-code caps, and selected names and corrected phrases are learned locally.
 
-[Windows installer](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-0.5.11-setup.exe) · [Android APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-android-0.1.5.apk) · [Source, checksums and reports](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)
+[Windows installer](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-0.5.12-setup.exe) · [Android APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-android-0.1.6.apk) · [Source, checksums and reports](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.12)
 
 ## See it in action
+
+<img src="docs/screenshots/android-name-0.1.6.png" alt="Real Android 0.1.6 candidates include 杨慧明 for yhm" width="460">
+
+First-query name candidates for `yhm`. Swipe the candidate row to select a name;
+once selected, it becomes a locally learned preference.
 
 [![Real winintel AI screenshots: offline Windows voice drafts and emoji, Android green candidates and large keys](docs/screenshots/feature-showcase.png)](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)
 
@@ -38,17 +42,23 @@ Windows voice, emoji and news: 0.5.9, 0.5.7 and 0.5.8 respectively.
 
 </details>
 
-The dictionary contains 1,751,276 full-pinyin and abbreviation index records.
+The dictionary contains 944,740 distinct candidates and 1,833,993 full-pinyin and
+abbreviation index records, restoring 82,717 formerly truncated records.
+Of these candidates, 765,372 contain more than two characters.
+Shared string storage reduces the binary from 55.13MB to 45.51MB.
+`yhm`, `yanghuiming`, `yanghm` and `yhuiming` include 杨慧明. The first abbreviation
+query shows it on page one; selecting it makes it a locally learned preference.
+Other names, including compound surnames, use the same composition mechanism.
 Android adds nine-key and full keyboard layouts, larger keys, direct draft
 editing and a newline key. Windows caches long-pinyin segmentation queries to
 improve editing responsiveness.
 
 | Verification | Result |
 |---|---|
-| Android dictionary, T9 and personal words | 18 JVM checks passed with a 192MB heap |
-| Final Android APK editing and connection checks | 27 passed |
-| Independent Android host interaction | 14 passed, including learned corrections after process restart |
-| Windows UI and input | 57 passed, plus 7 engine examples |
+| Android names, T9 and personal words | 21 JVM checks passed with a 192MB heap, plus 18 previous dictionary regressions |
+| Windows names, phrases and correction | 22 engine checks passed, including surname pronunciation after reload |
+| Windows actual TSF input and UI | 60 checks passed |
+| Android actual name input and editing | 5 name interactions and 27 editing regressions passed |
 | Android signing and page alignment | Existing release signature, v2/v3 and 16KB alignment passed |
 
 Android interaction checks used an x86_64 emulator and an independent test app;
@@ -62,9 +72,9 @@ The release adds 22,437 English prefix entries. In EN mode, type `hel` and press
 
 The toolbox includes **Daily News and Hotwords** with free IT Home and NPR World feeds, RSS/Atom support, five-minute refresh and offline caching. Your own HTTPS `/v1/news` interface can replace the free sources, with optional fallback. Publication timestamps remain distinct from download times. A bilingual curated pack dated 2026-11-26 adds technical vocabulary; your own server can supply updates at `/v1/hotwords`. Typing stays offline and input/audio are never included in content requests. See [the usage guide](windows/English-news-guide.md).
 
-## Android 0.1.5
+## Android 0.1.6
 
-[Download APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.11/winintel-ime-android-0.1.5.apk). Android 8.0+, arm64 phones and x86_64 emulators. The updated keyboard shares the local English and Chinese hotword lists with Windows. Type `hel` in EN mode and tap `hello` to complete; Space preserves the original word.
+[Download APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-android-0.1.6.apk). Android 8.0+, arm64 phones and x86_64 emulators. The updated keyboard shares the local English and Chinese hotword lists with Windows. Type `hel` in EN mode and tap `hello` to complete; Space preserves the original word.
 
 Open News from the home screen or keyboard. News is disabled by default. When enabled, this page refreshes IT Home and NPR every five minutes, with a configurable HTTPS `/v1/news` endpoint, optional fallback and offline cache. Leaving the page stops scheduled refreshes. INTERNET permission is used for news only; typing, learning and speech remain local. The APK uses the existing release signing key for in-place upgrades. Offline voice drafts and notes are included; live translation and SRT export remain Windows features.
 

@@ -13,6 +13,7 @@ final class NineKeyDictionary {
     private final ByteBuffer data;
     private final int strings;
     private final int[] entries;
+    private final NameCandidates names;
     private final Map<String,String> hotwords=new HashMap<>();
     static String digits(String code){
         StringBuilder b=new StringBuilder();
@@ -23,6 +24,7 @@ final class NineKeyDictionary {
         return b.toString();
     }
     NineKeyDictionary(File file)throws IOException{
+        names=new NameCandidates(new File(file.getParentFile(),"name-parts.tsv"));
         try(FileInputStream f=new FileInputStream(file)){data=f.getChannel().map(FileChannel.MapMode.READ_ONLY,0,f.getChannel().size()).order(ByteOrder.LITTLE_ENDIAN);}
         int count=data.getInt(8);strings=data.getInt(12);entries=new int[count];
         for(int i=0;i<count;i++)entries[i]=i;
@@ -89,6 +91,7 @@ final class NineKeyDictionary {
         }
         List<String> list=new ArrayList<>(found.keySet());
         list.sort((a,b)->{int c=Float.compare(found.get(b),found.get(a));return c==0?a.compareTo(b):c;});
-        return list.size()>90?new ArrayList<>(list.subList(0,90)):list;
+        names.merge(key,true,exact,list);
+        return list;
     }
 }

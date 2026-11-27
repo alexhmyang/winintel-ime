@@ -12,6 +12,7 @@ import java.util.*;
 public final class Dictionary {
     private final ByteBuffer data;
     private final int count, strings;
+    private final NameCandidates names;
     private final Map<String,String> hotwords=new HashMap<>();
     public void loadHotwords(InputStream input) throws IOException {
         try(BufferedReader reader=new BufferedReader(new InputStreamReader(input,StandardCharsets.UTF_8))){
@@ -19,6 +20,7 @@ public final class Dictionary {
         }
     }
     public Dictionary(File file) throws IOException {
+        names=new NameCandidates(new File(file.getParentFile(),"name-parts.tsv"));
         try (FileInputStream in = new FileInputStream(file)) {
             data = in.getChannel().map(FileChannel.MapMode.READ_ONLY,0,in.getChannel().size()).order(ByteOrder.LITTLE_ENDIAN);
         }
@@ -40,7 +42,8 @@ public final class Dictionary {
         return lo;
     }
     private void collect(String key,float penalty,Map<String,Float> found){
-        for(int at=lower(key);at<count && code(at).equals(key);at++){
+        int scanned=0;
+        for(int at=lower(key);at<count && code(at).equals(key) && (penalty==0||scanned++<24);at++){
             String text=readString(strings+data.getInt(20+at*12),193);
             float score=data.getFloat(24+at*12)-penalty;
             found.put(text,Math.max(found.getOrDefault(text,-999f),score));
@@ -61,7 +64,7 @@ public final class Dictionary {
                 do{at++;}while(at<count && code(at).equals(c));
             }
         }
-        if(key.length()>=3 && key.length()<=24){
+        if(found.size()<9 && key.length()>=3 && key.length()<=24){
             for(int i=0;i<key.length();i++){
                 collect(key.substring(0,i)+key.substring(i+1),13,found);
                 if(i+1<key.length())collect(key.substring(0,i)+key.charAt(i+1)+key.charAt(i)+key.substring(i+2),12,found);
@@ -86,7 +89,8 @@ public final class Dictionary {
         }
         List<String> result=new ArrayList<>(found.keySet());
         result.sort((a,b)->{int c=Float.compare(found.get(b),found.get(a));return c!=0?c:a.compareTo(b);});
+        names.merge(key,false,exact,result);
         if(result.isEmpty())result.add(input);
-        return result.size()>90?new ArrayList<>(result.subList(0,90)):result;
+        return result;
     }
 }
