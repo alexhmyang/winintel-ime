@@ -17,7 +17,7 @@ Linux / macOS 新入口本轮覆盖中英文文字输入，离线语音、翻译
 
 支持全拼、简拼、混合拼音与手机九宫格；完整候选可翻页，选过的姓名与纠正词会在本机保存。八大行业词库、英文补全和长句候选均已包含在本次发布中。
 
-**[下载安装包](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.17)** · **[2K 中文产品演示](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ai-demo-landscape-zh.mp4)** · [官网](https://winintel.com) · [Bilibili](https://space.bilibili.com/429959998) · [YouTube](https://www.youtube.com/@winintelcom)
+**[下载安装包](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.17)** · **[YouTube 产品演示](https://www.youtube.com/@winintelcom)** · [官网](https://winintel.com)
 
 ## 功能一眼看懂
 
@@ -89,7 +89,7 @@ Linux / macOS 新入口本轮覆盖中英文文字输入，离线语音、翻译
 
 Windows 包含 x64 与 x86 TSF 组件，支持 64 位系统中的两种应用。两平台独立编号；Android 采用停顿后识别，实时翻译和 SRT 导出目前仅在 Windows 提供。
 
-Release 提供完整源码 ZIP、SHA-256 校验文件、验证报告及中英双语 2K 横竖屏演示、PDF 和 PPT。模型与运行库随安装包提供，不放入 Git 源码仓库。
+Release 提供安装包、完整源码 ZIP、发布说明及 SHA-256 校验文件。视频演示请访问 [YouTube 频道](https://www.youtube.com/@winintelcom)。模型与运行库随安装包提供，不放入 Git 源码仓库。
 
 ### 词库与验证
 
