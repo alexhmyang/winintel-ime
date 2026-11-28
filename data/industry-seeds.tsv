@@ -1,0 +1,272 @@
+# 数萌AI服务器 (winintel) / Alex YANG · GPL-3.0-or-later
+# profile<TAB>text<TAB>space-separated pinyin
+programming	编程	bian cheng
+programming	程序员	cheng xu yuan
+programming	源代码	yuan dai ma
+programming	变量	bian liang
+programming	函数	han shu
+programming	参数	can shu
+programming	接口	jie kou
+programming	实例	shi li
+programming	实参	shi can
+programming	形参	xing can
+programming	线程	xian cheng
+programming	进程	jin cheng
+programming	异常	yi chang
+programming	继承	ji cheng
+programming	重载	chong zai
+programming	重写	chong xie
+programming	构造函数	gou zao han shu
+programming	析构函数	xi gou han shu
+programming	回调函数	hui diao han shu
+programming	匿名函数	ni ming han shu
+programming	箭头函数	jian tou han shu
+programming	闭包	bi bao
+programming	迭代器	die dai qi
+programming	装饰器	zhuang shi qi
+programming	生成器	sheng cheng qi
+programming	虚拟环境	xu ni huan jing
+programming	依赖注入	yi lai zhu ru
+programming	依赖管理	yi lai guan li
+programming	类型推断	lei xing tui duan
+programming	类型检查	lei xing jian cha
+programming	泛型	fan xing
+programming	多态	duo tai
+programming	封装	feng zhuang
+programming	反射	fan she
+programming	序列化	xu lie hua
+programming	反序列化	fan xu lie hua
+programming	垃圾回收	la ji hui shou
+programming	内存泄漏	nei cun xie lou
+programming	空指针	kong zhi zhen
+programming	死锁	si suo
+programming	竞态条件	jing tai tiao jian
+programming	互斥锁	hu chi suo
+programming	读写锁	du xie suo
+programming	协程	xie cheng
+programming	异步	yi bu
+programming	同步	tong bu
+programming	单元测试	dan yuan ce shi
+programming	集成测试	ji cheng ce shi
+programming	回归测试	hui gui ce shi
+programming	端到端测试	duan dao duan ce shi
+programming	持续集成	chi xu ji cheng
+programming	持续部署	chi xu bu shu
+programming	版本控制	ban ben kong zhi
+programming	代码审查	dai ma shen cha
+programming	合并请求	he bing qing qiu
+programming	代码重构	dai ma chong gou
+programming	断点调试	duan dian tiao shi
+programming	调用栈	diao yong zhan
+programming	堆栈	dui zhan
+programming	编译器	bian yi qi
+programming	解释器	jie shi qi
+programming	链接器	lian jie qi
+programming	正则表达式	zheng ze biao da shi
+programming	哈希表	ha xi biao
+programming	链表	lian biao
+programming	二叉树	er cha shu
+programming	数据库事务	shu ju ku shi wu
+programming	事务隔离	shi wu ge li
+programming	索引	suo yin
+programming	缓存	huan cun
+programming	中间件	zhong jian jian
+programming	微服务	wei fu wu
+programming	负载均衡	fu zai jun heng
+programming	容器编排	rong qi bian pai
+programming	软件架构	ruan jian jia gou
+programming	消息队列	xiao xi dui lie
+programming	限流	xian liu
+programming	熔断	rong duan
+programming	幂等	mi deng
+programming	鉴权	jian quan
+programming	前端	qian duan
+programming	后端	hou duan
+programming	全栈	quan zhan
+programming	组件	zu jian
+programming	路由	lu you
+programming	响应式	xiang ying shi
+programming	热更新	re geng xin
+programming	构建	gou jian
+programming	部署	bu shu
+programming	调试	tiao shi
+ai	人工智能	ren gong zhi neng
+ai	机器学习	ji qi xue xi
+ai	深度学习	shen du xue xi
+ai	大语言模型	da yu yan mo xing
+ai	推理	tui li
+ai	张量	zhang liang
+ai	梯度	ti du
+ai	量化	liang hua
+ai	微调	wei tiao
+ai	蒸馏	zheng liu
+ai	嵌入	qian ru
+ai	向量检索	xiang liang jian suo
+ai	向量数据库	xiang liang shu ju ku
+ai	检索增强生成	jian suo zeng qiang sheng cheng
+ai	推测解码	tui ce jie ma
+ai	注意力机制	zhu yi li ji zhi
+ai	混合专家	hun he zhuan jia
+ai	张量并行	zhang liang bing xing
+ai	流水线并行	liu shui xian bing xing
+ai	数据并行	shu ju bing xing
+ai	预填充	yu tian chong
+ai	算子	suan zi
+ai	显存	xian cun
+ai	吞吐量	tun tu liang
+ai	算力	suan li
+ai	模型部署	mo xing bu shu
+ai	离线推理	li xian tui li
+ai	稀疏注意力	xi shu zhu yi li
+ai	参数	can shu
+ai	训练	xun lian
+medical	临床	lin chuang
+medical	诊断	zhen duan
+medical	鉴别诊断	jian bie zhen duan
+medical	病历	bing li
+medical	病史	bing shi
+medical	主诉	zhu su
+medical	医嘱	yi zhu
+medical	处方	chu fang
+medical	转诊	zhuan zhen
+medical	复诊	fu zhen
+medical	随访	sui fang
+medical	高血压	gao xue ya
+medical	糖尿病	tang niao bing
+medical	冠心病	guan xin bing
+medical	心电图	xin dian tu
+medical	血常规	xue chang gui
+medical	肝功能	gan gong neng
+medical	肾功能	shen gong neng
+medical	核磁共振	he ci gong zhen
+medical	影像学	ying xiang xue
+medical	抗生素	kang sheng su
+medical	药物过敏	yao wu guo min
+medical	不良反应	bu liang fan ying
+medical	治疗方案	zhi liao fang an
+medical	康复训练	kang fu xun lian
+finance	财务	cai wu
+finance	会计	kuai ji
+finance	审计	shen ji
+finance	资产负债表	zi chan fu zhai biao
+finance	利润表	li run biao
+finance	现金流量表	xian jin liu liang biao
+finance	应收账款	ying shou zhang kuan
+finance	应付账款	ying fu zhang kuan
+finance	坏账准备	huai zhang zhun bei
+finance	递延所得税	di yan suo de shui
+finance	营业收入	ying ye shou ru
+finance	毛利率	mao li lv
+finance	净利润	jing li run
+finance	现金流	xian jin liu
+finance	贴现率	tie xian lv
+finance	折现率	zhe xian lv
+finance	市盈率	shi ying lv
+finance	净资产	jing zi chan
+finance	资产减值	zi chan jian zhi
+finance	风险敞口	feng xian chang kou
+finance	套期保值	tao qi bao zhi
+finance	公允价值	gong yun jia zhi
+finance	账面价值	zhang mian jia zhi
+finance	会计分录	kuai ji fen lu
+finance	摊销	tan xiao
+law	法律	fa lv
+law	律师	lv shi
+law	诉讼	su song
+law	仲裁	zhong cai
+law	起诉	qi su
+law	举证	ju zheng
+law	举证责任	ju zheng ze ren
+law	诉讼时效	su song shi xiao
+law	管辖权	guan xia quan
+law	原告	yuan gao
+law	被告	bei gao
+law	侵权	qin quan
+law	知识产权	zhi shi chan quan
+law	违约责任	wei yue ze ren
+law	合同效力	he tong xiao li
+law	不可抗力	bu ke kang li
+law	善意取得	shan yi qu de
+law	行政复议	xing zheng fu yi
+law	司法解释	si fa jie shi
+law	劳动合同	lao dong he tong
+law	保密协议	bao mi xie yi
+law	商标注册	shang biao zhu ce
+law	专利申请	zhuan li shen qing
+law	著作权	zhu zuo quan
+law	民法典	min fa dian
+education	教育	jiao yu
+education	教学	jiao xue
+education	教案	jiao an
+education	课程	ke cheng
+education	课程标准	ke cheng biao zhun
+education	教学目标	jiao xue mu biao
+education	核心素养	he xin su yang
+education	因材施教	yin cai shi jiao
+education	课堂互动	ke tang hu dong
+education	学习评价	xue xi ping jia
+education	形成性评价	xing cheng xing ping jia
+education	教学反思	jiao xue fan si
+education	德育	de yu
+education	美育	mei yu
+education	素质教育	su zhi jiao yu
+education	学科	xue ke
+education	备课	bei ke
+education	作业	zuo ye
+education	错题	cuo ti
+education	阅读理解	yue du li jie
+education	函数	han shu
+education	导数	dao shu
+education	积分	ji fen
+education	概率	gai lv
+education	方程	fang cheng
+manufacturing	制造	zhi zao
+manufacturing	加工	jia gong
+manufacturing	数控	shu kong
+manufacturing	车床	che chuang
+manufacturing	铣床	xi chuang
+manufacturing	机床	ji chuang
+manufacturing	模具	mo ju
+manufacturing	公差	gong cha
+manufacturing	尺寸	chi cun
+manufacturing	粗糙度	cu cao du
+manufacturing	热处理	re chu li
+manufacturing	淬火	cui huo
+manufacturing	退火	tui huo
+manufacturing	焊接	han jie
+manufacturing	装配	zhuang pei
+manufacturing	工艺	gong yi
+manufacturing	工艺流程	gong yi liu cheng
+manufacturing	质量控制	zhi liang kong zhi
+manufacturing	良品率	liang pin lv
+manufacturing	不良率	bu liang lv
+manufacturing	产能	chan neng
+manufacturing	生产计划	sheng chan ji hua
+manufacturing	物料清单	wu liao qing dan
+manufacturing	供应链	gong ying lian
+manufacturing	可追溯性	ke zhui su xing
+ecommerce	电商	dian shang
+ecommerce	选品	xuan pin
+ecommerce	转化率	zhuan hua lv
+ecommerce	点击率	dian ji lv
+ecommerce	客单价	ke dan jia
+ecommerce	复购率	fu gou lv
+ecommerce	退货率	tui huo lv
+ecommerce	库存	ku cun
+ecommerce	销量	xiao liang
+ecommerce	上架	shang jia
+ecommerce	下架	xia jia
+ecommerce	优惠券	you hui quan
+ecommerce	直播带货	zhi bo dai huo
+ecommerce	跨境电商	kua jing dian shang
+ecommerce	物流	wu liu
+ecommerce	履约	lv yue
+ecommerce	售后	shou hou
+ecommerce	客服	ke fu
+ecommerce	推广	tui guang
+ecommerce	获客	huo ke
+ecommerce	私域	si yu
+ecommerce	公域	gong yu
+ecommerce	搜索排名	sou suo pai ming
+ecommerce	商品详情	shang pin xiang qing
+ecommerce	营销	ying xiao

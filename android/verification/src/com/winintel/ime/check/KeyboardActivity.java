@@ -10,7 +10,7 @@ import android.widget.*;
 /** A test host for chat actions; never sends a message. */
 public final class KeyboardActivity extends Activity {
     public void onCreate(Bundle state){
-        super.onCreate(state);LinearLayout root=new LinearLayout(this);root.setOrientation(1);root.setPadding(24,32,24,24);
+        super.onCreate(state);if(getActionBar()!=null)getActionBar().hide();LinearLayout root=new LinearLayout(this);root.setOrientation(1);root.setPadding(24,120,24,24);
         TextView result=new TextView(this);result.setText("Keyboard test host");root.addView(result);
         EditText text=new EditText(this);text.setTextSize(22);text.setSingleLine(true);text.setHint("CHAT_INPUT");text.setImeOptions(EditorInfo.IME_ACTION_SEND);
         text.setOnEditorActionListener((view,action,event)->{result.setText("ACTION_"+action);return true;});root.addView(text);
@@ -32,5 +32,6 @@ public final class KeyboardActivity extends Activity {
         }root.addView(presets);
         Button correction=new Button(this);correction.setText("CORRECT");correction.setOnClickListener(v->{text.requestFocus();text.setText("数萌算力机群");text.setSelection(4,5);});root.addView(correction);
         setContentView(root);text.requestFocus();getWindow().setSoftInputMode(5);
+        text.postDelayed(()->((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).showSoftInput(text,InputMethodManager.SHOW_FORCED),300);
     }
 }

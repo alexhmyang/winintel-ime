@@ -1,6 +1,8 @@
-# 数萌 AI 输入法 · Android 0.1.6
+# 数萌 AI 输入法 · Android 0.1.12
 
-[下载安装 APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-android-0.1.6.apk) · [完整项目说明](../README.md)
+[下载安装 APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-android-0.1.12.apk) · [完整项目说明](../README.md)
+
+最新版本修复候选遗漏、键盘布局裁切、展开候选点击区域及长按删除多删；每页最多 25 项，支持九宫格、八大行业词库和本机选词记忆。
 
 Android 8.0+，支持 arm64 手机和 x86_64 模拟器。原生系统键盘、本地拼音词库、22,437 项英文补全、双语精选热词、选词学习、离线 SenseVoiceSmall INT8、语音草稿和文字笔记。
 

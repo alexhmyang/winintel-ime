@@ -12,10 +12,10 @@ internal sealed class Panel : Form {
     internal event Action MeetingRequested;
     internal event Action ServicesRequested,CommandsRequested;
     internal Panel(Settings s,Action onSaved){
-        settings=s;saved=onSaved;Text="数萌 AI 输入法";ClientSize=new Size(600,530);MinimumSize=MaximumSize=Size;MaximizeBox=false;Font=new Font("Microsoft YaHei UI",10);StartPosition=FormStartPosition.CenterScreen;BackColor=Color.White;AutoScaleMode=AutoScaleMode.Dpi;
+        settings=s;saved=onSaved;Text="数萌 AI 输入法";ClientSize=new Size(600,700);MinimumSize=Size;Font=new Font("Microsoft YaHei UI",10);StartPosition=FormStartPosition.CenterScreen;BackColor=Color.White;AutoScaleMode=AutoScaleMode.Dpi;
         var title=Skin.Label("数萌 AI 输入法",21,true);title.Location=new Point(28,22);Controls.Add(title);
         var sub=Skin.Label("winintel AI  ·  自然输入，专注表达");sub.ForeColor=Skin.Muted;sub.Location=new Point(30,67);Controls.Add(sub);
-        var tabs=new MaterialTabs{Location=new Point(24,108),Size=new Size(552,350),Anchor=AnchorStyles.Top|AnchorStyles.Left|AnchorStyles.Right};
+        var tabs=new MaterialTabs{Location=new Point(24,108),Size=new Size(552,520),Anchor=AnchorStyles.Top|AnchorStyles.Bottom|AnchorStyles.Left|AnchorStyles.Right};
         var input=new MaterialPage("键盘输入"){Padding=new Padding(14)};
         var voice=new MaterialPage("语音输入"){Padding=new Padding(14)};
         var office=new MaterialPage("翻译与字幕"){Padding=new Padding(14)};
@@ -26,10 +26,30 @@ internal sealed class Panel : Form {
         phrases.Click+=(a,b)=>{using(var manager=new PersonalPhrases())manager.ShowDialog(this);};
         var services=Skin.Button("词库与服务");services.SetBounds(18,78,140,36);input.Controls.Add(services);services.Click+=(a,b)=>{if(ServicesRequested!=null)ServicesRequested();};
         var commands=Skin.Button("软件助手");commands.SetBounds(172,78,140,36);input.Controls.Add(commands);commands.Click+=(a,b)=>{if(CommandsRequested!=null)CommandsRequested();};
-        var testLabel=Skin.Label("试着输入");testLabel.Location=new Point(18,108);input.Controls.Add(testLabel);
-        var testCard=new MaterialCard{Location=new Point(16,141),Size=new Size(508,112),Padding=new Padding(14)};
+        var fontLabel=Skin.Label("候选字号");fontLabel.Location=new Point(18,134);input.Controls.Add(fontLabel);
+        var sizes=new ComboBox{DropDownStyle=ComboBoxStyle.DropDownList,AccessibleName="候选字号",Font=Font};
+        sizes.SetBounds(112,128,160,32);sizes.Items.AddRange(new object[]{"16 · 紧凑","20 · 标准","24 · 大字","28 · 特大"});
+        int[] values={16,20,24,28};sizes.SelectedIndex=Math.Max(0,Array.IndexOf(values,s.CandidateFontSize));input.Controls.Add(sizes);
+        var sample=new Label{Text="1  数萌 AI",AutoSize=false,TextAlign=ContentAlignment.MiddleCenter,BackColor=Color.FromArgb(0,122,78),ForeColor=Color.White,AccessibleName="候选字号预览"};
+        sample.SetBounds(300,121,208,50);input.Controls.Add(sample);
+        Font previewOwned=null;
+        Action previewFont=()=>{var old=previewOwned;previewOwned=new Font("Microsoft YaHei UI",values[sizes.SelectedIndex]*72f/96f);sample.Font=previewOwned;if(old!=null)old.Dispose();};
+        Disposed+=(a,b)=>{if(previewOwned!=null)previewOwned.Dispose();};
+        previewFont();sizes.SelectionChangeCommitted+=(a,b)=>{settings.CandidateFontSize=values[sizes.SelectedIndex];previewFont();settings.Save();saved();Status("候选字号已保存，下次输入立即生效");};
+        var industryLabel=Skin.Label("行业词库");industryLabel.Location=new Point(18,188);input.Controls.Add(industryLabel);
+        var industry=new ComboBox{DropDownStyle=ComboBoxStyle.DropDownList,AccessibleName="行业词库",Font=Font};
+        industry.SetBounds(112,180,396,32);
+        string[] ids={"general","programming","ai","medical","finance","law","education","manufacturing","ecommerce"};
+        industry.Items.AddRange(new object[]{"通用 · 日常输入","编程与软件","AI与算力","医疗健康","金融财会","法律政务","教育科研","工业制造","电商营销"});
+        industry.SelectedIndex=Math.Max(0,Array.IndexOf(ids,s.IndustryProfile));input.Controls.Add(industry);
+        var coding=new CheckBox{Text="编程行业：代码编辑器中默认英文，Shift 可切中文",AccessibleName="代码输入保护",AutoSize=true,Location=new Point(18,222),Checked=s.CodeAssist};
+        input.Controls.Add(coding);
+        industry.SelectionChangeCommitted+=(a,b)=>{settings.IndustryProfile=ids[industry.SelectedIndex];settings.Save();saved();Status("行业已保存，个人选词习惯仍优先");};
+        coding.CheckedChanged+=(a,b)=>{settings.CodeAssist=coding.Checked;settings.Save();saved();};
+        var testLabel=Skin.Label("试着输入");testLabel.Location=new Point(18,274);input.Controls.Add(testLabel);
+        var testCard=new MaterialCard{Location=new Point(16,304),Size=new Size(508,120),Padding=new Padding(14),Anchor=AnchorStyles.Top|AnchorStyles.Left|AnchorStyles.Right};
         Skin.Editor(TestBox);TestBox.Dock=DockStyle.Fill;TestBox.AccessibleName="输入测试区";testCard.Controls.Add(TestBox);input.Controls.Add(testCard);
-        var hint=Skin.Label("Win + 空格，切换到数萌 AI 输入法");hint.Location=new Point(18,268);hint.ForeColor=Skin.Muted;input.Controls.Add(hint);
+        var hint=Skin.Label("Win + 空格切换输入法 · EN 模式按 Tab 补全");hint.Location=new Point(18,442);hint.ForeColor=Skin.Muted;input.Controls.Add(hint);
         var micLabel=Skin.Label("麦克风",12,true);micLabel.Location=new Point(18,22);voice.Controls.Add(micLabel);
         microphones.SetBounds(18,63,490,32);microphones.Font=Font;voice.Controls.Add(microphones);
         foreach(var mic in Microphone.List()){int index=microphones.Items.Add(mic);if(mic.Id==s.Microphone)microphones.SelectedIndex=index;}if(microphones.SelectedIndex<0&&microphones.Items.Count>0)microphones.SelectedIndex=0;
@@ -42,7 +62,7 @@ internal sealed class Panel : Form {
         var oText=Skin.Label("中英互译、双语字幕与会议记录");oText.Location=new Point(22,75);oText.ForeColor=Skin.Muted;officeCard.Controls.Add(oText);
         var privacy=Skin.Label("文字与语音在本机处理");privacy.Location=new Point(22,111);privacy.ForeColor=Skin.Muted;officeCard.Controls.Add(privacy);
         var meeting=Skin.Button("打开工作台",true);meeting.Location=new Point(18,170);officeCard.Controls.Add(meeting);meeting.Click+=(a,b)=>{if(MeetingRequested!=null)MeetingRequested();};office.Controls.Add(officeCard);
-        status.SetBounds(30,477,535,30);status.ForeColor=Skin.Muted;status.Text="离线运行  ·  选词习惯仅保存在本机";Controls.Add(status);
+        status.SetBounds(30,652,535,30);status.Anchor=AnchorStyles.Bottom|AnchorStyles.Left|AnchorStyles.Right;status.ForeColor=Skin.Muted;status.Text="离线运行  ·  行业词库与个人习惯一起排序";Controls.Add(status);
         Shown+=(a,b)=>Skin.RoundWindow(this);
         FormClosing+=(a,b)=>{if(b.CloseReason==CloseReason.UserClosing){b.Cancel=true;Hide();}};
     }

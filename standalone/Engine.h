@@ -5,7 +5,11 @@
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
+#ifdef _WIN32
 #include <windows.h>
+#else
+#include "../portable/Platform.h"
+#endif
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -20,8 +24,10 @@
 #include <unordered_set>
 struct Candidate { std::wstring text; float score; };
 #include "NameCandidates.h"
+#include "IndustryLexicon.h"
 class Engine {
   NameCandidates names;
+  IndustryLexicon industry;
   struct Entry { unsigned code, text; float score; };
   HANDLE file=INVALID_HANDLE_VALUE, mapping=nullptr;
   const char* base=nullptr;
@@ -29,7 +35,7 @@ class Engine {
   const char* strings=nullptr;
   unsigned count=0;
   std::unordered_map<std::wstring,size_t> candidateOffsets;
-  std::unordered_map<std::string,Candidate> segmentCache;
+  std::unordered_map<std::string,std::vector<Candidate>> segmentCache;
   struct Choice { unsigned count=0; uint64_t sequence=0; };
   std::unordered_map<std::string,Choice> learning;
   std::wstring learnPath,legacyPath,mutexName;
@@ -65,6 +71,13 @@ class Engine {
       }failed.insert(state);return false;
     };
     std::string result;return match(0,0,result)?result:"";
+  }
+  bool fullSpelling(const std::string& code,const std::wstring& text) const{
+    if(text.size()==1){
+      auto found=readings.find(text[0]);
+      return found!=readings.end()&&std::find(found->second.begin(),found->second.end(),code)!=found->second.end();
+    }
+    return !initials(code,text).empty();
   }
   void loadPhrases(const std::wstring& path,std::unordered_map<std::string,std::vector<std::wstring>>& phrases){
     WIN32_FILE_ATTRIBUTE_DATA info={};
@@ -168,6 +181,7 @@ public:
     entries=(const Entry*)(base+16); strings=base+start;
     auto slash=path.find_last_of(L"\\/");loadReadings(path.substr(0,slash+1)+L"character-readings.tsv");
     names.load(path.substr(0,slash+1)+L"name-parts.tsv");
+    industry.open(path.substr(0,slash));
     builtinHotPath=path.substr(0,slash+1)+L"hot-chinese.tsv";
     // Validate all offsets once, before using the mapped dictionary.
     size_t length=(size_t)size.QuadPart-start;
@@ -183,13 +197,20 @@ public:
     }
     return true;
   }
-  std::vector<Candidate> query(std::string code) {
+  std::vector<Candidate> query(std::string code,bool expand=true) {
     std::vector<Candidate> result;if(!count||code.empty())return result;
     candidateOffsets.clear();
     code=normalize(code);refreshLearning();loadPhrases(personalPath,personal);loadPhrases(apiPath,api);loadPhrases(hotPath,hot);loadPhrases(builtinHotPath,builtinHot);
     collect(code,0,result);
     const size_t exactCount=result.size();
-    if(code.size()>=2){
+    std::unordered_set<std::wstring> exactSpelled;
+    for(const auto& c:result)if(fullSpelling(code,c.text))exactSpelled.insert(c.text);
+    if(code.size()==1){
+      std::unordered_set<std::string> syllables;
+      for(auto& r:readings)for(auto& s:r.second)if(s.compare(0,1,code)==0)syllables.insert(s);
+      for(auto& s:syllables)collect(s,9,result,32);
+    }
+    if(code.size()>=1){
       unsigned at=lower(code),scanned=0;
       while(at<count && !strncmp(strings+entries[at].code,code.c_str(),code.size()) && scanned++<128){
         std::string key=strings+entries[at].code;
@@ -197,36 +218,92 @@ public:
         do{at++;}while(at<count&&key==strings+entries[at].code);
       }
     }
-    if(exactCount<9 && code.size()>=3 && code.size()<=24){
+    std::vector<std::string> corrections;
+    auto corrected=[&](const std::string& key,float penalty){
+      auto at=lower(key);if(at<count&&key==strings+entries[at].code)corrections.push_back(key);
+      collect(key,penalty+(exactCount>=9?100:0),result);
+    };
+    if(exactCount<50 && code.size()>=3 && code.size()<=24){
       for(size_t i=0;i<code.size();i++){
-        auto s=code;s.erase(i,1);collect(s,13,result);
-        if(i+1<code.size()){s=code;std::swap(s[i],s[i+1]);collect(s,12,result);}
+        auto s=code;s.erase(i,1);corrected(s,13);
+        if(i+1<code.size()){s=code;std::swap(s[i],s[i+1]);corrected(s,12);}
         for(char c='a';c<='z';c++){
-          if(c!=code[i]){s=code;s[i]=c;collect(s,14,result);}
-          s=code;s.insert(i,1,c);collect(s,13,result);
+          if(c!=code[i]){s=code;s[i]=c;corrected(s,14);}
+          s=code;s.insert(i,1,c);corrected(s,13);
         }
       }
-      for(char c='a';c<='z';c++)collect(code+c,13,result);
+      for(char c='a';c<='z';c++)corrected(code+c,13);
     }
-    if(exactCount==0 && code.size()<=256){
-      struct Part{std::wstring text;float score=-1e9f;};
-      std::vector<Part> dp(code.size()+1);dp[0].score=0;
-      for(size_t end=1;end<=code.size();end++)for(size_t start=end>24?end-24:0;start<end;start++){
-        if(dp[start].score<-1e8)continue;
+    std::unordered_set<std::wstring> legacySpelled;
+    // Retain established phrase paths while expanding sparse candidate sets.
+    if(exactCount<50 && code.size()>=4 && code.size()<=256){
+      const size_t beam=128;
+      std::vector<std::vector<Candidate>> dp(code.size()+1);dp[0].push_back({L"",0});
+      std::vector<std::vector<Candidate>> legacy(code.size()+1);legacy[0].push_back({L"",0});
+      for(size_t end=1;end<=code.size();end++){
+        std::unordered_map<std::wstring,float> paths;
+        for(size_t start=end>24?end-24:0;start<end;start++){
+        if(dp[start].empty())continue;
         auto spelling=code.substr(start,end-start);auto cached=segmentCache.find(spelling);
         if(cached==segmentCache.end()){
-          Candidate best{L"",-1e9f};
+          std::vector<Candidate> choices;
           for(unsigned at=lower(spelling);at<count&&spelling==strings+entries[at].code;at++){
-            if(entries[at].score<=best.score)continue;
-            auto text=wide(strings+entries[at].text);if(!text.empty()&&text[0]>=0x3400)best={std::move(text),entries[at].score};
+            auto text=wide(strings+entries[at].text);
+            if(text.empty()||spelling.size()<text.size()*2)continue;
+            if(std::any_of(text.begin(),text.end(),[](wchar_t ch){return ch<0x4e00||ch>0x9fff;}))continue;
+            // Do not splice initial-only abbreviations into full-pinyin sentences.
+            if(!fullSpelling(spelling,text))continue;
+            choices.push_back({std::move(text),entries[at].score});
           }
+          std::sort(choices.begin(),choices.end(),[](const auto& a,const auto& b){return a.score!=b.score?a.score>b.score:a.text<b.text;});
+          if(choices.size()>32)choices.resize(32);
           if(segmentCache.size()>4096)segmentCache.clear();
-          cached=segmentCache.emplace(spelling,std::move(best)).first;
+          cached=segmentCache.emplace(spelling,std::move(choices)).first;
         }
-        const auto& c=cached->second;
-        if(!c.text.empty()&&dp[start].score+c.score-34>dp[end].score)dp[end]={dp[start].text+c.text,dp[start].score+c.score-34};
+        for(const auto& before:dp[start])for(const auto& c:cached->second){
+          auto text=before.text+c.text;
+          float score=before.score+c.score*(float)c.text.size()-50;
+          auto old=paths.find(text);if(old==paths.end()||score>old->second)paths[text]=score;
+        }
+        for(const auto& before:legacy[start])for(size_t i=0;i<std::min<size_t>(4,cached->second.size());i++){
+          const auto& c=cached->second[i];legacy[end].push_back({before.text+c.text,before.score+c.score-34-(c.text.size()==1?5:0)});
+        }
+        }
+        std::sort(legacy[end].begin(),legacy[end].end(),[](const auto& a,const auto& b){return a.score!=b.score?a.score>b.score:a.text<b.text;});
+        if(legacy[end].size()>8)legacy[end].resize(8);
+        for(auto& p:paths)dp[end].push_back({p.first,p.second});
+        std::sort(dp[end].begin(),dp[end].end(),[](const auto& a,const auto& b){if(a.text.size()!=b.text.size())return a.text.size()<b.text.size();return a.score!=b.score?a.score>b.score:a.text<b.text;});
+        if(dp[end].size()>beam)dp[end].resize(beam);
       }
-      if(!dp.back().text.empty())result.push_back({dp.back().text,dp.back().score});
+      for(auto c:legacy.back())if(fullSpelling(code,c.text)){
+        legacySpelled.insert(c.text);
+        if(exactCount>0)c.score-=100;
+        auto found=candidateOffsets.find(c.text);
+        if(found==candidateOffsets.end()){candidateOffsets[c.text]=result.size();result.push_back(c);}
+        else result[found->second].score=std::max(result[found->second].score,c.score);
+      }
+      for(auto& c:dp.back()){
+        c.score=c.score/(float)c.text.size()-100;
+        auto prior=candidateOffsets.find(c.text);
+        if(prior==candidateOffsets.end()){candidateOffsets[c.text]=result.size();result.push_back(c);}
+        else result[prior->second].score=std::max(result[prior->second].score,c.score);
+      }
+    }
+    if(expand&&result.size()<50){
+      std::unordered_set<std::wstring> seen;for(auto& c:result)seen.insert(c.text);
+      std::sort(corrections.begin(),corrections.end());corrections.erase(std::unique(corrections.begin(),corrections.end()),corrections.end());
+      for(auto& key:corrections){
+        if(key==code)continue;
+        for(auto c:query(key,false))if(seen.insert(c.text).second){c.score-=35;result.push_back(c);}
+        if(result.size()>=50)break;
+      }
+    }
+    for(auto& text:names.query(code)){
+      const auto full=names.spelling(text).first;float prior=names.prior(text);
+      if(full!=code||prior<=0)continue;
+      auto it=std::find_if(result.begin(),result.end(),[&](const auto& c){return c.text==text;});
+      float score=32+prior;
+      if(it==result.end())result.push_back({text,score});else it->score=std::max(it->score,score);
     }
     // Restore learned candidates even when prefix scanning no longer includes them.
     auto prefix=code+"\t";
@@ -242,6 +319,29 @@ public:
       auto text=wide(item.first.c_str()+prefix.size());
       if(std::none_of(result.begin(),result.end(),[&](const Candidate& c){return c.text==text;}))result.push_back({text,0});
     }
+    industry.appendChinese(code,result);
+    if(expand&&result.size()<50){
+      auto seeds=result;
+      std::unordered_set<std::wstring> seen;for(auto& c:result)seen.insert(c.text);
+      for(auto& seed:seeds){
+        std::string full;for(auto ch:seed.text){
+          auto r=readings.find(ch);if(r==readings.end()||r->second.empty()){full.clear();break;}full+=r->second.front();
+        }
+        if(full.empty()||full==code)continue;
+        float score=-180;
+        for(auto c:query(full,false))if(seen.insert(c.text).second){c.score=score;score-=.05f;result.push_back(c);}
+        if(result.size()>=50)break;
+      }
+      for(size_t length=code.size()>2?code.size()-1:0;length>=2&&result.size()<50;length--){
+        float score=-220;
+        for(auto c:query(code.substr(0,length),false))if(seen.insert(c.text).second){c.score=score;score-=.05f;result.push_back(c);}
+      }
+    }
+    // A short, valid full-pinyin phrase must precede unrelated typo suggestions.
+    // Expanded paths remain below established dictionary, name and correction scores.
+    std::unordered_set<std::wstring> preferred;
+    if(exactSpelled.empty()&&code.size()>=6)for(const auto& c:result)
+      if(c.text.size()==2&&legacySpelled.count(c.text))preferred.insert(c.text);
     std::sort(result.begin(),result.end(),[&](const Candidate&a,const Candidate&b){
       auto ai=learning.find(prefix+utf8(a.text)),bi=learning.find(prefix+utf8(b.text));
       bool al=ai!=learning.end(),bl=bi!=learning.end();
@@ -254,16 +354,19 @@ public:
       bool ar=remote!=api.end()&&std::find(remote->second.begin(),remote->second.end(),a.text)!=remote->second.end();
       bool br=remote!=api.end()&&std::find(remote->second.begin(),remote->second.end(),b.text)!=remote->second.end();
       if(ar!=br)return ar;
+      bool af=preferred.count(a.text)>0,bf=preferred.count(b.text)>0;
+      if(af!=bf)return af;
       return a.score!=b.score?a.score>b.score:a.text<b.text;
     });
     // Keep normal words and learned choices ahead of speculative names; reserve
     // three visible slots, then retain the rest for ordinary candidate paging.
-    size_t insertAt=exactCount?std::min<size_t>(5,result.size()):0,visible=0;
+    const size_t nameSlots=code.size()==3?6:3;
+    size_t insertAt=std::min<size_t>(nameSlots==6?3:5,result.size()),visible=0;
     if(hasPreference(code)||custom!=personal.end())insertAt=std::min<size_t>(5,result.size());
     for(auto& text:names.query(code)){
       if(std::any_of(result.begin(),result.end(),[&](const Candidate& c){return c.text==text;}))continue;
       Candidate row{text,-100};
-      if(visible++<3)result.insert(result.begin()+insertAt++,row);else result.push_back(row);
+      if(visible++<nameSlots)result.insert(result.begin()+insertAt++,row);else result.push_back(row);
     }
     if(result.empty())result.push_back({std::wstring(code.begin(),code.end()),0});
     return result;
@@ -298,4 +401,5 @@ public:
     for(auto& item:learning)if(item.first.compare(0,prefix.size(),prefix)==0)return true;
     return false;
   }
+  void setIndustry(const std::string& profile){industry.setProfile(profile);}
 };

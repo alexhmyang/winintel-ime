@@ -5,6 +5,7 @@ param(
   [string]$BuildRoot=(Join-Path $env:TEMP "winintel-ime-release-android"),
   [string]$KeyStore=$env:WININTEL_KEYSTORE,
   [string]$PasswordFile=$env:WININTEL_KEY_PASSWORD_FILE,
+  [string]$PreparedAssets,
   [string]$Output=(Split-Path (Split-Path $PSScriptRoot -Parent) -Parent)
 )
 $ErrorActionPreference="Stop"
@@ -39,10 +40,17 @@ function CheckExit([string]$stage){if($LASTEXITCODE){throw "$stage failed: $LAST
 # Generated dictionary stays in the build directory.
 $node=Get-Command node.exe -ErrorAction SilentlyContinue
 if(!$node){throw "Install Node.js 22+ to generate the dictionary"}
+if($PreparedAssets){
+  Copy-Item "$PreparedAssets\*" "$BuildRoot\assets" -Recurse -Force
+}else{
 & $node.Source "$repo\standalone\dictionary.mjs" "$BuildRoot\assets\dictionary.bin"
 CheckExit "Dictionary"
 & $node.Source "$repo\standalone\english-dictionary.mjs" "$BuildRoot\assets"
 CheckExit "English dictionary"
+& $node.Source --preserve-symlinks-main "$repo\standalone\industry-packs.mjs" "$BuildRoot\assets"
+CheckExit "Industry dictionary"
+}
+if(!(Test-Path "$BuildRoot\assets\industry-words.tsv")){throw "Industry dictionary output is missing"}
 & "$bt\aapt.exe" package -f -m -J "$BuildRoot\generated" -M "$root\AndroidManifest.xml" -S "$root\res" -A "$BuildRoot\assets" -I $platform -0 onnx -0 bin -F "$BuildRoot\resources.apk"
 CheckExit "aapt"
 $sources=@(Get-ChildItem "$root\src","$BuildRoot\generated" -Recurse -Filter *.java | ForEach-Object {$_.FullName})

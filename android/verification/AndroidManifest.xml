@@ -7,4 +7,9 @@
   <instrumentation android:name=".FeatureCheck" android:targetPackage="com.winintel.ime" android:label="Local completion and news verification"/>
   <instrumentation android:name=".CaretCheck" android:targetPackage="com.winintel.ime" android:label="Caret and speech editing verification"/>
   <instrumentation android:name=".VoiceSwitchCheck" android:targetPackage="com.winintel.ime" android:label="Rapid microphone switching verification"/>
+  <instrumentation android:name=".AccuracyUpgradeCheck" android:targetPackage="com.winintel.ime" android:label="Installed dictionary upgrade verification"/>
+  <instrumentation android:name=".IndustryCheck" android:targetPackage="com.winintel.ime" android:label="Installed industry verification"/>
+  <instrumentation android:name=".CompactKeyboardCheck" android:targetPackage="com.winintel.ime" android:label="Compact keyboard and complete paging"/>
+  <instrumentation android:name=".CandidateLookupCheck" android:targetPackage="com.winintel.ime" android:label="Candidate coverage and typo correction"/>
+  <instrumentation android:name=".DeleteRepeatCheck" android:targetPackage="com.winintel.ime" android:label="Delete repeat checks"/>
 </manifest>

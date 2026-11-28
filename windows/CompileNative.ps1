@@ -6,6 +6,6 @@ $env:INCLUDE="$vc\include;$sdk\Include\$version\ucrt;$sdk\Include\$version\share
 foreach($arch in @("x64","x86")){
  New-Item -ItemType Directory -Force "$Output\$arch","$Output\objects-$arch" | Out-Null
  $env:LIB="$vc\lib\$arch;$sdk\Lib\$version\ucrt\$arch;$sdk\Lib\$version\um\$arch"
- & "$vc\bin\Hostx64\$arch\cl.exe" /nologo /LD /MT /EHsc /std:c++17 /utf-8 /DNOMINMAX "$PSScriptRoot\Native\Module.cpp" "$PSScriptRoot\Native\Keyboard.cpp" "$PSScriptRoot\Native\CandidateView.cpp" "/Fo$Output\objects-$arch\\" /link "/DEF:$PSScriptRoot\Native\module.def" "/OUT:$Output\$arch\winintel-tsf.dll" "/IMPLIB:$Output\objects-$arch\winintel-tsf.lib" uuid.lib ole32.lib oleaut32.lib user32.lib gdi32.lib advapi32.lib
+ & "$vc\bin\Hostx64\$arch\cl.exe" /nologo /LD /MT /O2 /EHsc /std:c++17 /utf-8 /DNOMINMAX "$PSScriptRoot\Native\Module.cpp" "$PSScriptRoot\Native\Keyboard.cpp" "$PSScriptRoot\Native\CandidateView.cpp" "/Fo$Output\objects-$arch\\" /link "/DEF:$PSScriptRoot\Native\module.def" "/OUT:$Output\$arch\winintel-tsf.dll" "/IMPLIB:$Output\objects-$arch\winintel-tsf.lib" uuid.lib ole32.lib oleaut32.lib user32.lib gdi32.lib advapi32.lib
  if($LASTEXITCODE){throw "Native $arch build failed"}
 }

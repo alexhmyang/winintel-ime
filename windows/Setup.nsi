@@ -1,4 +1,4 @@
-﻿Unicode true
+Unicode true
 !ifndef VERSION
 !define VERSION "0.5.0"
 !endif
@@ -24,6 +24,10 @@ Section "数萌 AI 输入法"
     MessageBox MB_ICONSTOP "离线语音版本需要 64 位 Windows 10 或 Windows 11。"
     Abort
   ${EndIf}
+  ; The existing controller owns a mutex; it must exit before starting this version.
+  nsExec::ExecToStack '"$SYSDIR\taskkill.exe" /F /IM winintel-ime.exe'
+  Pop $0
+  Pop $1
   SetOutPath "$INSTDIR"
   File /r /x ProductDemo.exe /x TranslationProbe.exe "${PAYLOAD}\*.*"
   ExecWait '"$SYSDIR\regsvr32.exe" /s "$INSTDIR\x86\winintel-tsf.dll"' $0
@@ -44,6 +48,7 @@ Section "数萌 AI 输入法"
   CreateDirectory "$SMPROGRAMS\数萌 AI 输入法"
   CreateShortcut "$SMPROGRAMS\数萌 AI 输入法\数萌设置.lnk" "$INSTDIR\winintel-ime.exe" "--show"
   CreateShortcut "$DESKTOP\数萌 AI 输入法.lnk" "$INSTDIR\winintel-ime.exe" "--show"
+  Exec '"$INSTDIR\winintel-ime.exe"'
 SectionEnd
 Section "Uninstall"
   ExecWait '"$SYSDIR\regsvr32.exe" /u /s "$INSTDIR\x86\winintel-tsf.dll"'

@@ -13,6 +13,12 @@ final class NameCandidates {
     }
     private final List<Part> surnames=new ArrayList<>(),given=new ArrayList<>();
     private final Map<String,List<String>> cache=new HashMap<>();
+    private final Map<String,Float> priors=new HashMap<>();
+    float prior(String text){
+        for(Part s:surnames)if(text.length()==s.text.length()+2&&text.startsWith(s.text)){
+            Float p=priors.get(text.substring(s.text.length()));if(p!=null)return p-s.rank*.05f;
+        }return 0;
+    }
     String[] spelling(String text){
         for(Part surname:surnames)if(text.startsWith(surname.text)&&text.length()>surname.text.length()&&text.length()<=surname.text.length()+2){
             StringBuilder full=new StringBuilder(),initials=new StringBuilder();
@@ -32,7 +38,10 @@ final class NameCandidates {
     NameCandidates(File file)throws IOException{
         if(!file.isFile())return;
         try(BufferedReader r=new BufferedReader(new InputStreamReader(new FileInputStream(file),StandardCharsets.UTF_8))){
-            String row;while((row=r.readLine())!=null){String[] f=row.split("\t");if(f.length==4)(f[0].equals("S")?surnames:given).add(new Part(f));}
+            String row;while((row=r.readLine())!=null){String[] f=row.split("\t");if(f.length==4){
+                if(f[0].equals("N"))priors.put(f[1],Float.parseFloat(f[3]));
+                else (f[0].equals("S")?surnames:given).add(new Part(f));
+            }}
         }
     }
     private List<Integer> match(Part part,String key,int at,boolean t9){
@@ -64,15 +73,24 @@ final class NameCandidates {
         Map<Integer,List<Step>> transitions=new HashMap<>();
         for(Part p:surnames)for(int end:match(p,key,0,t9))if(end<key.length())visit(key,t9,end,0,p.text,p.rank,found,transitions);
         List<String> result=new ArrayList<>(found.keySet());
+        List<String> legacy=new ArrayList<>(result);
+        legacy.sort((a,b)->{int c=Float.compare(found.get(a),found.get(b));return c!=0?c:a.compareTo(b);});
+        for(String text:found.keySet())found.put(text,found.get(text)-Math.max(0,prior(text))*8);
         result.sort((a,b)->{int c=Float.compare(found.get(a),found.get(b));return c!=0?c:a.compareTo(b);});
+        if(!t9&&key.length()==3){
+            List<String> diverse=new ArrayList<>(result.subList(0,Math.min(3,result.size())));
+            for(String text:legacy.subList(0,Math.min(3,legacy.size())))if(!diverse.contains(text))diverse.add(text);
+            for(String text:result)if(!diverse.contains(text))diverse.add(text);result=diverse;
+        }
         if(result.size()>512)result=new ArrayList<>(result.subList(0,512));
         if(cache.size()>=128)cache.clear();cache.put(cacheKey,result);return result;
     }
     void merge(String key,boolean t9,boolean exact,List<String> result){
         Set<String> seen=new HashSet<>(result);
-        int at=exact?Math.min(5,result.size()):0,visible=0;
+        int slots=!t9&&key.length()==3?6:3;
+        int at=Math.min(slots==6?3:5,result.size()),visible=0;
         for(String text:query(key,t9))if(seen.add(text)){
-            if(visible++<3)result.add(at++,text);else result.add(text);
+            if(visible++<slots)result.add(at++,text);else result.add(text);
         }
     }
 }

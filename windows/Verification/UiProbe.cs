@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+// 数萌AI服务器 (winintel) / Alex YANG
 // Runs native TSF in an isolated textbox, without changing the system IME profile.
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ internal sealed class UiProbe:Form {
     [DllImport("kernel32.dll")]static extern uint GetCurrentThreadId();
     [DllImport("user32.dll")]static extern bool AttachThreadInput(uint source,uint target,bool attach);
     [DllImport("user32.dll")]static extern bool PrintWindow(IntPtr h,IntPtr dc,uint flags);
+    [DllImport("user32.dll")]static extern uint GetDpiForWindow(IntPtr h);
     [StructLayout(LayoutKind.Sequential)]struct Rect{public int Left,Top,Right,Bottom;public Rectangle Bounds{get{return Rectangle.FromLTRB(Left,Top,Right,Bottom);}}}
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]delegate int Key(uint value);
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]delegate int Attach();
@@ -44,6 +46,15 @@ internal sealed class UiProbe:Form {
     static void CaptureWindow(IntPtr window,string path){Rect rect;GetWindowRect(window,out rect);using(var image=new Bitmap(rect.Right-rect.Left,rect.Bottom-rect.Top))using(var g=Graphics.FromImage(image)){var dc=g.GetHdc();try{PrintWindow(window,dc,2);}finally{g.ReleaseHdc(dc);}image.Save(path,ImageFormat.Png);}}
     async Task Press(uint value){for(int n=0;n<30;n++){int hr=key(value);if(hr==0||hr==1)return;if(hr!=unchecked((int)0x8000000A))throw new Exception("TSF key HRESULT "+hr.ToString("X8"));await Task.Delay(25);}throw new Exception("TSF edit timed out for key "+value);}
     async Task Type(string code){await Press(27);box.Clear();foreach(char c in code)await Press((uint)char.ToUpperInvariant(c));}
+    async Task Identifier(string text){
+        await Press(27);box.Clear();
+        var up=(Key)Marshal.GetDelegateForFunctionPointer(GetProcAddress(libraryForTest(),"WinintelTestKeyUp"),typeof(Key));
+        foreach(char c in text){
+            bool shifted=c=='_'||c==':'||c=='+'||c=='#';
+            uint vk=c=='_'||c=='-'?189u:c==':'?186u:c=='.'?190u:c=='+'?187u:c=='/'?191u:c=='#'?51u:(uint)char.ToUpperInvariant(c);
+            if(shifted)await Press(16);await Press(vk);if(shifted)up(16);
+        }
+    }
     static object Create(Assembly assembly,string name,params object[] args){return Activator.CreateInstance(assembly.GetType("Winintel.Windows."+name,true),BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic,null,args,null);}
     static object Call(object instance,string name,params object[] args){return instance.GetType().GetMethod(name,BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic).Invoke(instance,args);}
     static List<Control> Descendants(Control parent){var result=new List<Control>();foreach(Control c in parent.Controls){result.Add(c);result.AddRange(Descendants(c));}return result;}
@@ -77,8 +88,12 @@ internal sealed class UiProbe:Form {
             Check(mode(-1)==0,"Ctrl Shift Z never toggles language");await Press(16);up(16);Check(box.Text=="niho","Ctrl Shift Z redoes middle deletion");mode(0);
             await Type("nihao");await Press(37);await Press(8);control(1);await Press('Z');control(0);await Press('B');control(1);await Press('Y');control(0);
             await Press(16);up(16);Check(box.Text=="nihabo","new insertion clears redo history");mode(0);
-            await Type("nihao");await Task.Delay(50);SendMessage(candidate,0x202,IntPtr.Zero,new IntPtr((18<<16)|13));await Press('A');
-            await Press(16);up(16);Check(box.Text=="anihao"&&GetForegroundWindow()==Handle,"mouse moves composition caret without activation");mode(0);
+            await Type("nihao");await Task.Delay(50);
+            int dpi=(int)GetDpiForWindow(box.Handle);if(dpi==0)dpi=96;
+            int headerX=12*dpi/96+1,headerY=18*dpi/96;
+            SendMessage(candidate,0x202,IntPtr.Zero,new IntPtr((headerY<<16)|headerX));await Press('A');
+            await Press(16);up(16);log.Add("mouse caret value="+box.Text+", dpi="+dpi);
+            Check(box.Text=="anihao"&&GetForegroundWindow()==Handle,"mouse moves composition caret without activation");mode(0);
             await Press(27);control(1);Check(key('Z')==1&&key('Y')==1,"empty composition passes undo and redo to host");control(0);
             await Type("nihao");await Press(36);await Press(8);await Press('A');await Press(35);await Press(46);await Press('B');
             await Press(16);up(16);Check(box.Text=="anihaob","Home End and delete boundaries preserve buffer");mode(0);
@@ -92,7 +107,7 @@ internal sealed class UiProbe:Form {
         // Continue the main UI checks only after removing the candidate composition.
         try{
             if(key!=null){FocusTest(this);box.Focus();focus(box.Handle);await Press(27);box.Clear();}
-            var assembly=Assembly.LoadFrom(Path.Combine(root,"..","winintel-ime.exe"));
+            var assembly=Assembly.LoadFrom(File.Exists(Path.Combine(root,"winintel-ime.exe"))?Path.Combine(root,"winintel-ime.exe"):Path.Combine(root,"..","winintel-ime.exe"));
             var settings=Create(assembly,"Settings");
             using(var panel=(Form)Create(assembly,"Panel",settings,(Action)(()=>{}))){
                 panel.Location=new Point(70,50);panel.Show();FocusTest(panel);await Task.Delay(120);
@@ -100,10 +115,45 @@ internal sealed class UiProbe:Form {
                 var tabs=Descendants(panel).Find(c=>c.GetType().Name=="MaterialTabs");
                 Check(tabs!=null&&(int)tabs.GetType().GetProperty("TabCount").GetValue(tabs,null)==3,"settings split into keyboard voice and office");
                 Capture(panel,Path.Combine(output,"settings.png"));
+                var sizes=(ComboBox)Descendants(panel).Find(c=>c.AccessibleName=="候选字号");
+                Check(sizes!=null&&sizes.Items.Count==4,"four accessible candidate font choices");
+                var industry=(ComboBox)Descendants(panel).Find(c=>c.AccessibleName=="行业词库");
+                Check(industry!=null&&industry.Items.Count==9,"eight industries and general available");
+                industry.SelectedIndex=1;typeof(ComboBox).GetMethod("OnSelectionChangeCommitted",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(industry,new object[]{EventArgs.Empty});
+                Check(File.ReadAllText(Path.Combine(Environment.GetEnvironmentVariable("LOCALAPPDATA"),"winintel-ime-native","industry.ini")).Contains("programming"),"industry selection persists to native settings");
+                var coding=(CheckBox)Descendants(panel).Find(c=>c.AccessibleName=="代码输入保护");
+                Check(coding!=null&&coding.Checked,"code editor protection enabled");
+                coding.Checked=false;Check(File.ReadAllText(Path.Combine(Environment.GetEnvironmentVariable("LOCALAPPDATA"),"winintel-ime-native","industry.ini")).Contains("CodeAssist=0"),"code protection toggle persists");
+                coding.Checked=true;
+                await Task.Delay(80);Capture(panel,Path.Combine(output,"industry-settings.png"));
+                industry.SelectedIndex=0;typeof(ComboBox).GetMethod("OnSelectionChangeCommitted",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(industry,new object[]{EventArgs.Empty});
+                if(sizes!=null){
+                    sizes.SelectedIndex=3;
+                    typeof(ComboBox).GetMethod("OnSelectionChangeCommitted",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(sizes,new object[]{EventArgs.Empty});
+                    Check(File.ReadAllText(Path.Combine(Environment.GetEnvironmentVariable("LOCALAPPDATA"),"winintel-ime-native","candidate-ui.ini")).Contains("28"),"candidate font saved for native renderer");
+                    bool fontsValid=true;
+                    foreach(var child in Descendants(tabs)){if(child is Button)fontsValid&=TextRenderer.MeasureText(child.Text,child.Font).Width>0;}
+                    Check(fontsValid,"font preview preserves navigation fonts");
+                    await Task.Delay(80);Capture(panel,Path.Combine(output,"settings-large-font.png"));
+                }
                 tabs.GetType().GetProperty("SelectedIndex").SetValue(tabs,1,null);await Task.Delay(60);Capture(panel,Path.Combine(output,"microphone.png"));
                 tabs.GetType().GetProperty("SelectedIndex").SetValue(tabs,2,null);await Task.Delay(60);Capture(panel,Path.Combine(output,"office.png"));panel.Hide();
             }
             FocusTest(this);box.Focus();focus(box.Handle);await Task.Delay(150);
+            File.WriteAllText(Path.Combine(Environment.GetEnvironmentVariable("LOCALAPPDATA"),"winintel-ime-native","industry.ini"),"[Industry]\r\nProfile=programming\r\nCodeAssist=1\r\n",System.Text.Encoding.Unicode);
+            await Task.Delay(300);
+            var codeMode=(Mode)Marshal.GetDelegateForFunctionPointer(GetProcAddress(libraryForTest(),"WinintelTestMode"),typeof(Mode));codeMode(2);
+            await Identifier("json.p");await Press(9);Check(box.Text=="JSON.parse","Tab completes canonical dotted identifier");
+            await Identifier("user_id9");await Press(32);Check(box.Text=="user_id9 ","unknown underscore identifier and digit preserved");
+            await Identifier("std::v");await Press(9);Check(box.Text=="std::vector","Tab completes C++ scope identifier");
+            await Identifier("c++");await Press(9);Check(box.Text=="C++","C++ plus punctuation preserved");
+            await Identifier("c#");await Press(9);Check(box.Text=="C#","C# punctuation preserved");
+            await Identifier("foo/bar");await Press(13);Check(box.Text=="foo/bar","Enter preserves raw slash identifier");
+            await Identifier("foo-bar");await Press(32);Check(box.Text=="foo-bar ","hyphen identifier preserved");
+            await Identifier("python");await Press(9);Check(box.Text=="Python","Tab restores canonical language case");
+            await Identifier("abc");var ctrl=(Key)Marshal.GetDelegateForFunctionPointer(GetProcAddress(libraryForTest(),"WinintelTestControl"),typeof(Key));ctrl(1);Check(key('S')==1,"Ctrl S remains editor shortcut");ctrl(0);await Press(27);
+            codeMode(1);await Type("nihao");await Press(32);Check(box.Text=="你好","explicit Chinese works in programming profile");
+            File.WriteAllText(Path.Combine(Environment.GetEnvironmentVariable("LOCALAPPDATA"),"winintel-ime-native","industry.ini"),"[Industry]\r\nProfile=general\r\nCodeAssist=1\r\n",System.Text.Encoding.Unicode);await Task.Delay(300);codeMode(0);
             using(var bar=(Form)Create(assembly,"QuickBar")){
                 bar.Location=new Point(900,500);bar.Show();await Task.Delay(100);
                 Check(GetForegroundWindow()==Handle&&!bar.ShowInTaskbar,"quick bar preserves input focus and stays out of taskbar");
@@ -162,6 +212,13 @@ internal sealed class UiProbe:Form {
             }
             ((IDisposable)translation).Dispose();
             FocusTest(this);box.Focus();int rebound=focus(box.Handle);log.Add("rebind after auxiliary windows: "+rebound.ToString("X8"));await Task.Delay(150);
+            await Type("jintiantianqihenhao");var longWindow=FindWindow("winintel.Candidates.052",null);Rect longRect;GetWindowRect(longWindow,out longRect);
+            CaptureWindow(longWindow,Path.Combine(output,"long-candidates.png"));
+            Check(longRect.Right-longRect.Left<=Screen.FromHandle(longWindow).WorkingArea.Width&&longRect.Bottom-longRect.Top<=Screen.FromHandle(longWindow).WorkingArea.Height,"large-font long candidates fit monitor");
+            var renderer=LoadLibrary("comctl32.dll");
+            Check(renderer!=IntPtr.Zero,"native candidate tooltip controls available");
+            // Restore the normal font before the remaining default-size checks.
+            settings.GetType().GetField("CandidateFontSize").SetValue(settings,20);Call(settings,"Save");
             await Type("yanghuiming");var nameWindow=FindWindow("winintel.Candidates.052",null);CaptureWindow(nameWindow,Path.Combine(output,"name-candidates.png"));
             await Press('1');Check(box.Text=="杨慧明","full pinyin composes an unlisted name in TSF");
             await Type("yhm");await Press('1');Check(box.Text=="杨慧明","learned name is first with initials in TSF");

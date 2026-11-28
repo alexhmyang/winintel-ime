@@ -5,6 +5,10 @@ dist/
 artifacts/
 *.exe
 *.dll
+*.so
+*.dylib
+__pycache__/
+*.pyc
 *.obj
 *.lib
 *.exp

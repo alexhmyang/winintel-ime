@@ -3,7 +3,7 @@
 #pragma once
 #include <algorithm>
 struct CandidatePaging {
-  static constexpr unsigned size=9;
+  static constexpr unsigned size=25;
   static unsigned start(unsigned selected){return selected/size*size;}
   static unsigned pages(unsigned count){return (count+size-1)/size;}
   static unsigned move(unsigned selected,unsigned count,int direction){

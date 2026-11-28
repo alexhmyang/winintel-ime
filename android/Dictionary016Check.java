@@ -18,14 +18,14 @@ public final class Dictionary016Check {
         NineKeyDictionary t9=new NineKeyDictionary(new File(assets,"dictionary.bin"));
         for(String key:new String[]{"yanghuiming","yhm"})check(t9.query(NineKeyDictionary.digits(key)).contains("杨慧明"),"T9 "+key);
         File personalFile=new File(args[1],"personal016-test.tsv");
-        PersonalLexicon p=new PersonalLexicon(personalFile,new FileInputStream(new File(assets,"character-readings.tsv")));
+        PersonalLexicon p=new PersonalLexicon(personalFile,new FileInputStream(new File(assets,"character-readings.tsv")),new File(assets,"name-parts.tsv"));
         p.learn("yhm","杨慧明");
-        PersonalLexicon reloaded=new PersonalLexicon(personalFile,new FileInputStream(new File(assets,"character-readings.tsv")));
+        PersonalLexicon reloaded=new PersonalLexicon(personalFile,new FileInputStream(new File(assets,"character-readings.tsv")),new File(assets,"name-parts.tsv"));
         for(String key:new String[]{"yhm","yanghuiming","t9:"+NineKeyDictionary.digits("yhm"),"t9:"+NineKeyDictionary.digits("yanghuiming")})
             check(reloaded.rank(key,Collections.emptyList()).get(0).equals("杨慧明"),"Learning persists "+key);
         check(d.query("shanhaoming").contains("单浩明"),"Surname-specific pronunciation");
         reloaded.learn("shm","单浩明");
-        PersonalLexicon surnameReload=new PersonalLexicon(personalFile,new FileInputStream(new File(assets,"character-readings.tsv")));
+        PersonalLexicon surnameReload=new PersonalLexicon(personalFile,new FileInputStream(new File(assets,"character-readings.tsv")),new File(assets,"name-parts.tsv"));
         check(surnameReload.rank("shanhaoming",Collections.emptyList()).get(0).equals("单浩明"),"Surname pronunciation retained after learning");
         long start=System.nanoTime();for(int i=0;i<100;i++)d.query("yhm");
         System.out.println("| 100 cached yhm queries | "+((System.nanoTime()-start)/1000000)+" ms |\n| Total | "+checks+" PASS |");

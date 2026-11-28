@@ -25,17 +25,30 @@ class Keyboard : public ITfTextInputProcessorEx,public ITfKeyEventSink,public IT
     return GetKeyState(key);
   }
   int Mode()const{return sharedMode?(int)InterlockedCompareExchange(sharedMode,0,0):localMode;}
+  bool EnglishMode(){return Mode()==2||(Mode()==0&&english.codeHost());}
+  char IdentifierChar(WPARAM key){
+    if(!english.programming()||code.empty())return 0;
+    bool shifted=State(VK_SHIFT)<0;
+    if(key>='0'&&key<='9'&&!shifted)return (char)key;
+    if(key=='3'&&shifted)return '#';
+    if(key==VK_OEM_MINUS)return shifted?'_':'-';
+    if(key==VK_OEM_PERIOD&&!shifted)return '.';
+    if(key==VK_OEM_PLUS&&shifted)return '+';
+    if(key==VK_OEM_1&&shifted)return ':';
+    if(key==VK_OEM_2&&!shifted)return '/';
+    return 0;
+  }
   static bool Shift(WPARAM k){return k==VK_SHIFT||k==VK_LSHIFT||k==VK_RSHIFT;}
   void SetMode(int value){if(sharedMode)InterlockedExchange(sharedMode,value);else localMode=value;}
-  bool EnglishWord()const{
+  bool EnglishWord(){
     static const std::unordered_set<std::string> words={"hello","world","windows","linux","python","github","google","server","please","thanks","thank","email","meeting","project","update","version","release","download","upload","install","offline","online","translate","translation","english","computer","customer","confirm","requirements","deepseek","winintel","http","https","www","cuda","nvlink","openai","chatgpt","docker","ubuntu","pytorch","android","microsoft","office","password","username","support","hardware","software","network","model","token","benchmark","performance","memory","intel","nvidia"};
-    return words.count(code)>0;
+    return words.count(code)>0||english.industryToken(code);
   }
   bool Eats(WPARAM k){
     if(State(VK_MENU)<0||State(VK_LWIN)<0||State(VK_RWIN)<0)return false;
-    if(State(VK_CONTROL)<0)return Mode()!=2&&!code.empty()&&(k=='Z'||k=='Y');
+    if(State(VK_CONTROL)<0)return !EnglishMode()&&!code.empty()&&(k=='Z'||k=='Y'||k==VK_LEFT||k==VK_RIGHT);
     if(Shift(k))return true;
-    if(Mode()==2)return (k>='A'&&k<='Z')||(!code.empty()&&(k==VK_TAB||k==VK_SPACE||k==VK_BACK||k==VK_DELETE||k==VK_LEFT||k==VK_RIGHT||k==VK_HOME||k==VK_END||k==VK_ESCAPE||k==VK_UP||k==VK_DOWN));
+    if(EnglishMode())return (k>='A'&&k<='Z')||IdentifierChar(k)||(!code.empty()&&(k==VK_TAB||k==VK_SPACE||k==VK_BACK||k==VK_DELETE||k==VK_LEFT||k==VK_RIGHT||k==VK_HOME||k==VK_END||k==VK_ESCAPE||k==VK_UP||k==VK_DOWN));
     return (k>='A'&&k<='Z')||(!code.empty()&&(k==VK_SPACE||k==VK_RETURN||k==VK_BACK||k==VK_DELETE||k==VK_LEFT||k==VK_RIGHT||k==VK_HOME||k==VK_END||k==VK_ESCAPE||k==VK_UP||k==VK_DOWN||k==VK_PRIOR||k==VK_NEXT||k==VK_OEM_MINUS||k==VK_OEM_PLUS||k==VK_OEM_PERIOD||k==VK_OEM_2||(k>='0'&&k<='9')));
   }
   HRESULT Flush(ITfContext* context,bool original){if(code.empty())return S_OK;HRESULT hr=Insert(context,client,original||rows.empty()?std::wstring(code.begin(),code.end()):rows[selection].text);if(SUCCEEDED(hr))Clear();return hr;}
@@ -59,23 +72,25 @@ class Keyboard : public ITfTextInputProcessorEx,public ITfKeyEventSink,public IT
     WNDCLASSW wc={};wc.lpfnWndProc=BridgeProc;wc.hInstance=module;wc.lpszClassName=L"winintel.Language.054";RegisterClassW(&wc);
     bridge=CreateWindowExW(WS_EX_TOOLWINDOW|WS_EX_NOACTIVATE,wc.lpszClassName,L"",WS_POPUP,0,0,0,0,nullptr,nullptr,module,this);
   }
-  void Clear(){edit.Clear();rows.clear();selection=0;raw=false;view.Hide();if(englishContext){englishContext->Release();englishContext=nullptr;}}
-  void Blur(){if(Mode()==2&&englishContext&&!code.empty())Flush(englishContext,true);Clear();shiftDown=false;}
+  void Clear(){edit.Clear();rows.clear();selection=0;raw=false;view.pendingNumber=0;view.Hide();if(englishContext){englishContext->Release();englishContext=nullptr;}}
+  void Blur(){if(EnglishMode()&&englishContext&&!code.empty())Flush(englishContext,true);Clear();shiftDown=false;}
   void Refresh(ITfContext* context){
+    view.ResetNavigation();
+    view.pendingNumber=0;
     if(code.empty()){Clear();return;}
-    if(Mode()==2&&englishContext!=context){if(englishContext)englishContext->Release();englishContext=context;englishContext->AddRef();}
+    if(EnglishMode()&&englishContext!=context){if(englishContext)englishContext->Release();englishContext=context;englishContext->AddRef();}
     raw=code.find_first_not_of("abcdefghijklmnopqrstuvwxyz")!=std::string::npos||(Mode()==0&&EnglishWord());
-    rows=Mode()==2?english.query(code):engine.query(code);
+    rows=EnglishMode()?english.query(code):engine.query(code);
     Candidate original{std::wstring(code.begin(),code.end()),0};
-    if(Mode()!=2&&raw&&(rows.empty()||rows[0].text!=original.text))rows.insert(rows.begin(),original);
-    selection=0;view.Show(context,client,code,rows,selection,edit.caret,Mode()==2);
+    if(!EnglishMode()&&raw&&(rows.empty()||rows[0].text!=original.text))rows.insert(rows.begin(),original);
+    selection=0;view.Show(context,client,code,rows,selection,edit.caret,EnglishMode());
   }
   void Learn(const std::wstring& text){if(!text.empty()&&text[0]>=0x3400)engine.learn(code,text);}
   void ShowFocused(){
     ITfDocumentMgr* doc=nullptr;ITfContext* context=nullptr;
-    if(manager&&SUCCEEDED(manager->GetFocus(&doc))&&doc){doc->GetTop(&context);if(context){view.Show(context,client,code,rows,selection,edit.caret,Mode()==2);context->Release();}doc->Release();}
+    if(manager&&SUCCEEDED(manager->GetFocus(&doc))&&doc){doc->GetTop(&context);if(context){view.Show(context,client,code,rows,selection,edit.caret,EnglishMode());context->Release();}doc->Release();}
   }
-  void ChangePage(int direction){if(code.empty())return;selection=CandidatePaging::move(selection,(unsigned)rows.size(),direction);ShowFocused();}
+  void ChangePage(int direction){if(code.empty())return;view.pendingNumber=0;view.ResetNavigation();selection=CandidatePaging::move(selection,(unsigned)rows.size(),direction);ShowFocused();}
   void Choose(unsigned offset){
     unsigned index=CandidatePaging::start(selection)+offset;
     if(code.empty()||index>=rows.size()||!manager)return;
@@ -117,12 +132,12 @@ public:
       manager->Release();manager=nullptr;focusCookie=TF_INVALID_COOKIE;}return S_OK;
   }
   HRESULT STDMETHODCALLTYPE OnSetFocus(BOOL f)override{if(!f)Blur();return S_OK;}
-  HRESULT STDMETHODCALLTYPE OnTestKeyDown(ITfContext* c,WPARAM k,LPARAM,BOOL* eaten)override{if(shiftDown&&!Shift(k))shiftUsed=true;*eaten=Eats(k);if(!*eaten&&Mode()==2&&!code.empty()){HRESULT hr=Flush(c,true);if(FAILED(hr)){*eaten=TRUE;return hr;}}return S_OK;}
+  HRESULT STDMETHODCALLTYPE OnTestKeyDown(ITfContext* c,WPARAM k,LPARAM,BOOL* eaten)override{if(shiftDown&&!Shift(k))shiftUsed=true;*eaten=Eats(k);if(!*eaten&&EnglishMode()&&!code.empty()){HRESULT hr=Flush(c,true);if(FAILED(hr)){*eaten=TRUE;return hr;}}return S_OK;}
   HRESULT STDMETHODCALLTYPE OnTestKeyUp(ITfContext*,WPARAM k,LPARAM,BOOL* eaten)override{*eaten=Shift(k)&&shiftDown;return S_OK;}
   HRESULT STDMETHODCALLTYPE OnKeyUp(ITfContext* c,WPARAM k,LPARAM,BOOL* eaten)override{
     *eaten=Shift(k)&&shiftDown;if(!*eaten)return S_OK;
     bool toggle=!shiftUsed&&State(VK_CONTROL)>=0&&State(VK_MENU)>=0&&State(VK_LWIN)>=0&&State(VK_RWIN)>=0;
-    shiftDown=false;if(toggle){HRESULT hr=Flush(c,true);if(FAILED(hr))return hr;SetMode(Mode()==2?1:2);}return S_OK;
+    shiftDown=false;if(toggle){bool before=EnglishMode();HRESULT hr=Flush(c,true);if(FAILED(hr))return hr;SetMode(before?1:2);}return S_OK;
   }
   HRESULT STDMETHODCALLTYPE OnPreservedKey(ITfContext*,REFGUID,BOOL* eaten)override{*eaten=FALSE;return S_OK;}
   HRESULT STDMETHODCALLTYPE OnKeyDown(ITfContext* context,WPARAM key,LPARAM flags,BOOL* eaten)override{
@@ -130,16 +145,41 @@ public:
     if(Shift(key)){
       *eaten=Eats(key);if(*eaten&&!shiftDown&&!(flags&(1LL<<30))){shiftDown=true;shiftUsed=false;}return S_OK;
     }
-    *eaten=Eats(key);if(!*eaten){if(Mode()==2&&!code.empty())return Flush(context,true);return S_OK;}
-    if(Mode()==2){
+    *eaten=Eats(key);if(!*eaten){if(EnglishMode()&&!code.empty())return Flush(context,true);return S_OK;}
+    if(EnglishMode()){
       if(key>='A'&&key<='Z'){bool upper=(State(VK_SHIFT)<0)!=((State(VK_CAPITAL)&1)!=0);edit.Insert((char)(upper?key:key-'A'+'a'));Refresh(context);return S_OK;}
+      if(char symbol=IdentifierChar(key)){edit.Insert(symbol);Refresh(context);return S_OK;}
       if(key==VK_SPACE){HRESULT hr=Insert(context,client,std::wstring(code.begin(),code.end())+L" ");if(SUCCEEDED(hr))Clear();return hr;}
       if(key==VK_TAB)return Flush(context,false);
     }
-    if(State(VK_CONTROL)<0){edit.Undo(key=='Y'||State(VK_SHIFT)<0);Refresh(context);return S_OK;}
-    if(key==VK_LEFT||key==VK_RIGHT||key==VK_HOME||key==VK_END){
+    if(!EnglishMode()&&!raw&&!code.empty()&&State(VK_SHIFT)>=0&&State(VK_CONTROL)>=0&&key>='0'&&key<='9'){
+      view.ResetNavigation();
+      unsigned base=CandidatePaging::start(selection),number=(unsigned)(key-'0');
+      if(view.pendingNumber){
+        number+=view.pendingNumber*10;
+        if(number>CandidatePaging::size||base+number>rows.size())return S_OK;
+        view.pendingNumber=0;
+      }else{
+        if(!number)return S_OK;
+        if((number==1||number==2)&&base+number*10<=rows.size()){
+          view.pendingNumber=number;selection=base+number-1;
+          view.Show(context,client,code,rows,selection,edit.caret,false);return S_OK;
+        }
+      }
+      unsigned index=base+number-1;if(index>=rows.size())return S_OK;
+      HRESULT hr=Insert(context,client,rows[index].text);
+      if(SUCCEEDED(hr)){Learn(rows[index].text);Clear();}return hr;
+    }
+    if(view.pendingNumber&&key==VK_BACK){view.pendingNumber=0;selection=CandidatePaging::start(selection);view.Show(context,client,code,rows,selection,edit.caret,false);return S_OK;}
+    if(key!=VK_SPACE&&key!=VK_RETURN)view.pendingNumber=0;
+    if(State(VK_CONTROL)<0&&(key=='Z'||key=='Y')){edit.Undo(key=='Y'||State(VK_SHIFT)<0);Refresh(context);return S_OK;}
+    if(key==VK_HOME||key==VK_END||((key==VK_LEFT||key==VK_RIGHT)&&(EnglishMode()||State(VK_CONTROL)<0))){
       edit.Move(key==VK_HOME?0:key==VK_END?code.size():key==VK_LEFT?(edit.caret?edit.caret-1:0):edit.caret+1);
-      view.Show(context,client,code,rows,selection,edit.caret,Mode()==2);return S_OK;
+      view.Show(context,client,code,rows,selection,edit.caret,EnglishMode());return S_OK;
+    }
+    if(!EnglishMode()&&(key==VK_LEFT||key==VK_RIGHT||key==VK_UP||key==VK_DOWN)){
+      if(!rows.empty())selection=view.MoveSelection(selection,(UINT)key);
+      view.Show(context,client,code,rows,selection,edit.caret,false);return S_OK;
     }
     if(!code.empty()&&key=='2'&&State(VK_SHIFT)<0){edit.Insert('@');Refresh(context);return S_OK;}
     if(key>='A'&&key<='Z'&&(State(VK_SHIFT)<0||State(VK_CAPITAL)&1)){HRESULT hr=Flush(context,true);if(FAILED(hr))return hr;return Insert(context,client,std::wstring(1,(wchar_t)key));}
@@ -150,7 +190,7 @@ public:
       edit.Insert((char)(key==VK_OEM_PERIOD?'.':key==VK_OEM_2?'/':key));
     }
     else if(key==VK_PRIOR||key==VK_NEXT||key==VK_OEM_MINUS||key==VK_OEM_PLUS){ChangePage(key==VK_PRIOR||key==VK_OEM_MINUS?-1:1);return S_OK;}
-    else if(key==VK_UP||key==VK_DOWN){if(!rows.empty())selection=(selection+rows.size()+(key==VK_UP?-1:1))%rows.size();view.Show(context,client,code,rows,selection,edit.caret,Mode()==2);return S_OK;}
+    else if(key==VK_UP||key==VK_DOWN){if(!rows.empty())selection=(selection+rows.size()+(key==VK_UP?-1:1))%rows.size();view.Show(context,client,code,rows,selection,edit.caret,EnglishMode());return S_OK;}
     else if(key==VK_SPACE||key==VK_RETURN||(key>='1'&&key<='9')){
       unsigned index=key>='1'&&key<='9'?CandidatePaging::digit(selection,(unsigned)(key-'1')):selection;if(index>=rows.size())return S_OK;
       HRESULT hr=Insert(context,client,rows[index].text);if(SUCCEEDED(hr)){Learn(rows[index].text);Clear();}return hr;
@@ -173,6 +213,10 @@ public:
   int ProbeMode(int value){if(value>=0)SetMode(value);return Mode();}
 #ifdef WININTEL_TEST_STORE
   void ProbeControl(bool value){probeControl=value;}
+  const wchar_t* ProbeCandidate(unsigned number){unsigned index=CandidatePaging::start(selection)+number-1;return number&&index<rows.size()?rows[index].text.c_str():L"";}
+  unsigned ProbeCount(){return (unsigned)rows.size();}
+  unsigned ProbeSelection(){return selection;}
+  bool ProbeCell(unsigned offset,RECT* rect){return view.Cell(offset,rect);}
 #endif
   // The probe dispatches keys directly and must not claim the real keyboard sink.
   HRESULT AttachProbe(ITfThreadMgr* m,TfClientId id){
@@ -192,6 +236,10 @@ static TfClientId probeClient=TF_CLIENTID_NULL;
 #ifdef WININTEL_TEST_STORE
 #include "../Verification/TextStoreProbe.h"
 extern "C" __declspec(dllexport) HRESULT WINAPI WinintelTestControl(UINT down){if(!active)return E_PENDING;active->ProbeControl(down!=0);return S_OK;}
+extern "C" __declspec(dllexport) const wchar_t* WINAPI WinintelTestCandidate(UINT number){return active?active->ProbeCandidate(number):L"";}
+extern "C" __declspec(dllexport) unsigned WINAPI WinintelTestCount(){return active?active->ProbeCount():0;}
+extern "C" __declspec(dllexport) unsigned WINAPI WinintelTestSelection(){return active?active->ProbeSelection():0;}
+extern "C" __declspec(dllexport) BOOL WINAPI WinintelTestCell(UINT offset,RECT* rect){return active&&active->ProbeCell(offset,rect);}
 static ITfDocumentMgr* probeDocument=nullptr;
 static ITfContext* TestContext(){ITfContext* c=nullptr;if(probeDocument)probeDocument->GetTop(&c);return c;}
 extern "C" __declspec(dllexport) HRESULT WINAPI WinintelTestFocus(HWND window){

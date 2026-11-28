@@ -30,6 +30,7 @@ internal sealed class Controller:ApplicationContext {
         protected override void WndProc(ref Message m){if(m.Msg==0x312&&m.WParam.ToInt32()==8)action();base.WndProc(ref m);}
         public void Dispose(){UnregisterHotKey(Handle,8);DestroyHandle();}
     }
+    readonly ShiftCompatibility shiftCompatibility=new ShiftCompatibility();
     readonly Settings settings=Settings.Load();readonly Panel panel;readonly VoicePreview preview=new VoicePreview();readonly NotifyIcon tray;readonly QuickAccess quick=new QuickAccess();
     readonly ChildJob job=new ChildJob();readonly EventWaitHandle showEvent=new EventWaitHandle(false,EventResetMode.AutoReset,"Local\\winintel-ime-show03");readonly RegisteredWaitHandle showWait;Process host;readonly Hotkey hotkey;VoiceSession voice;IntPtr target;bool starting,stopping;
     readonly VoiceDraft draft=new VoiceDraft();readonly HashSet<long> completed=new HashSet<long>();string partial="",lastText="",sessionError="";long partialSegment;
@@ -58,7 +59,7 @@ internal sealed class Controller:ApplicationContext {
         quick.CopyRequested+=()=>{if(lastText.Length>0)Clipboard.SetText(lastText);};quick.ExitRequested+=()=>ExitThread();
         showWait=ThreadPool.RegisterWaitForSingleObject(showEvent,(s,t)=>Dispatch(ShowPanel),null,Timeout.Infinite,false);
         var icon=Icon.ExtractAssociatedIcon(Application.ExecutablePath);panel.Icon=icon;preview.Icon=icon;tray=new NotifyIcon{Icon=icon,Text="数萌 AI 输入法 · F8 语音",Visible=true};
-        tray.MouseClick+=(s,e)=>{if(e.Button==MouseButtons.Left)quick.ShowBar();else if(e.Button==MouseButtons.Right)quick.ShowTools(true);};
+        tray.MouseClick+=(s,e)=>{if(e.Button==MouseButtons.Left)quick.ShowBar();else if(e.Button==MouseButtons.Right)ShowPanel();};
         try{hotkey=new Hotkey(()=>Toggle());}catch(Exception e){panel.Status(e.Message);}
         string root=AppDomain.CurrentDomain.BaseDirectory;
         try{host=Process.Start(new ProcessStartInfo(Path.Combine(root,"runtime","node.exe"),"\""+Path.Combine(root,"standalone","voice-host.mjs")+"\""){UseShellExecute=false,CreateNoWindow=true,WorkingDirectory=root});job.Add(host);}catch(Exception e){panel.Status("语音服务启动失败："+e.Message);}
@@ -118,7 +119,7 @@ internal sealed class Controller:ApplicationContext {
         voice=null;starting=false;stopping=false;partial="";meetingWindow.Preview("");Render();
         preview.UpdateText(sessionError.Length>0?sessionError:(draft.Text.Length>0?"录音已停止 · 可编辑、清空、撤销，确认后上屏":"草稿为空 · 按 F8 继续录音"));
     }
-    protected override void ExitThreadCore(){if(exiting)return;exiting=true;++sessionGeneration;shutdown.Cancel();if(voice!=null)voice.Dispose();if(hotkey!=null)hotkey.Dispose();showWait.Unregister(null);showEvent.Dispose();translator.Dispose();meetingWindow.Dispose();daily.Dispose();if(dailyPanel!=null)dailyPanel.Dispose();job.Dispose();quick.Dispose();emoji.Dispose();if(commands!=null)commands.Dispose();tray.Visible=false;tray.Dispose();preview.Dispose();panel.Dispose();base.ExitThreadCore();}
+    protected override void ExitThreadCore(){if(exiting)return;exiting=true;shiftCompatibility.Dispose();++sessionGeneration;shutdown.Cancel();if(voice!=null)voice.Dispose();if(hotkey!=null)hotkey.Dispose();showWait.Unregister(null);showEvent.Dispose();translator.Dispose();meetingWindow.Dispose();daily.Dispose();if(dailyPanel!=null)dailyPanel.Dispose();job.Dispose();quick.Dispose();emoji.Dispose();if(commands!=null)commands.Dispose();tray.Visible=false;tray.Dispose();preview.Dispose();panel.Dispose();base.ExitThreadCore();}
 }
 internal static class Program{
     [STAThread]static void Main(string[] args){

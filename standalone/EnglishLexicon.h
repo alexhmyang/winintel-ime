@@ -5,6 +5,7 @@
 class EnglishLexicon {
   struct Word {std::string key;std::wstring text;float weight;};
   std::vector<Word> words;
+  IndustryLexicon industry;
   std::wstring updates;ULONGLONG checked=0;FILETIME stamp={};
   size_t baseline=0;
   void load(const std::wstring& path) {
@@ -24,6 +25,7 @@ class EnglishLexicon {
   void sort(){std::sort(words.begin(),words.end(),[](const Word&a,const Word&b){return a.key<b.key;});}
 public:
   void open(const std::wstring& root){
+    industry.open(root);
     load(root+L"\\english-words.tsv");baseline=words.size();
     wchar_t app[MAX_PATH];if(GetEnvironmentVariableW(L"LOCALAPPDATA",app,MAX_PATH))updates=std::wstring(app)+L"\\winintel-ime-native\\hot-english.tsv";
     // Keep the baseline unsorted until the first update check has appended data.
@@ -50,9 +52,14 @@ public:
       auto found=std::find_if(result.begin(),result.end(),[&](const Candidate&c){return c.text==text;});
       if(found==result.end())result.push_back({text,score});else found->score=std::max(found->score,score);
     }
+    industry.appendEnglish(typed,result);
     std::sort(result.begin(),result.end(),[](const Candidate&a,const Candidate&b){return a.score!=b.score?a.score>b.score:a.text<b.text;});
     if(result.size()>36)result.resize(36);
     if(result.empty())result.push_back({std::wstring(typed.begin(),typed.end()),0});
     return result;
   }
+  void setIndustry(const std::string& profile){industry.setProfile(profile);}
+  bool codeHost(){return industry.codeHost();}
+  bool industryToken(const std::string& typed){return industry.englishToken(typed);}
+  bool programming(){return industry.profile()=="programming";}
 };

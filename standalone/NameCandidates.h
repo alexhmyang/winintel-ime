@@ -5,6 +5,7 @@
 class NameCandidates {
   struct Part{std::wstring text;std::vector<std::string> syllables;float rank;};
   std::vector<Part> surnames,given;
+  std::unordered_map<std::wstring,float> priors;
   std::unordered_map<std::string,std::vector<std::wstring>> cache;
   static std::vector<size_t> match(const Part& part,const std::string& key,size_t at){
     std::vector<size_t> positions{at};
@@ -18,6 +19,11 @@ class NameCandidates {
     }return positions;
   }
 public:
+  float prior(const std::wstring& text) const{
+    for(const auto& s:surnames)if(text.size()==s.text.size()+2&&text.compare(0,s.text.size(),s.text)==0){
+      auto p=priors.find(text.substr(s.text.size()));if(p!=priors.end())return p->second-s.rank*.05f;
+    }return 0;
+  }
   std::pair<std::string,std::string> spelling(const std::wstring& text)const{
     for(auto& surname:surnames)if(text.compare(0,surname.text.size(),surname.text)==0&&text.size()>surname.text.size()&&text.size()<=surname.text.size()+2){
       std::string full,abbr;for(auto& s:surname.syllables){full+=s;abbr+=s[0];}
@@ -35,7 +41,9 @@ public:
       auto utf=row.substr(a+1,b-a-1);int n=MultiByteToWideChar(CP_UTF8,0,utf.data(),(int)utf.size(),nullptr,0);
       Part p;p.text.resize(n);MultiByteToWideChar(CP_UTF8,0,utf.data(),(int)utf.size(),p.text.data(),n);
       std::istringstream in(row.substr(b+1,c-b-1));std::string s;while(in>>s)p.syllables.push_back(s);
-      p.rank=(float)atof(row.c_str()+c+1);if(!p.syllables.empty())(row[0]=='S'?surnames:given).push_back(std::move(p));
+      p.rank=(float)atof(row.c_str()+c+1);
+      if(row[0]=='N'){priors[p.text]=p.rank;continue;}
+      if(!p.syllables.empty())(row[0]=='S'?surnames:given).push_back(std::move(p));
     }fclose(f);
   }
   std::vector<std::wstring> query(const std::string& key){
@@ -57,9 +65,18 @@ public:
       for(auto& item:next){auto& p=*item.first;visit(item.second,depth+1,text+p.text,rank+p.rank*(depth?1.f:.15f));}
     };
     for(auto& p:surnames)for(auto end:match(p,key,0))if(end<key.size())visit(end,0,p.text,p.rank);
+    std::vector<std::pair<std::wstring,float>> legacy(found.begin(),found.end());
+    std::sort(legacy.begin(),legacy.end(),[](auto& a,auto& b){return a.second!=b.second?a.second<b.second:a.first<b.first;});
+    for(auto& item:found)item.second-=std::max(0.f,prior(item.first))*8;
     std::vector<std::pair<std::wstring,float>> sorted(found.begin(),found.end());
     std::sort(sorted.begin(),sorted.end(),[](auto& a,auto& b){return a.second!=b.second?a.second<b.second:a.first<b.first;});
-    std::vector<std::wstring> result;for(auto& p:sorted){if(result.size()==512)break;result.push_back(p.first);}
+    std::vector<std::wstring> result;
+    // Initial-only input is ambiguous: retain traditional character choices too.
+    if(key.size()==3){
+      for(size_t i=0;i<std::min<size_t>(3,sorted.size());i++)result.push_back(sorted[i].first);
+      for(size_t i=0;i<std::min<size_t>(3,legacy.size());i++)if(std::find(result.begin(),result.end(),legacy[i].first)==result.end())result.push_back(legacy[i].first);
+    }
+    for(auto& p:sorted){if(result.size()==512)break;if(std::find(result.begin(),result.end(),p.first)==result.end())result.push_back(p.first);}
     if(cache.size()>=128)cache.clear();cache[key]=result;return result;
   }
 };

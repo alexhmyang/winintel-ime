@@ -53,6 +53,9 @@ Copy-Item "$root\data\rime-ice\provenance.json" "$payload\licenses\dictionary-pr
 if($LASTEXITCODE){throw "Dictionary build failed"}
 & "$payload\runtime\node.exe" "$root\standalone\english-dictionary.mjs" "$payload"
 if($LASTEXITCODE){throw "English dictionary build failed"}
+& "$payload\runtime\node.exe" "$root\standalone\industry-packs.mjs" "$payload"
+if($LASTEXITCODE){throw "Industry dictionary build failed"}
+Copy-Item "$root\docs" "$payload" -Recurse -Force
 $env:INCLUDE="$VcRoot\include;$SdkRoot\Include\$sdkVersion\ucrt;$SdkRoot\Include\$sdkVersion\shared;$SdkRoot\Include\$sdkVersion\um"
 foreach($arch in @("x64","x86")){
   New-Item -ItemType Directory -Force "$BuildRoot\objects-$arch","$payload\$arch" | Out-Null

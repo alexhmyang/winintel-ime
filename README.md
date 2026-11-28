@@ -1,14 +1,37 @@
 # 数萌 AI 输入法 · winintel AI
 
-开源的 Windows / Android 系统输入法。使用本地拼音词库、自研候选排序与离线语音识别，输入内容和录音无需上传；核心功能不依赖付费 API。
+最新发布：Windows **0.5.17** / Android **0.1.12** / Linux **0.5.16**。Windows 修复 Shift 切换时的编辑框线程定位，安装时自动重启输入法后台，并保留方向键和两位编号选词修复；Android 修复候选遗漏、展开点击区域、键盘高度和长按删除。Linux 与 macOS 原生入口复用现有 C++ 离线词库、姓名排序、行业词库、英文补全及持久化记词。
+
+| 平台 | 入口与交付 | 验证范围 |
+|---|---|---|
+| Windows x64 / x86 TSF | 0.5.17 完整安装包 | 前轮 377 项检查；Shift 专项与正式后台共 73 项检查通过 |
+| Android arm64 / x86_64 | 0.1.12 原签名 APK | 模拟器安装后布局、分页、词库、长按删除检查 |
+| Linux x86_64 | IBus / GTK 安装包；其他架构可源码构建 | Linux 共享引擎及 GTK 集成检查；Wayland 桌面兼容待验证 |
+| macOS Intel / Apple Silicon | InputMethodKit 源码及 Universal 构建脚本 | 共享引擎已在 Linux 验证；macOS 编译、签名和实机输入尚待验证 |
+
+Linux / macOS 新入口本轮覆盖中英文文字输入，离线语音、翻译、OCR、会议工具和自动识别编程编辑器尚未接入。完整平台状态与安装步骤见 [跨平台说明](docs/cross-platform-0.5.16.md)。
+
+开源系统输入法。使用本地拼音词库、自研候选排序；Windows / Android 提供离线语音识别，输入内容和录音无需上传，核心功能不依赖付费 API。
 
 [English](README.en.md)
 
-最新发布：Windows **0.5.12** / Android **0.1.6**。新增离线姓名组合候选，支持全拼、简拼、混合拼音与手机九宫格；恢复被截掉的低频和长词候选，选过的姓名与纠正词会在本机保存。
+支持全拼、简拼、混合拼音与手机九宫格；完整候选可翻页，选过的姓名与纠正词会在本机保存。八大行业词库、英文补全和长句候选均已包含在本次发布中。
 
-**[下载安装包](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.12)** · **[中文旁白产品演示（0.5.4）](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.4/winintel-ime-0.5.4-demo.mp4)** · [官网](https://winintel.com) · [Bilibili](https://space.bilibili.com/429959998) · [YouTube](https://www.youtube.com/@winintelcom)
+**[下载安装包](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.17)** · **[2K 中文产品演示](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ai-demo-landscape-zh.mp4)** · [官网](https://winintel.com) · [Bilibili](https://space.bilibili.com/429959998) · [YouTube](https://www.youtube.com/@winintelcom)
 
 ## 功能一眼看懂
+
+本轮八行业词库与编程补全用法见 [行业输入指南](docs/industry-0.5.15.md)。电脑从“设置 → 键盘输入”选择行业，手机从工具箱“行业词库”进入。个人中文选词继续优先，切换行业后仍然保留。
+
+![Windows 0.5.15 真实编程行业设置与代码输入保护](docs/screenshots/windows-industry-0.5.15.png)
+
+<img src="docs/screenshots/android-industry-0.1.9.png" alt="Android 0.1.9 实际行业选择列表，包含八行业和通用词库" width="460">
+
+通用姓名用字排序、专业组合词库与多候选整句拼接，配合长句完整显示、电脑四档字号、手机首选绿底反白与固定翻页按钮。准确度验证与方法见 [方法说明](docs/accuracy-0.5.14.md)。
+
+![Windows 0.5.13 真实长句候选，完整显示我们用人工智能改善工作效率](docs/screenshots/windows-long-candidate-0.5.13.png)
+
+<img src="docs/screenshots/android-candidate-0.1.7.png" alt="Android 0.1.7 首选绿底反白，固定上一页和下一页按钮" width="460">
 
 **说话成文字，长词随手输入。电脑与手机都能用，输入和录音在本机处理。**
 
@@ -16,7 +39,7 @@
 
 **姓名也能用简拼**：图为首次输入 `yhm` 后的真实候选，横向滑动即可选“杨慧明”；选过一次后自动优先显示。
 
-[![数萌 AI 输入法真实功能展示：电脑离线语音与表情，手机绿色候选与大按键](docs/screenshots/feature-showcase.png)](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)
+[![数萌 AI 输入法真实功能展示：电脑离线语音与表情，手机绿色候选与大按键](docs/screenshots/feature-showcase.png)](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.17)
 
 | 手机输入 | 电脑办公 |
 |---|---|
@@ -59,14 +82,16 @@
 
 | 平台 | 安装包 | 功能 |
 |---|---|---|
-| Windows 10 / 11，64 位 | [0.5.12 EXE](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-0.5.12-setup.exe) | 姓名简拼、完整候选词库、绿色候选、个人记词、英文补全、实时新闻、离线语音与实时翻译 |
-| Android 8.0+，arm64 手机 | [0.1.6 APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-android-0.1.6.apk) | 姓名全拼与九宫格、大按键与绿色候选、直接编辑、本机纠正记词、英文补全、实时新闻、离线语音草稿与笔记；包含 x86_64 运行库 |
+| Windows 10 / 11，64 位 | [0.5.17 EXE](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-0.5.17-setup.exe) | Shift 中英文切换、每页 25 候选、方向键及两位编号选词、行业词库、个人记词、英文补全、离线语音与翻译 |
+| Android 8.0+，arm64 手机 | [0.1.12 APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-android-0.1.12.apk) | 候选完整分页、紧凑键盘、长按删除保护、九宫格、行业词库、英文补全和离线语音；包含 x86_64 运行库 |
+| Linux x86_64 | [0.5.16 IBus 安装包](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-linux-0.5.16-x86_64.tar.gz) | 中英文文字输入、共享离线词库和持久化选词 |
+| macOS Intel / Apple Silicon | [0.5.16 原生源码与词库](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-macos-0.5.16-source-with-dictionary.zip) | 提供构建脚本；尚未在 Mac 上编译和验证 |
 
 Windows 包含 x64 与 x86 TSF 组件，支持 64 位系统中的两种应用。两平台独立编号；Android 采用停顿后识别，实时翻译和 SRT 导出目前仅在 Windows 提供。
 
-Release 提供完整源码 ZIP、SHA-256 校验文件和验证报告；中文旁白视频与字幕见 0.5.4 演示。模型与运行库随安装包提供，不放入 Git 源码仓库。
+Release 提供完整源码 ZIP、SHA-256 校验文件、验证报告及中英双语 2K 横竖屏演示、PDF 和 PPT。模型与运行库随安装包提供，不放入 Git 源码仓库。
 
-### 本次更新与验证
+### 词库与验证
 
 词库保留 **944,740 个不同候选词**（其中 765,372 个超过两个字符），共 **1,833,993 条全拼与简拼索引**；移除旧版同码 96 / 192 项和手机查询 90 项的截断，恢复 82,717 条索引记录。共用字符串池后，词库文件由 55.13MB 缩小到 45.51MB。
 
@@ -78,19 +103,20 @@ Release 提供完整源码 ZIP、SHA-256 校验文件和验证报告；中文旁
 | Windows 姓名、长词与纠错引擎 | 22 项通过，包括首次简拼第一页及多音字姓氏重载后首选 |
 | Windows 实际输入与界面 | 60 项通过，含姓名全拼上屏、学习后简拼首选 |
 | Android 实际输入与编辑 | 27 项编辑回归和 5 项姓名交互通过 |
-| 手机候选翻页 | 精确词库候选完整保留，每页 9 项 |
+| 手机候选翻页 | 精确词库候选完整保留，每页 25 项 |
+| Windows 0.5.17 Shift 与正式后台 | 专项 61 项、已安装正式后台 12 项，共 73 项通过 |
 | Android 发布包 | 原签名，v2/v3 与 16KB 对齐校验通过 |
 
-详细资料：[验证与升级报告](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-0.5.12-release-report.md)。覆盖安装保留个人词库，卸载或清除应用数据会删除记录。
+详细资料：[本次发布与验证](docs/release-0.5.17.md)。覆盖安装保留个人词库，卸载或清除应用数据会删除记录。
 
 ## Windows 安装与使用
 
 1. 下载并运行 EXE，按提示授予管理员权限。
 2. 用 **Win + 空格**选择“数萌 AI 输入法”。必要时在“设置 → 时间和语言 → 语言和区域 → 中文 → 语言选项”中添加。
-3. 打开记事本输入 `nihao`，空格选择“你好”；数字 **1–9**选词，**PageDown / =**下一页，**PageUp / -**上一页。
+3. 打开记事本输入 `nihao`，空格选择“你好”；每页最多 **25** 项。两位编号直接输入，例如 `15`；单独选择第 1 或第 2 项时输入编号后按空格确认。**PageDown / =**下一页，**PageUp / -**上一页。
 4. 单独按下并松开 **Shift**切换中英文；长按只切换一次，Shift + 字母 / Ctrl 等组合不切换语言。切换时保留未提交字母，手动选择不会被智能判断改回。
 5. 智能模式根据本地规则识别英文词、技术名称和网址，如 `hello`、`github`、`python`；拼音显示中文候选。短串可能有歧义，用 Shift 明确选择。工具栏语言按钮可切换，**Ctrl + 点击语言按钮**恢复智能模式。
-6. 左键托盘图标展开迷你工具栏；右键打开语音、实时翻译与设置面板。
+6. 左键托盘图标展开迷你工具栏，点击“工具箱”图标打开各项工具；右键直接打开设置，可调整候选字号。
 
 升级后关闭并重新打开已有应用，以加载新版组件。候选、工具栏和语音草稿不抢焦点；翻译工作区是普通独立应用窗口。
 
@@ -98,11 +124,11 @@ Release 提供完整源码 ZIP、SHA-256 校验文件和验证报告；中文旁
 
 本版本新增 22,437 项英文前缀词库：EN 模式输入 `hel`，按 **Tab** 补全 `hello`；上下键选择，空格输入原词与空格，数字与快捷键保持正常用途。中文新增智能体、具身智能等精选热词，英文支持 DeepSeek、NVLink、InfiniBand、vLLM 等专业名称。
 
-右键托盘 → **每日新闻与热词**，查看 IT之家与 NPR 世界新闻，默认每 **5 分钟**刷新，支持手动更新、RSS / Atom、离线缓存以及自有 HTTPS `/v1/news` 接口，接口失败可回退免费源。文章发布日期与下载时间分别显示。精选热词包为 2026-11-26 版本，可通过自有后台 `/v1/hotwords` 更新；公网后台需要自行部署。详见 [使用说明](windows/English-news-guide.md)。
+左键托盘 → 工具箱 → **每日新闻与热词**，查看 IT之家与 NPR 世界新闻，默认每 **5 分钟**刷新，支持手动更新、RSS / Atom、离线缓存以及自有 HTTPS `/v1/news` 接口，接口失败可回退免费源。文章发布日期与下载时间分别显示。精选热词包为 2026-11-26 版本，可通过自有后台 `/v1/hotwords` 更新；公网后台需要自行部署。详见 [使用说明](windows/English-news-guide.md)。
 
 ### Windows 0.5.7：词库服务、表情与软件助手
 
-右键托盘打开工具箱，新增 **表情与符号**、**软件助手**、**服务与赞助**。表情面板提供 6 类 Emoji、数学符号、箭头与颜文字；先点击软件的输入框，再从面板选择，面板保持输入焦点。通过标准 TSF 接入 x64 / x86 应用，通过 Unicode 插入完整表情；具体字体效果由目标软件决定。管理员权限运行的软件需要权限匹配。
+左键托盘点击工具箱图标，打开 **表情与符号**、**软件助手**、**服务与赞助**。表情面板提供 6 类 Emoji、数学符号、箭头与颜文字；先点击软件的输入框，再从面板选择，面板保持输入焦点。通过标准 TSF 接入 x64 / x86 应用，通过 Unicode 插入完整表情；具体字体效果由目标软件决定。管理员权限运行的软件需要权限匹配。
 
 软件助手支持 `微信找 张三`、`打开微信`、`打开记事本`、`切换到 Excel`，也可切换 Word 和浏览器。微信应已登录并处于主界面，优先使用辅助功能控件，无法读取控件时使用 Windows 本机 OCR 识别搜索框和结果。同名或未匹配结果留给用户选择。软件指令不会发送聊天消息。语音说“软件指令，微信找 张三”，停止录音并确认后进入助手，点击执行。普通语音继续进入文字草稿。
 
@@ -126,7 +152,7 @@ Release 提供完整源码 ZIP、SHA-256 校验文件和验证报告；中文旁
 
 ### 实时翻译、字幕与会议
 
-右键托盘 → **实时语音翻译**，按 **F8**或录音按钮开始，再按一次停止。选择自动判断、中译英或英译中。
+左键托盘 → 工具箱 → **实时语音翻译**，按 **F8**或录音按钮开始，再按一次停止。选择自动判断、中译英或英译中。
 
 开启自动翻译后，讲话中显示临时识别与译文，停顿后更新整句。临时识别每 650 毫秒提交最新文字；待处理预览只保留最新一条，旧译文不会覆盖定稿。首次使用需要加载本地模型。
 
@@ -190,7 +216,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\windows\BuildRelease.ps1
 需要 JDK 17+、Node.js 22+。构建使用 Java 8 字节码、SDK 35、sherpa-onnx 2.0.3 AAR、Kotlin stdlib 1.9.24，不依赖 Gradle。
 
 ```powershell
-.\android\tools\PrepareRelease.ps1 -PublishedApk "D:\downloads\winintel-ime-android-0.1.1.apk"
+.\android\tools\PrepareRelease.ps1 -PublishedApk "D:\downloads\winintel-ime-android-0.1.12.apk"
 .\android\BuildRelease.ps1 -JavaHome "C:\Program Files\Java\jdk-20" `
   -KeyStore "D:\private\release.jks" -PasswordFile "D:\private\password.txt" `
   -Output "D:\packages"

@@ -1,0 +1,12 @@
+# 数萌AI服务器 (winintel) / Alex YANG · GPL-3.0-or-later
+cmake_minimum_required(VERSION 3.16)
+project(winintel_portable VERSION 0.5.16 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_library(winintel-engine SHARED Bridge.cpp)
+target_compile_options(winintel-engine PRIVATE -Wall -Wextra)
+add_executable(winintel-check Check.cpp)
+target_link_libraries(winintel-check PRIVATE winintel-engine)
+target_compile_options(winintel-check PRIVATE -UNDEBUG)
+enable_testing()
+add_test(NAME selection COMMAND winintel-check)

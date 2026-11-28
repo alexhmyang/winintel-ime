@@ -3,6 +3,7 @@
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { resolve, join, dirname } from 'node:path';
 import { buildNameParts } from './name-parts.mjs';
+import { domainLexicon } from './domain-lexicon.mjs';
 const root = resolve(import.meta.dirname, '..');
 const rows = new Map();
 const readings = new Map();
@@ -33,6 +34,11 @@ function load(file, boost = 0) {
 }
 for (const file of readdirSync(join(root,'data','rime-ice')).filter(f=>f.endsWith('.dict.yaml'))) load(join(root,'data','rime-ice',file));
 load(join(root,'data','starter.tsv'),12);
+for (const [text,spelling,freq] of domainLexicon()) {
+  const score=Math.log2(freq)+12;
+  add(spelling.replaceAll(' ',''),text,score);
+  add(spelling.split(' ').map(s=>s[0]).join(''),text,score-4);
+}
 const strings = [], entries = [], offsets = new Map(), words = new Set();
 let offset = 0;
 function str(s) { if(offsets.has(s))return offsets.get(s); const buf=Buffer.from(s+'\0'); const at=offset; strings.push(buf); offset+=buf.length; offsets.set(s,at); return at; }
@@ -49,7 +55,9 @@ entries.forEach((r,i)=>{index.writeUInt32LE(r[0],i*12);index.writeUInt32LE(r[1],
 writeFileSync(process.argv[2],Buffer.concat([header,index,...strings]));
 writeFileSync(join(dirname(process.argv[2]),'character-readings.tsv'),
   [...readings].map(([text,list])=>text+'\t'+[...list].sort((a,b)=>b[1]-a[1]).map(r=>r[0]).join(' ')).join('\n')+'\n');
-writeFileSync(join(dirname(process.argv[2]),'name-parts.tsv'),buildNameParts(readings));
+const namePriors=readFileSync(join(root,'data','given-name-priors.tsv'),'utf8')
+  .split(/\r?\n/).filter(s=>s&&!s.startsWith('#')).map(s=>'N\t'+s).join('\n')+'\n';
+writeFileSync(join(dirname(process.argv[2]),'name-parts.tsv'),buildNameParts(readings)+namePriors);
 writeFileSync(join(dirname(process.argv[2]),'dictionary-stats.json'),JSON.stringify({
   codes:rows.size, entries:entries.length, uniqueWords:words.size,
   multiCharacterWords:[...words].filter(w=>[...w].length>2).length,

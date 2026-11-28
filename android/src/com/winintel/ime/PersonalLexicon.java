@@ -17,8 +17,11 @@ public final class PersonalLexicon {
         Entry(String c,String t,int f,long time){code=c;text=t;frequency=f;touched=time;}
     }
     public PersonalLexicon(File file,InputStream input)throws IOException{
+        this(file,input,new File(file.getParentFile(),"name-parts.tsv"));
+    }
+    public PersonalLexicon(File file,InputStream input,File nameParts)throws IOException{
         this.file=file;
-        names=new NameCandidates(new File(file.getParentFile(),"name-parts.tsv"));
+        names=new NameCandidates(nameParts);
         try(BufferedReader r=new BufferedReader(new InputStreamReader(input,StandardCharsets.UTF_8))){
             String line;while((line=r.readLine())!=null){String[] f=line.split("\t");if(f.length==2)readings.put(f[0],f[1].split(" ")[0]);}
         }

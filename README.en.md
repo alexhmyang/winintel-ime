@@ -1,15 +1,29 @@
 # winintel AI Input Method
 
+Latest release: Windows **0.5.17** / Android **0.1.12** / Linux **0.5.16**. Windows fixes Shift routing to the focused editor thread and restarts the controller during installation, alongside arrow-key and two-digit selection fixes. Android fixes unreachable candidates, touch targets, keyboard height and repeated deletion. Linux IBus and macOS InputMethodKit share the offline C++ dictionary, name ranking, industry packs, English completion and persistent learning.
+
+Linux x86_64 has a compiled IBus/GTK package. Its engine and GTK integration are tested on Linux; Wayland desktop compatibility remains unverified. macOS includes source and a Universal Intel/Apple Silicon build script, but has not been compiled or tested on a Mac. Speech, translation, OCR and meeting tools are not yet connected to these two new entry points. See [platform status and build instructions](docs/cross-platform-0.5.16.md).
+
 An open-source Windows and Android system keyboard with a local pinyin engine, adaptive candidate ranking and offline speech recognition. Core input, correction, ranking and speech processing run locally on the CPU.
 
 [中文说明](README.md) · [Public releases](https://github.com/alexhmyang/winintel-ime/releases) · [Website](https://winintel.com)
 
-Latest release: Windows 0.5.12 / Android 0.1.6. Offline surname and given-character
+Select one of eight industry packs in settings; personal Chinese choices remain local and take precedence across industries. See the [industry guide](docs/industry-0.5.15.md).
+
+<img src="docs/screenshots/android-industry-0.1.9.png" alt="Android 0.1.9 actual industry selector" width="460">
+
+Offline surname and given-character
 composition supplies missing names through full, abbreviated and mixed pinyin,
 including Android T9. Exact dictionary candidates are retained without the old
 per-code caps, and selected names and corrected phrases are learned locally.
 
-[Windows installer](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-0.5.12-setup.exe) · [Android APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-android-0.1.6.apk) · [Source, checksums and reports](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.12)
+[Windows 0.5.17 installer](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-0.5.17-setup.exe) · [Android 0.1.12 APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-android-0.1.12.apk) · [Linux 0.5.16 package](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-linux-0.5.16-x86_64.tar.gz) · [macOS source and dictionary](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-macos-0.5.16-source-with-dictionary.zip) · [Source, checksums and reports](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.17)
+
+General given-name priors, technical phrase combinations and multiple sentence paths improve offline candidate ranking. Four Windows font sizes, full-length candidates and Android paging buttons remain available. See [accuracy methodology](docs/accuracy-0.5.14.md) and [current release validation](docs/release-0.5.17.md).
+
+![Windows 0.5.13 full sentence candidate](docs/screenshots/windows-long-candidate-0.5.13.png)
+
+<img src="docs/screenshots/android-candidate-0.1.7.png" alt="Android 0.1.7 highlighted first candidate and fixed paging buttons" width="460">
 
 ## See it in action
 
@@ -18,7 +32,7 @@ per-code caps, and selected names and corrected phrases are learned locally.
 First-query name candidates for `yhm`. Swipe the candidate row to select a name;
 once selected, it becomes a locally learned preference.
 
-[![Real winintel AI screenshots: offline Windows voice drafts and emoji, Android green candidates and large keys](docs/screenshots/feature-showcase.png)](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.11)
+[![Real winintel AI screenshots: offline Windows voice drafts and emoji, Android green candidates and large keys](docs/screenshots/feature-showcase.png)](https://github.com/alexhmyang/winintel-ime/releases/tag/v0.5.17)
 
 | Android | Windows |
 |---|---|
@@ -72,9 +86,9 @@ The release adds 22,437 English prefix entries. In EN mode, type `hel` and press
 
 The toolbox includes **Daily News and Hotwords** with free IT Home and NPR World feeds, RSS/Atom support, five-minute refresh and offline caching. Your own HTTPS `/v1/news` interface can replace the free sources, with optional fallback. Publication timestamps remain distinct from download times. A bilingual curated pack dated 2026-11-26 adds technical vocabulary; your own server can supply updates at `/v1/hotwords`. Typing stays offline and input/audio are never included in content requests. See [the usage guide](windows/English-news-guide.md).
 
-## Android 0.1.6
+## Android 0.1.12
 
-[Download APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.12/winintel-ime-android-0.1.6.apk). Android 8.0+, arm64 phones and x86_64 emulators. The updated keyboard shares the local English and Chinese hotword lists with Windows. Type `hel` in EN mode and tap `hello` to complete; Space preserves the original word.
+[Download APK](https://github.com/alexhmyang/winintel-ime/releases/download/v0.5.17/winintel-ime-android-0.1.12.apk). Android 8.0+, arm64 phones and x86_64 emulators. Candidate pages support up to 25 entries, with compact layout and repeat-delete protection. Type `hel` in EN mode and tap `hello` to complete; Space preserves the original word.
 
 Open News from the home screen or keyboard. News is disabled by default. When enabled, this page refreshes IT Home and NPR every five minutes, with a configurable HTTPS `/v1/news` endpoint, optional fallback and offline cache. Leaving the page stops scheduled refreshes. INTERNET permission is used for news only; typing, learning and speech remain local. The APK uses the existing release signing key for in-place upgrades. Offline voice drafts and notes are included; live translation and SRT export remain Windows features.
 
@@ -91,7 +105,7 @@ Open News from the home screen or keyboard. News is disabled by default. When en
 | Sponsored placement | Disabled by default, clearly labeled advertising in the toolbox |
 | Offline speech and translation | Voice draft confirmation, bilingual subtitles and meeting export |
 
-Right-click the tray icon to open the toolbox. Focus the target input field before selecting emoji. Use `微信找 张三` to search WeChat, `打开记事本` to open Notepad or `切换到 Excel` to switch to Excel. WeChat must be running and signed in. Navigation uses local accessibility or Windows OCR; ambiguous results require manual selection. Commands never send messages.
+Right-click the tray icon to open settings; left-click to open the toolbar and toolbox. Focus the target input field before selecting emoji. Use `微信找 张三` to search WeChat, `打开记事本` to open Notepad or `切换到 Excel` to switch to Excel. WeChat must be running and signed in. Navigation uses local accessibility or Windows OCR; ambiguous results require manual selection. Commands never send messages.
 
 Plain text and rich text controls passed Unicode insertion tests, including emoji after pending pinyin. The local WeChat 4.2.0.53 test recognized the search label, but opening a contact conversation has not passed end-to-end validation. The assistant stops when the foreground window changes. Compatibility across individual WeChat, TRAE and Office versions requires application-specific testing.
 
